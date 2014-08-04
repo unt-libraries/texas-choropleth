@@ -70,7 +70,7 @@ WSGI_APPLICATION = 'choropleth.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'map_app',
+        'NAME': 'choropleth',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': os.environ.get('DB_1_PORT_3306_TCP_ADDR'),
