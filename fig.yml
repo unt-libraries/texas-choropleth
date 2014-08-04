@@ -2,9 +2,7 @@ db:
     image: orchardup/mysql
     environment:
         - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_DATABASE=map_app
-        - MYSQL_USER=map_app
-        - MYSQL_PASSWORD=map_app
+        - MYSQL_DATABASE=choropleth
 web:
     build: .
     command: python src/manage.py runserver 0.0.0.0:8000
