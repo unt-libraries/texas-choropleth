@@ -1,0 +1,19 @@
+{% extends "_layout.html" %}
+{% block page_title %}Dataset Management{% endblock page_title %}
+
+{% block content %}
+<h2>{{ dataset.name }}</h2>
+    <ul>
+        <li>{{ dataset.description }}</li>
+        <li>{{ dataset.document }}</li>
+        <li>{{ dataset.cartogram.name}}</li>
+        <li>{{ dataset.scheme }}</li>
+        <li>{{ dataset.status }}</li>
+    </ul>
+    <form method="post" action="">
+        {{ form.datafile }}
+    </form>
+
+    <div>
+        
+{% endblock content %}

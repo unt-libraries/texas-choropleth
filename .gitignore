@@ -1,0 +1,6 @@
+src/assets/*
+src/media/*
+*.pyc
+*.swp
+*.swo
+*~

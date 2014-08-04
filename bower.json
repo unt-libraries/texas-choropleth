@@ -1,0 +1,25 @@
+{
+  "name": "map-app",
+  "version": "0.0.0",
+  "authors": [
+    "Damon Kelley <damon.kelley@unt.edu>"
+  ],
+  "license": "\"\"",
+  "homepage": "\"\"",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets",
+    "test",
+    "tests"
+  ],
+  "private": true,
+  "dependencies": {
+    "angularjs": "~1.2.21",
+    "bootstrap": "~3.2.0",
+    "d3": "~3.4.11",
+    "queue-async": "~1.0.7",
+    "topojson": "~1.6.15"
+  }
+}

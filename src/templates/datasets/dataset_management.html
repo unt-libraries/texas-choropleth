@@ -1,0 +1,11 @@
+{% extends "_layout.html" %}
+{% block page_title %}Dataset Management{% endblock page_title %}
+
+{% block content %}
+    <h2>Dataset Management</h2>
+    <ul>
+        {% for dataset in object_list %}
+            <li>{{ dataset.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
