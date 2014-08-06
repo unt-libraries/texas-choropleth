@@ -4,16 +4,22 @@
 {% block content %}
 <h2>{{ dataset.name }}</h2>
     <ul>
-        <li>{{ dataset.description }}</li>
-        <li>{{ dataset.document }}</li>
-        <li>{{ dataset.cartogram.name}}</li>
-        <li>{{ dataset.scheme }}</li>
-        <li>{{ dataset.status }}</li>
+        <li>Description: {{ dataset.description }}</li>
+        <li>Document Name: {{ dataset.document }}</li>
+        <li>Cartogram Association: {{ dataset.cartogram.name}}</li>
+        <li>Scheme: {{ dataset.scheme }}</li>
+        <li>Published: {{ dataset.get_published_display }}</li>
     </ul>
-    <form method="post" action="">
-        {{ form.datafile }}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.errors.datafile }}
+        <div>{{ form.datafile.label_tag }}</div>
+        <div>
+            {{ form.datafile }}
+        </div>
+        <div>
+            <input type="submit">
+        </div>
     </form>
-
-    <div>
         
 {% endblock content %}

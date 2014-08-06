@@ -1,7 +1,12 @@
+import os
+import csv
+from decimal import *
+
 from django.db import models
 from django.contrib.auth.models import User
 from colors.models import SchemeMixin, Palette
 from cartograms.models import Cartogram, CartogramEntity
+from .validators import import_validator
 
 class AbstractModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -71,72 +76,46 @@ class Dataset(SchemeMixin, AbstractNameModel):
 
     def import_dataset(self):
         """
-        Upload file to tmp dir, then process and insert the data 
+        Import datafile records into the DatasetRecord
         """
-        # What if there is no document associated with self
-        import csv
-        document = csv.reader(self.get_datafile())
+        document = csv.reader(self.get_datafile().read().splitlines())
 
-        # What if the dataset already exist?
-        # What if the document is not well formed?
-        new_entities = None
-        for row in document:
+        imported_records = 0
+        for row_num, row in enumerate(document):
+            #skip over the headers
+            if row_num == 0:
+                continue
+            elif len(row) == 0:
+                continue
+            else:
+                entity = self.cartogram.entities.get(entity_id=row[0])
+                record, created =  self.records.get_or_create(
+                    cartogram_entity=entity,
+                    defaults = {'value': row[1]}
+                )
+                # Update the value only if it has changed
+                if not created and record.value != Decimal(row[1]):
+                    record.value = row[1]
+                    record.save()
+                    imported_records += 1
+                elif created:
+                    imported_records += 1
 
-            entity = self.cartogram.entities.get(entity_id=row[0])
-            record =  self.records.get_or_create(
-                cartogram_entity=entity,
-                defaults = {'value': row[1]}
-            )
-            new_entities = True if record[1] else False
-            
         self.save()
         self.get_datafile().seek(0)
-        return new_entities
-
-    def validate_datafile(self):
-        import csv
-        # use CSV.Sniff
-        dialect = csv.Sniffer().sniff(self.get_datafile().read(1024))
-
-        if dialect.delimiter == ',':
-            pass
-        else:
-            raise Exception("Incorrect delimiter")
-
-        # check for headers
-
-        self.get_datafile().seek(0)
-        document = csv.reader(self.get_datafile())
-
-        # iterate through and match the entity ids, 
-        # or just check that the number of values match the number of datasets
-        for row in document:
-            if len(row) != 2:
-                raise Exception("Number of cells in each row must be 2")
-            
-            try:
-                self.cartogram.entities.get(entity_id=row[0])
-            except CartogramEntity.DoesNotExist:
-                message = "The Cartogram Entity does not exist with an entity_id {0}".format(row[0])
-                raise Exception(message)
-
-            # use regex to make sure it only contains numbers or .
-            # if type(row[1]) is not float:
-            #     print type(row[1])
-            #     raise Exception("Values must be a numeric value")
-                
-        self.get_datafile().seek(0)
-        # return information about why it did not validate.
-        return True
+        return imported_records
 
     def get_datafile(self):
-        return self.document.datafile.file.file
+        return self.document.datafile
 
     def __unicode__(self):
         return self.name
 
 class DatasetDocument(AbstractModel):
-    datafile = models.FileField(upload_to='datasets/%Y/%m/%d')
+    datafile = models.FileField(
+        upload_to='datasets/%Y/%m/%d',
+        validators=[import_validator]
+    )
     dataset = models.OneToOneField(
         Dataset,
         related_name='document'
@@ -145,6 +124,9 @@ class DatasetDocument(AbstractModel):
         User,
         related_name="documents"
     )
+
+    def __unicode__(self):
+        return os.path.basename(self.datafile.name)
 
     class Meta:
         db_table = 'datasets_dataset_document'
@@ -165,6 +147,9 @@ class DatasetRecord(AbstractModel):
         Dataset,
         related_name="records"
     )
+
+    def replace_datafile(self, document):
+        self.objects.remove
 
     class Meta:
         db_table = "datasets_dataset_record"

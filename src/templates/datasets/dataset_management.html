@@ -5,7 +5,7 @@
     <h2>Dataset Management</h2>
     <ul>
         {% for dataset in object_list %}
-            <li>{{ dataset.name }}</li>
+        <li><a href="{% url 'datasets:dataset-detail' dataset.id %}">{{ dataset.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock content %}

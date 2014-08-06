@@ -1,8 +1,8 @@
 from django.conf.urls import url
-from .views import DatasetManagementView, DatasetDetailView
+from .views import DatasetManagement, DatasetDetail
 
 urlpatterns = [
-    url(r'^datasets/$', DatasetManagementView.as_view()),
-    url(r'^datasets/(?P<pk>[0-9]+)/$', DatasetDetailView.as_view()),
+    url(r'^datasets/$', DatasetManagement.as_view(), name='dataset-management'),
+    url(r'^datasets/(?P<pk>[0-9]+)/$', DatasetDetail.as_view(), name='dataset-detail'),
     # url(r'^datasets/(?P<pk>[0-9]+)/edit/$', ),
 ]
