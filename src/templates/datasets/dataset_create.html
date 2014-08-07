@@ -1,0 +1,53 @@
+{% extends "_layout.html" %}
+{% block page_title %}Dataset Management{% endblock page_title %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data" class="form-horizontal">
+        {% csrf_token %}
+        {% if form.errors %}
+            {# <div class="form-group"> #}
+            {#     <div class="col-sm-4 alert alert-danger"> #}
+            {#         {{ form.errors.datafile }} #}
+            {#     </div> #}
+            {# </div> #}
+        {% endif %}
+        <div class="form-group">
+            <div class="col-lg-1">
+                {{ form.name.label_tag }}
+            </div>
+            <div class="col-lg-4">
+                {{ form.name }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-1">
+                {{ form.description.label_tag }}
+            </div>
+            <div class="col-lg-4">
+                {{ form.description }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-1">
+                {{ form.license.label_tag }}
+            </div>
+            <div class="col-lg-4">
+                {{ form.license }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-1">
+                {{ form.scheme.label_tag }}
+            </div>
+            <div class="col-lg-4">
+                {{ form.scheme }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-1">
+                <button type="submit" class="btn btn-default">Upload</button>
+            </div>
+        </div>
+    </form>
+        
+{% endblock content %}

@@ -1,5 +1,5 @@
 from django.forms import ModelForm 
-from .models import DatasetDocument
+from .models import DatasetDocument, Dataset
 
 class DatasetUploadForm(ModelForm):
     class Meta:
@@ -8,3 +8,8 @@ class DatasetUploadForm(ModelForm):
         labels = {
             'datafile': ('CSV File'),
         }
+
+class DatasetForm(ModelForm):
+    class Meta:
+        model = Dataset
+        fields = ['name', 'description', 'license', 'scheme']

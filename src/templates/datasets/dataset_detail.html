@@ -10,16 +10,21 @@
         <li>Scheme: {{ dataset.scheme }}</li>
         <li>Published: {{ dataset.get_published_display }}</li>
     </ul>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" class="form-horizontal">
         {% csrf_token %}
-        {{ form.errors.datafile }}
-        <div>{{ form.datafile.label_tag }}</div>
-        <div>
+        {% if form.errors %}
+            <div class="form-group">
+                <div class="col-sm-4 alert alert-danger">
+                    {{ form.errors.datafile }}
+                </div>
+            </div>
+        {% endif %}
+        <div class="form-group">
+            {{ form.datafile.label_tag }}
             {{ form.datafile }}
         </div>
-        <div>
-            <input type="submit">
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Upload</button>
         </div>
     </form>
-        
 {% endblock content %}

@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
 from django.views.generic import ListView, DetailView, FormView, View, TemplateView
+from django.views.generic.edit import CreateView
 from django.views.generic.detail import SingleObjectMixin
 from .models import Dataset, DatasetDocument
-from .forms import DatasetUploadForm
+from .forms import DatasetUploadForm, DatasetForm
 
 class IndexView(TemplateView):
     template_name = 'datasets/index.html'
@@ -71,4 +72,18 @@ class DatasetDetail(View):
     def post(self, request, *args, **kwargs):
         view = DatasetUpload.as_view()
         return view(request, *args, **kwargs)
+
+class DatasetCreate(CreateView):
+    template_name = 'datasets/dataset_create.html'
+    form_class = DatasetForm
+
+    def form_valid(self, form):
+        dataset = form.save(commit=False)
+        dataset.cartogram_id = 1 
+        dataset.owner = self.request.user# change this once auth is in place
+        dataset.save()
+        return super(DatasetCreate, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('datasets:dataset-detail', kwargs={'pk': self.object.pk})
 
