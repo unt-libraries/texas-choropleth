@@ -26,6 +26,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = '/datasets/'
 
 # Application definition
 
@@ -40,6 +41,8 @@ DJANGO_APPS = (
 
 THIRD_PARTY_APPS = (
     'south',
+    'pipeline',
+    'debug_toolbar',
 )
 
 LOCAL_APPS = (
@@ -78,6 +81,10 @@ DATABASES = {
     }
 }
 
+INTERNAL_IPS = (
+    'xxx.xxx.xxx.xxx'
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -93,9 +100,6 @@ USE_TZ = True
 
 # Cartogram and Cartogram Entity information  will
 # be defined in fixtures
-FIXTURE_DIRS = (
-    os.path.join(BASE_DIR, 'utilities/fixtures'),
-)
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
@@ -107,9 +111,26 @@ TEMPLATE_DIRS = (
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_URL = '/media/'
 
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'assets'),
     os.path.join(BASE_DIR, 'static'),
 )
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
+
+
 STATIC_URL = '/static/'
+
+PIPELINE_COMPILERS = (
+    'pipeline.compilers.sass.SASSCompiler',
+)
+
+PIPELINE_CSS = {
+    'main': {
+        'source_filenames': (
+            'css/main.scss',
+        ),
+        'output_filename': 'css/main.css',
+    },        
+}

@@ -1,4 +1,6 @@
-src/assets/*
+src/static/vendor/*
+src/static/css/.sass-cache
+src/static/css/*.css
 src/media/*
 *.pyc
 *.swp

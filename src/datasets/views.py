@@ -1,14 +1,20 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
-from django.views.generic import ListView, DetailView, FormView, View
+from django.core.exceptions import PermissionDenied
+from django.views.generic import ListView, DetailView, FormView, View, TemplateView
 from django.views.generic.detail import SingleObjectMixin
 from .models import Dataset, DatasetDocument
 from .forms import DatasetUploadForm
+
+class IndexView(TemplateView):
+    template_name = 'datasets/index.html'
 
 class DatasetManagement(ListView):
     template_name="datasets/dataset_management.html"
     model = Dataset
 
+    def get_queryset(self):
+        return Dataset.objects.filter(owner_id=self.request.user.pk)
 
 class DatasetDisplay(DetailView):
     model = Dataset
@@ -17,6 +23,13 @@ class DatasetDisplay(DetailView):
         context = super(DatasetDisplay, self).get_context_data(**kwargs)
         context['form'] = DatasetUploadForm()
         return context
+
+    def get_object(self, **kwargs):
+        dataset = super(DatasetDisplay, self).get_object(**kwargs)
+        if dataset.owner != self.request.user:
+            raise PermissionDenied()
+        else:
+            return dataset
 
 
 class DatasetUpload(SingleObjectMixin, FormView):

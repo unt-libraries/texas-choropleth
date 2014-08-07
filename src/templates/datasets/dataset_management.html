@@ -8,4 +8,5 @@
         <li><a href="{% url 'datasets:dataset-detail' dataset.id %}">{{ dataset.name }}</a></li>
         {% endfor %}
     </ul>
+    <a href="{% url 'logout' %}">Logout</a>
 {% endblock content %}

@@ -1,9 +1,14 @@
+{# {% load staticfiles %} #}
+{% load compressed %}
 <!doctype html>
 <html>
     <head>
         <title>{% block page_title %}{% endblock page_title %} | UNT Choropleths</title>
+        {# <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"> #}
+        {% compressed_css  'main' %}
     </head>
     <body>
+    {% include 'partials/navbar.html' %}
     {% block content %}{% endblock content %}
     </body>
 </html>
