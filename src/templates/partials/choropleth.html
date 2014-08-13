@@ -1,0 +1,20 @@
+<div ng-if="hasData">
+    <div ng-class="palette.class_name" class="row text-center" id="choropleth">
+        <choropleth data="choropleth.dataset.records" domain="domain" range="choropleth.data_classes"  palette="choropleth.palette"></choropleth>
+    </div>
+    <div class="panel panel-default row">
+        <div class="panel-heading">Map Controls</div>
+        <div class="panel-body text-center">
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="choropleth.data_classes" ng-options="n for n in rangeOptions"></select>
+            </div>
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="choropleth.scheme" ng-change="getSchemePalettes(choropleth.scheme.id)" ng-options="scheme.name for scheme in schemes"></select>
+            </div>
+            <div class="col-xs-4">
+                <select class="form-control" ng-model="palette" ng-options="palette.name for palette in palettes"></select>
+            </div>
+            <div>
+        </div>
+    </div>
+</div>

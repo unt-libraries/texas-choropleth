@@ -42,13 +42,13 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'south',
     'pipeline',
-    'debug_toolbar',
+    'rest_framework',
 )
 
 LOCAL_APPS = (
     'datasets',
     'cartograms',
-    'colors',
+    'choropleths',
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -80,10 +80,6 @@ DATABASES = {
         'PORT': os.environ.get('DB_1_PORT_3306_TCP_PORT'),
     }
 }
-
-INTERNAL_IPS = (
-    'xxx.xxx.xxx.xxx'
-)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -133,4 +129,35 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'css/main.css',
     },        
+    'colorbrewer': {
+        'source_filenames': (
+            'css/colorbrewer.css',
+        ),
+        'output_filename': 'css/colorbrewer.css',
+    }
+}
+
+PIPELINE_JS = {
+    'map': {
+        'source_filenames': (
+            'js/map.js',
+        ),
+        'output_filename': 'js/map.js',
+    },
+    'map-vendor': {
+        'source_filenames': (
+            'vendor/queue-async/queue.min.js',
+            'vendor/d3/d3.min.js',
+            'vendor/topojson/topojson.js',
+            'vendor/angularjs/angular.min.js',
+        ),
+        'output_filename': 'js/map-vendor.js',
+    },
+    'vendor': {
+        'source_filenames': (
+            'vendor/bootstrap-sass-official/assets/javascripts/bootstrap.js',
+        ),
+        'output_filename': 'js/vendor.js',
+    }
+
 }

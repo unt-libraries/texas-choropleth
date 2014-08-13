@@ -1,0 +1,33 @@
+
+{% extends "_layout.html" %}
+{% block page_title %}Choropleths{% endblock page_title %}
+
+{% block content %}
+    <h2></h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Owner</th>
+                <th>Last Modified</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        {% for choropleth in object_list %}
+        <tr>
+            <td>{{ choropleth.name }}</td>
+            <td>{{ choropleth.owner }}</td>
+            <td>{{ choropleth.modified_at|date:"b.d.y" }}</td>
+            <td>{{ choropleth.created_at|date:"b.d.y" }}</td>
+            <td>
+                <a href="{% url 'choropleths:choropleth-view' choropleth.id %}">
+                    <button class="btn btn-primary">View</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'datasets:dataset-create' %}">
+        <button class="btn btn-default">New Dataset</button>
+    </a>
+{% endblock content %}

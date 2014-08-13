@@ -1,0 +1,29 @@
+{% extends "_layout.html" %}
+{% load compressed %}
+{% block page_title %}Choropleth{% endblock page_title %}
+
+{% block head %}
+{% compressed_js 'map-vendor' %}
+{% compressed_js 'map' %}
+{% compressed_css 'colorbrewer' %}
+{% endblock head %}
+
+{% block content %}
+<div ng-app="d3MappApp" class="col-sm-12">
+    <form ng-controller="MappCtrl" ng-init="init({{ dataset.id }}, false)">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="title" ng-model="name">
+            </div>
+            <button class="btn btn-success pull-right" ng-click='submit()'>Save</button>
+        </div>
+
+        {% include  'partials/choropleth.html' %}
+        
+        <div class="form-group">
+            <textarea class="form-control"></textarea>
+        </div>
+    </form>
+
+{% endblock content %}

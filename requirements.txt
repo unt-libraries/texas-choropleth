@@ -4,6 +4,5 @@ django-angular==0.7.4
 django-debug-toolbar==1.2.1
 djangorestframework==2.3.14
 django-braces
-django-guardian
 django-pipeline
 ipython

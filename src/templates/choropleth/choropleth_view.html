@@ -1,0 +1,21 @@
+{% extends "_layout.html" %}
+{% load compressed %}
+{% block page_title %}Choropleth{% endblock page_title %}
+
+{% block head %}
+{% compressed_js 'map-vendor' %}
+{% compressed_js 'map' %}
+{% compressed_css 'colorbrewer' %}
+{% endblock head %}
+
+{% block content %}
+<h2>{{ choropleth.name }}</h2>
+    <div ng-app="d3MappApp" class="col-sm-12">
+        <form ng-controller="ViewController" ng-init="init({{ choropleth.id }})">
+
+            {% include  'partials/choropleth.html' %}
+
+        </form>
+    </div>
+{% endblock content %}
+

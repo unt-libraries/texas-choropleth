@@ -1,0 +1,16 @@
+{% extends "_layout.html" %}
+{% block page_title %}{{ choropleth.name }}{% endblock page_title %}
+
+{% block content %}
+<h2>{{ choropleth.name }}</h2>
+    <ul>
+        <li>Description: {{ choropleth.description }}</li>
+        <li>Document Name: {{ choropleth.document }}</li>
+        <li>Cartogram Association: {{ choropleth.cartogram.name}}</li>
+        <li>Scheme: {{ choropleth.scheme }}</li>
+        <li>Published: {{ choropleth.get_published_display }}</li>
+    </ul>
+    <a href="{% url 'choropleths:choropleth-view' choropleth.pk %}">
+        <button class="btn btn-default">View</button>
+    </a>
+{% endblock content %}

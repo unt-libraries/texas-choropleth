@@ -12,4 +12,4 @@ class DatasetUploadForm(ModelForm):
 class DatasetForm(ModelForm):
     class Meta:
         model = Dataset
-        fields = ['name', 'description', 'license', 'scheme']
+        fields = ['name', 'description', 'license']

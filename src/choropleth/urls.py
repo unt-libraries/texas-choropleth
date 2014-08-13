@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     url(r'^$', IndexView.as_view()),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^datasets/', include('datasets.urls', namespace="datasets")),
+    url(r'^choropleths/', include('choropleths.urls', namespace="choropleths")),
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
-    
 )

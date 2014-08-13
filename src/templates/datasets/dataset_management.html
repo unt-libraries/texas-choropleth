@@ -3,12 +3,46 @@
 
 {% block content %}
     <h2>Dataset Management</h2>
-    <ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Owner</th>
+                <th>Last Modified</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
         {% for dataset in object_list %}
-        <li><a href="{% url 'datasets:dataset-detail' dataset.id %}">{{ dataset.name }}</a></li>
+
+        <tr>
+            <td><a href="{% url 'datasets:dataset-detail' dataset.id %}">{{ dataset.name }}</a></td>
+            <td>{{ dataset.owner }}</td>
+            <td>{{ dataset.modified_at|date:"b.d.y" }}</td>
+            <td>{{ dataset.created_at|date:"b.d.y" }}</td>
+            <td>
+
+                {% if dataset.choropleth %}
+
+                    <a href="{% url "choropleths:choropleth-view" dataset.choropleth.id %}">
+                        <button class="btn btn-primary">Choropleth</button>
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url "choropleths:choropleth-create" dataset.id %}">
+                        <button class="btn btn-primary">Create Choropleth</button>
+                    </a>
+
+                {% endif %}
+
+            </td>
+        </tr>
+
         {% endfor %}
-    </ul>
+
+    </table>
     <a href="{% url 'datasets:dataset-create' %}">
-    <button class="btn btn-default">New Dataset</button>
+        <button class="btn btn-default">New Dataset</button>
     </a>
+
 {% endblock content %}

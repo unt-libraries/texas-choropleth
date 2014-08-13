@@ -4,11 +4,14 @@ from django.core.exceptions import PermissionDenied
 from django.views.generic import ListView, DetailView, FormView, View, TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import SingleObjectMixin
+from rest_framework.generics import RetrieveAPIView
 from .models import Dataset, DatasetDocument
+from .serializers import DatasetSerializer
 from .forms import DatasetUploadForm, DatasetForm
 
 class IndexView(TemplateView):
     template_name = 'datasets/index.html'
+
 
 class DatasetManagement(ListView):
     template_name="datasets/dataset_management.html"
@@ -16,6 +19,7 @@ class DatasetManagement(ListView):
 
     def get_queryset(self):
         return Dataset.objects.filter(owner_id=self.request.user.pk)
+
 
 class DatasetDisplay(DetailView):
     model = Dataset
@@ -55,7 +59,7 @@ class DatasetUpload(SingleObjectMixin, FormView):
     def form_valid(self, form):
         document = form.save(commit=False)
         document.dataset = self.object
-        document.owner_id = 1 # change this once auth is in place
+        document.owner = self.request.user 
         document.save()
         self.object.import_dataset()
         return super(DatasetUpload, self).form_valid(form)
@@ -73,13 +77,16 @@ class DatasetDetail(View):
         view = DatasetUpload.as_view()
         return view(request, *args, **kwargs)
 
+
 class DatasetCreate(CreateView):
     template_name = 'datasets/dataset_create.html'
+    model = Dataset
     form_class = DatasetForm
 
     def form_valid(self, form):
         dataset = form.save(commit=False)
         dataset.cartogram_id = 1 
+
         dataset.owner = self.request.user# change this once auth is in place
         dataset.save()
         return super(DatasetCreate, self).form_valid(form)
@@ -87,3 +94,6 @@ class DatasetCreate(CreateView):
     def get_success_url(self):
         return reverse('datasets:dataset-detail', kwargs={'pk': self.object.pk})
 
+class DatasetAPIView(RetrieveAPIView):
+    model = Dataset 
+    serializer_class = DatasetSerializer

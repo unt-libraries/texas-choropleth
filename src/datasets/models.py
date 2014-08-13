@@ -4,7 +4,6 @@ from decimal import *
 
 from django.db import models
 from django.contrib.auth.models import User
-from colors.models import SchemeMixin, Palette
 from cartograms.models import Cartogram, CartogramEntity
 from .validators import import_validator
 
@@ -23,41 +22,27 @@ class AbstractNameModel(AbstractModel):
     class Meta:
         abstract = True
 
-
-class Dataset(SchemeMixin, AbstractNameModel):
+class PublishedMixin(models.Model):
     PUBLISH_CHOICES = (
         (0, 'Not Published'),
         (1, 'Published'),
         # (2, 'Secret'), # Implemented in a later version
     )
+    published = models.IntegerField(
+        choices=PUBLISH_CHOICES,
+        default=0
+    )
+    class Meta:
+        abstract = True
 
+class Dataset(PublishedMixin, AbstractNameModel):
     LICENSE_CHOICES = (
         ('L1', 'Some License 1'),
         ('L2', 'Some License 2'),
         ('L3', 'Some License 3'),
     )
 
-    SCALE_CHOICES = (
-        (0, "Quantize"),
-        # (1, "Logarithmic"), # Scheduled for v.2
-        # (2, "Linear"), # Scheduled for v.2
-        # (3, "Exponential"), # Scheduled for v.2
-    )
-
     description = models.TextField(blank=True)
-    data_classes = models.SmallIntegerField(null=True) # Will only be null when using a non-quantized scale.
-    scale = models.IntegerField(
-        choices=SCALE_CHOICES, 
-        default=0
-    )
-    palette = models.ForeignKey(
-        Palette,
-        null=True
-    ) 
-    published = models.IntegerField(
-        choices=PUBLISH_CHOICES,
-        default=0
-    )
     license = models.CharField(
         max_length=8,
         choices=LICENSE_CHOICES,
