@@ -17,8 +17,8 @@
         <tr>
             <td><a href="{% url 'datasets:dataset-detail' dataset.id %}">{{ dataset.name }}</a></td>
             <td>{{ dataset.owner }}</td>
-            <td>{{ dataset.modified_at|date:"b.d.y" }}</td>
-            <td>{{ dataset.created_at|date:"b.d.y" }}</td>
+            <td>{{ dataset.modified_at|date }}</td>
+            <td>{{ dataset.created_at|date}}</td>
             <td>
 
                 {% if dataset.choropleth %}

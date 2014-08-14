@@ -95,6 +95,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATE_FORMAT = 'N j, Y'
+
 # Cartogram and Cartogram Entity information  will
 # be defined in fixtures
 

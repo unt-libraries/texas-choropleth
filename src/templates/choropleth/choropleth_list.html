@@ -17,8 +17,8 @@
         <tr>
             <td>{{ choropleth.name }}</td>
             <td>{{ choropleth.owner }}</td>
-            <td>{{ choropleth.modified_at|date:"b.d.y" }}</td>
-            <td>{{ choropleth.created_at|date:"b.d.y" }}</td>
+            <td>{{ choropleth.modified_at|date }}</td>
+            <td>{{ choropleth.created_at|date }}</td>
             <td>
                 <a href="{% url 'choropleths:choropleth-view' choropleth.id %}">
                     <button class="btn btn-primary">View</button>
