@@ -139,7 +139,37 @@ d3MappApp.directive('choropleth', function($window) {
     }
 });
 
-d3MappApp.controller('ViewController', function ViewController ($scope, $http) {
+d3MappApp.controller('AbstractController', function AbstractController ($scope, $http) {
+
+    $scope.domain = {startPoint: 0, endPoint: .15};
+        $scope.rangeOptions = [3, 4, 5, 6, 7, 8, 9];
+        $scope.schemes = [
+            {name: "Sequential", id: 1},
+            {name: "Diverging", id: 2},
+            {name: "Qualitivative", id: 3}
+        ];
+
+    $scope.getSchemePalettes = function(id) {
+        var palettes = "/choropleths/api/palettes/" + id + "/";
+        $http.get(palettes).success(function(data, status, headers, config) {
+            $scope.palettes = data
+            $scope.findPalette($scope.choropleth.palette)
+        })
+    }
+
+    $scope.findPalette = function(id) {
+        if (0 < $scope.palettes.length) {
+            $scope.palettes.forEach(function (value, index, array) {
+                if (value.id == id) {
+                    $scope.palette = value;
+                }
+            });
+        }
+    }
+})
+
+d3MappApp.controller('ViewController', function ViewController ($scope, $http, $controller) {
+    $controller('AbstractController', {$scope: $scope});
     var choroplethBaseUrl = "/choropleths/api/"; 
     var datasetsBaseUrl = "/datasets/api/";
 
@@ -156,7 +186,7 @@ d3MappApp.controller('ViewController', function ViewController ($scope, $http) {
 
             var url = datasetsBaseUrl + datasetID + "/";
             $http.get(url).success(function(data, status, headers, config) {
-                $scope.choropleth.dataset = data;
+                $scope.dataset = data;
                 $scope.hasData = true;
             }).
             error(function(data, status, headers, config) {
@@ -168,44 +198,30 @@ d3MappApp.controller('ViewController', function ViewController ($scope, $http) {
         });
     };
 
-    $scope.domain = {startPoint: 0, endPoint: .15};
-    $scope.rangeOptions = [3, 4, 5, 6, 7, 8, 9];
-    $scope.schemes = [
-        {name: "Sequential", id: 1},
-        {name: "Diverging", id: 2},
-        {name: "Qualitivative", id: 3}
-    ];
-
-    $scope.getSchemePalettes = function(id) {
-        var palettes = "/choropleths/api/palettes/" + id + "/";
-        $http.get(palettes).success(function(data, status, headers, config) {
-            $scope.palettes = data
-        })
-    }
 });
 
-d3MappApp.controller('MappCtrl', function MappCtrl ($scope, $http) {
-
-    var choropleth = {
-        name: "",
-        description: "",
-        published: 0,
-        scheme: 1,
-        palette: 'YlOrRd',
-        data_classes: 9,
-        datasets: null,
-        owner: 1
-    }
-
+d3MappApp.controller('MappCtrl', function MappCtrl ($scope, $http, $controller) {
+    $controller('AbstractController', {$scope: $scope});
     var datasetsBaseUrl = "/datasets/api/";
     $scope.hasData = false;
 
     $scope.init = function(id) {
+        var choropleth = {
+            name: "",
+            description: "",
+            published: 0,
+            scheme: 1,
+            palette: 1,
+            data_classes: 9,
+            dataset: id,
+            owner: 1
+        }
+
         var url = datasetsBaseUrl + id + "/";
 
         $http.get(url).success(function(data, status, headers, config) {
-            choropleth.dataset = data
             $scope.choropleth = choropleth
+            $scope.dataset = data
             $scope.hasData = true;
             var palettes = "/choropleths/api/palettes/" + choropleth.scheme + "/";
             $http.get(palettes).success(function(data, status, headers, config) {
@@ -215,29 +231,14 @@ d3MappApp.controller('MappCtrl', function MappCtrl ($scope, $http) {
         error(function(data, status, headers, config) {
             console.log(data);
         });
-
     };
-
-    $scope.getSchemePalettes = function(id) {
-         var palettes = "/choropleths/api/palettes/" + id + "/";
-        $http.get(palettes).success(function(data, status, headers, config) {
-            $scope.palettes = data
-        })
-    }
 
     $scope.submit = function() {
         $http.post("/choropleths/api/", $scope.choropleth).success(function(data, status) {
-            console.log(status)
+            if (status == 201) {
+                window.location = "/choropleths/";
+            }
         });
     };
-
-    $scope.domain = {startPoint: 0, endPoint: .15};
-    $scope.rangeOptions = [3, 4, 5, 6, 7, 8, 9];
-    $scope.schemes = [
-        {name: "Sequential", id: 1},
-        {name: "Diverging", id: 2},
-        {name: "Qualitivative", id: 3}
-    ];
-        
 });
 

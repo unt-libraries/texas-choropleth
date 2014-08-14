@@ -26,6 +26,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/datasets/'
 
 # Application definition
@@ -155,6 +156,7 @@ PIPELINE_JS = {
     },
     'vendor': {
         'source_filenames': (
+            'vendor/jquery/dist/jquery.min.js',
             'vendor/bootstrap-sass-official/assets/javascripts/bootstrap.js',
         ),
         'output_filename': 'js/vendor.js',

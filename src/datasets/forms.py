@@ -1,7 +1,7 @@
-from django.forms import ModelForm 
+from django import forms 
 from .models import DatasetDocument, Dataset
 
-class DatasetUploadForm(ModelForm):
+class DatasetUploadForm(forms.ModelForm):
     class Meta:
         model = DatasetDocument
         fields = ['datafile']
@@ -9,7 +9,13 @@ class DatasetUploadForm(ModelForm):
             'datafile': ('CSV File'),
         }
 
-class DatasetForm(ModelForm):
+class DatasetForm(forms.ModelForm):
     class Meta:
         model = Dataset
         fields = ['name', 'description', 'license']
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'license': forms.Select(attrs={'class': 'form-control'}),
+        }

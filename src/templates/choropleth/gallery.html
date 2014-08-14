@@ -1,9 +1,8 @@
-
 {% extends "_layout.html" %}
 {% block page_title %}Choropleths{% endblock page_title %}
 
 {% block content %}
-    <h2>Choropleths</h2>
+    <h2>Gallery</h2>
     <table class="table">
         <thead>
             <tr>
@@ -27,7 +26,4 @@
         </tr>
         {% endfor %}
     </table>
-    <a href="{% url 'datasets:dataset-create' %}">
-        <button class="btn btn-default">New Dataset</button>
-    </a>
 {% endblock content %}

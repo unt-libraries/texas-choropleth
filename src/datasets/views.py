@@ -1,19 +1,17 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
-from django.views.generic import ListView, DetailView, FormView, View, TemplateView
-from django.views.generic.edit import CreateView
-from django.views.generic.detail import SingleObjectMixin
+from django.views import generic
 from rest_framework.generics import RetrieveAPIView
 from .models import Dataset, DatasetDocument
 from .serializers import DatasetSerializer
 from .forms import DatasetUploadForm, DatasetForm
 
-class IndexView(TemplateView):
+class IndexView(generic.TemplateView):
     template_name = 'datasets/index.html'
 
 
-class DatasetManagement(ListView):
+class DatasetManagement(generic.ListView):
     template_name="datasets/dataset_management.html"
     model = Dataset
 
@@ -21,7 +19,7 @@ class DatasetManagement(ListView):
         return Dataset.objects.filter(owner_id=self.request.user.pk)
 
 
-class DatasetDisplay(DetailView):
+class DatasetDisplay(generic.DetailView):
     model = Dataset
 
     def get_context_data(self, **kwargs):
@@ -37,7 +35,7 @@ class DatasetDisplay(DetailView):
             return dataset
 
 
-class DatasetUpload(SingleObjectMixin, FormView):
+class DatasetUpload(generic.detail.SingleObjectMixin, generic.FormView):
     template_name = 'datasets/dataset_detail.html'
     form_class = DatasetUploadForm
     model = Dataset
@@ -68,7 +66,7 @@ class DatasetUpload(SingleObjectMixin, FormView):
         return reverse('datasets:dataset-detail', kwargs={'pk': self.object.pk})
 
 
-class DatasetDetail(View):
+class DatasetDetail(generic.View):
     def get(self, request, *args, **kwargs):
         view = DatasetDisplay.as_view()
         return view(request, *args, **kwargs)
@@ -78,7 +76,7 @@ class DatasetDetail(View):
         return view(request, *args, **kwargs)
 
 
-class DatasetCreate(CreateView):
+class DatasetCreate(generic.edit.CreateView):
     template_name = 'datasets/dataset_create.html'
     model = Dataset
     form_class = DatasetForm

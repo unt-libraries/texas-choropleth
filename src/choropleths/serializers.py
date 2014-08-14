@@ -20,14 +20,13 @@ class ChoroplethSerializer(serializers.ModelSerializer):
             'palette',
             'data_classes',
             'dataset',
-            'owner'
         )
 
 
 class PaletteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Palette
-        fields = ('name', 'class_name')
+        fields = ('id', 'name', 'class_name')
 
 class SchemeSerializer(serializers.ModelSerializer):
     class Meta:

@@ -51,7 +51,6 @@ class Choropleth(PublishedMixin, SchemeMixin, AbstractModel):
     palette = models.ForeignKey(
         Palette,
         null=True,
-        to_field="class_name"
     ) 
     owner = models.ForeignKey(User, related_name="choropleths")
 
