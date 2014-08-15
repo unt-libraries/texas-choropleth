@@ -159,7 +159,7 @@ PIPELINE_JS = {
     'vendor': {
         'source_filenames': (
             'vendor/jquery/dist/jquery.min.js',
-            'vendor/bootstrap-sass-official/assets/javascripts/bootstrap.js',
+            'vendor/bootstrap/dist/js/bootstrap.min.js',
         ),
         'output_filename': 'js/vendor.js',
     }
