@@ -77,7 +77,7 @@ class DatasetDetail(generic.View):
 
 
 class DatasetCreate(generic.edit.CreateView):
-    template_name = 'datasets/dataset_create.html'
+    template_name = 'datasets/dataset_edit.html'
     model = Dataset
     form_class = DatasetForm
 
@@ -98,6 +98,6 @@ class DatasetAPIView(RetrieveAPIView):
 
 
 class DatasetUpdate(generic.edit.UpdateView):
-    template_name = 'datasets/dataset_create.html'
+    template_name = 'datasets/dataset_edit.html'
     model = Dataset
     form_class = DatasetForm
