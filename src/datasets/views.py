@@ -92,12 +92,22 @@ class DatasetCreate(generic.edit.CreateView):
     def get_success_url(self):
         return reverse('datasets:dataset-detail', kwargs={'pk': self.object.pk})
 
-class DatasetAPIView(RetrieveAPIView):
-    model = Dataset 
-    serializer_class = DatasetSerializer
-
 
 class DatasetUpdate(generic.edit.UpdateView):
     template_name = 'datasets/dataset_edit.html'
     model = Dataset
     form_class = DatasetForm
+
+    def get_success_url(self):
+        return reverse('datasets:dataset-detail', kwargs={'pk': self.object.pk})
+
+    def get_object(self, **kwargs):
+        dataset = super(DatasetUpdate, self).get_object(**kwargs)
+        if dataset.owner != self.request.user:
+            raise PermissionDenied()
+        else:
+            return dataset
+
+class DatasetAPIView(RetrieveAPIView):
+    model = Dataset 
+    serializer_class = DatasetSerializer
