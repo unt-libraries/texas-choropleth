@@ -10,7 +10,7 @@
 
 {% block content %}
 <div ng-app="d3MappApp" class="col-sm-12">
-    <div ng-controller="MappCtrl" ng-init="init({{ dataset.id }}, false)">
+    <div ng-controller="MappCtrl" ng-init="init({{ dataset.id }})">
         {% csrf_token %}
         <div class="form-group">
             <div class="col-sm-6">
