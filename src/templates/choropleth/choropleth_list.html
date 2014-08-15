@@ -1,33 +1,35 @@
-
 {% extends "_layout.html" %}
 {% block page_title %}Choropleths{% endblock page_title %}
 
 {% block content %}
-    <h2>Choropleths</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Owner</th>
-                <th>Last Modified</th>
-                <th>Created At</th>
-            </tr>
-        </thead>
+<div class="row">
+    <div class="col-sm-12">
+        <h1>
+            Choropleths
+            <a class="pull-right" href="{% url 'datasets:dataset-create' %}">
+                <button class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    New Dataset
+                </button>
+            </a>
+        </h1>
+    </div>
+</div>
+    <table class="table list">
         {% for choropleth in object_list %}
         <tr>
-            <td>{{ choropleth.name }}</td>
-            <td>{{ choropleth.owner }}</td>
-            <td>{{ choropleth.modified_at|date }}</td>
-            <td>{{ choropleth.created_at|date }}</td>
             <td>
+                <a href="{% url "choropleths:choropleth-detail" choropleth.id %}">
+                    <h3>{{ choropleth.name }}</h3>
+                </a>
+                <h5 class="col-sm-offset-1">{{ choropleth.description }}</h5>
+            </td>
+            <td class="vcenter">
                 <a href="{% url 'choropleths:choropleth-view' choropleth.id %}">
-                    <button class="btn btn-primary">View</button>
+                    <button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span> View</button>
                 </a>
             </td>
         </tr>
         {% endfor %}
     </table>
-    <a href="{% url 'datasets:dataset-create' %}">
-        <button class="btn btn-default">New Dataset</button>
-    </a>
 {% endblock content %}

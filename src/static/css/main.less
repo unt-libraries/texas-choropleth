@@ -1,6 +1,13 @@
 @import "../vendor/bootstrap/less/bootstrap.less";
 
+@icon-font-path: "../vendor/bootstrap/dist/fonts/";
+
+@border-radius-base: 0px;
+@border-radius-large: 0px;
+@border-radius-small: 0px;
+
 @bootstrap-grey: #e7e7e7;
+
 
 html {
 }
@@ -16,7 +23,7 @@ html {
 }
 
 #choropleth {
-    border: #e7e7e7 solid 1px;
+    border: @bootstrap-grey solid 1px;
     margin-bottom: .5em;
     clear: both;
 }
@@ -25,13 +32,13 @@ path:hover {
     fill: orange;
 }
 
-.vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-}
+.list {
+    tr > td.vcenter {
+        vertical-align: middle;
+        text-align: center;
 
-.dataset {
-    border-bottom: @bootstrap-grey solid 1px;
+        a {
+            .pull-right;
+        }
+    }
 }
-

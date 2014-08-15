@@ -2,47 +2,51 @@
 {% block page_title %}Dataset Management{% endblock page_title %}
 
 {% block content %}
-    <h2>Dataset Management</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Owner</th>
-                <th>Last Modified</th>
-                <th>Created At</th>
-            </tr>
-        </thead>
-        {% for dataset in object_list %}
+<div class="row">
+    <div class='col-sm-12'>
+        <h1>
+           Dataset Management
+            <a class="pull-right" href="{% url 'datasets:dataset-create' %}">
+                <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> New Dataset</button>
+            </a>
+        </h1>
+    </div>
+</div>
+<table class="table list">
+
+    {% for dataset in object_list %}
 
         <tr>
-            <td><a href="{% url 'datasets:dataset-detail' dataset.id %}">{{ dataset.name }}</a></td>
-            <td>{{ dataset.owner }}</td>
-            <td>{{ dataset.modified_at|date }}</td>
-            <td>{{ dataset.created_at|date}}</td>
             <td>
-
+                <h3>
+                    <a href="{% url 'datasets:dataset-detail' dataset.id %}">{{ dataset.name }}</a>
+                </h3>
+                <h5 class="col-sm-offset-1">{{ dataset.description }}</h5>
+            </td>
+            <td class="vcenter">
                 {% if dataset.choropleth %}
 
-                    <a href="{% url "choropleths:choropleth-view" dataset.choropleth.id %}">
-                        <button class="btn btn-primary">Choropleth</button>
+                    <a class="else" href="{% url "choropleths:choropleth-view" dataset.choropleth.id %}">
+                        <button class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                            Choropleth
+                        </button>
                     </a>
 
                 {% else %}
 
                     <a href="{% url "choropleths:choropleth-create" dataset.id %}">
-                        <button class="btn btn-primary">Create Choropleth</button>
+                        <button class="btn btn-success btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                            Create Choropleth
+                        </button>
                     </a>
 
                 {% endif %}
-
             </td>
-        </tr>
 
         {% endfor %}
 
     </table>
-    <a href="{% url 'datasets:dataset-create' %}">
-        <button class="btn btn-default">New Dataset</button>
-    </a>
 
 {% endblock content %}
