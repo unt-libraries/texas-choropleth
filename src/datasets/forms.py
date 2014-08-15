@@ -12,10 +12,11 @@ class DatasetUploadForm(forms.ModelForm):
 class DatasetForm(forms.ModelForm):
     class Meta:
         model = Dataset
-        fields = ['name', 'description', 'license']
+        fields = ['name', 'description', 'published', 'license']
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'published' : forms.Select(attrs={'class': 'form-control'}),
             'license': forms.Select(attrs={'class': 'form-control'}),
         }
