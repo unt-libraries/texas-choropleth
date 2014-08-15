@@ -2,29 +2,53 @@
 {% block page_title %}Dataset Management{% endblock page_title %}
 
 {% block content %}
-<h2>{{ dataset.name }}</h2>
-    <ul>
-        <li>Description: {{ dataset.description }}</li>
-        <li>Document Name: {{ dataset.document }}</li>
-        <li>Cartogram Association: {{ dataset.cartogram.name}}</li>
-        <li>Scheme: {{ dataset.scheme }}</li>
-        <li>Published: {{ dataset.get_published_display }}</li>
-    </ul>
-    <form method="post" enctype="multipart/form-data" class="form-horizontal">
-        {% csrf_token %}
-        {% if form.errors %}
-            <div class="form-group">
-                <div class="col-sm-4 alert alert-danger">
-                    {{ form.errors.datafile }}
+    <h1>{{ dataset.name }}</h1>
+    <p>{{ dataset.description }}</p>
+    <dl class="dl-horizontal">
+        <dt>Document Name</dt><dd>{{ dataset.document }}</dd>
+        <dt>Cartogram</dt><dd> {{ dataset.cartogram.name}}</dd>
+        <dt>Published</dt><dd> {{ dataset.get_published_display }}</dd>
+    </dl>
+    <div class="well col-sm-6">
+        <form method="post" enctype="multipart/form-data" class="form-horizontal">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="form-group">
+                    <div class="col-sm-4 alert alert-danger">
+                        {{ form.errors.datafile }}
+                    </div>
                 </div>
+            {% endif %}
+            <div class="form-group">
+                {{ form.datafile.label_tag }}
+                {{ form.datafile }}
             </div>
-        {% endif %}
-        <div class="form-group">
-            {{ form.datafile.label_tag }}
-            {{ form.datafile }}
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-default">Upload</button>
-        </div>
-    </form>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row dataset">
+        <table class="table table-bordered table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th>Entity Name</th>
+                    <th>Entity ID</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for record in dataset.records.all %}
+                <tr>
+                    <td>{{ record.cartogram_entity }}</td>
+                    <td>{{ record.cartogram_entity.entity_id }}</td>
+                    <td>{{ record.value }}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
 {% endblock content %}
