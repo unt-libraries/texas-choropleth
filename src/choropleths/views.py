@@ -66,8 +66,12 @@ class ChoroplethCreate(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super(ChoroplethCreate, self).get_context_data(**kwargs)
-        context['dataset'] = Dataset.objects.get(id=kwargs['pk'])
-        return context
+        dataset = Dataset.objects.get(id=kwargs['pk'])
+        if dataset.owner == self.request.user:
+            context['dataset'] = dataset
+            return context
+        else:
+            raise PermissionDenied()
 
 
 class ChoroplethAPI(viewsets.ModelViewSet):
