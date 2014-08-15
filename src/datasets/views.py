@@ -95,3 +95,9 @@ class DatasetCreate(generic.edit.CreateView):
 class DatasetAPIView(RetrieveAPIView):
     model = Dataset 
     serializer_class = DatasetSerializer
+
+
+class DatasetUpdate(generic.edit.UpdateView):
+    template_name = 'datasets/dataset_create.html'
+    model = Dataset
+    form_class = DatasetForm
