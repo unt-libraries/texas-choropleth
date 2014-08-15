@@ -122,13 +122,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 STATIC_URL = '/static/'
 
 PIPELINE_COMPILERS = (
-    'pipeline.compilers.sass.SASSCompiler',
+    'pipeline.compilers.less.LessCompiler',
 )
 
 PIPELINE_CSS = {
     'main': {
         'source_filenames': (
-            'css/main.scss',
+            'css/main.less',
         ),
         'output_filename': 'css/main.css',
     },        
