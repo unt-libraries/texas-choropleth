@@ -20,6 +20,7 @@
     "d3": "~3.4.11",
     "queue-async": "~1.0.7",
     "topojson": "~1.6.15",
-    "bootstrap": "~3.2.0"
+    "bootstrap": "~3.2.0",
+    "showdown": "~0.3.1"
   }
 }

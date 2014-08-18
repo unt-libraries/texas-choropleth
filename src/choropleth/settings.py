@@ -153,6 +153,7 @@ PIPELINE_JS = {
             'vendor/d3/d3.min.js',
             'vendor/topojson/topojson.js',
             'vendor/angularjs/angular.min.js',
+            'vendor/showdown/src/showdown.js'
         ),
         'output_filename': 'js/map-vendor.js',
     },
