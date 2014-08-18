@@ -9,22 +9,9 @@
 {% endblock head %}
 
 {% block content %}
-<div ng-app="d3MappApp" class="col-sm-12">
+<div ng-app="d3MappApp" class="col-sm-12" id="choropleth-wrapper">
     <div ng-controller="MappCtrl" ng-init="init({{ dataset.id }})">
-        {% csrf_token %}
-        <div class="form-group">
-            <div class="col-sm-6">
-                <input class="form-control" type="text" name="title" placeholder="Name" ng-model="choropleth.name">
-            </div>
-            <button class="btn btn-success pull-right" ng-click='submit()'><span class="glyphicon glyphicon-save"></span>&nbsp;Save</button>
-        </div>
-
-        {% include  'partials/choropleth.html' %}
-        
-        <div class="form-group">
-            <textarea class="form-control" ng-model="choropleth.description"></textarea>
-        </div>
-        {$ choropleth $}
+        {% include 'partials/choropleth_form.html' with create=True %}
     </div>
 
 {% endblock content %}

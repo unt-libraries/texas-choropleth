@@ -1,0 +1,50 @@
+<form>
+    {% csrf_token %}
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-6">
+               <label for="name" class="control-label">Name</label>
+                <input class="form-control"
+                       id="name"
+                       type="text"
+                       name="name"
+                       value="{{ choropleth.name }}"
+                       ng-model="choropleth.name">
+           </div>
+           <div class="col-sm-2">
+               <label for="published" class="control-label">Published</label>
+               <select class="form-control"
+                       name="published"
+                       ng-model="choropleth.published">
+                       <option value="0">No</option>
+                       <option value="1">Yes</option>
+               </select>
+           </div>
+           <div class="btn-group pull-right" id="submission-btns">
+               {% if not create %}
+
+                    <button class="btn btn-danger btn-sm" ng-click='delete()'>
+                        <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+                    </button>
+
+                {% endif %}
+                <button class="btn btn-success btn-sm" ng-click='submit()'>
+                    <span class="glyphicon glyphicon-save"></span>&nbsp;Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {% include  'partials/choropleth.html' with show_form=True %}
+
+    <markdown description="choropleth.description"></markdown>
+
+    <div class="form-group">
+        <label for="description" class="control-label">Description</label>
+        <textarea class="form-control choropleth-description"
+                  name="description"
+                  value="{{ choropleth.value }}"
+                  ng-model="choropleth.description">
+        </textarea>
+    </div>
+</form>
