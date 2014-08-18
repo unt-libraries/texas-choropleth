@@ -25,15 +25,24 @@ h1 {
     stroke-width: 1px;
 }
 
-#choropleth {
-    border: @bootstrap-grey solid 1px;
-    margin-bottom: .5em;
-    clear: both;
+#choropleth-wrapper {
+    #name {
+
+        margin-bottom: 1.7em;
+    }
+
+    #choropleth {
+        border: @gray-lighter solid 1px;
+        margin-bottom: .5em;
+        clear: both;
+
+        path:hover {
+            fill: @gray-lighter;
+        }
+    }
 }
 
-path:hover {
-    fill: orange;
-}
+
 
 .list {
     .item-description {
@@ -56,6 +65,8 @@ path:hover {
 }
 
 .dataset {
+    clear: both;
     height: 27em;
     overflow-y: scroll;
+    border: @gray-lighter solid 1px;
 }
