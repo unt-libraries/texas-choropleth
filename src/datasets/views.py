@@ -7,9 +7,6 @@ from .models import Dataset, DatasetDocument
 from .serializers import DatasetSerializer
 from .forms import DatasetUploadForm, DatasetForm
 
-class IndexView(generic.TemplateView):
-    template_name = 'datasets/index.html'
-
 
 class DatasetManagement(generic.ListView):
     template_name="datasets/dataset_management.html"
@@ -30,9 +27,9 @@ class DatasetDisplay(generic.DetailView):
     def get_object(self, **kwargs):
         dataset = super(DatasetDisplay, self).get_object(**kwargs)
         if dataset.owner != self.request.user:
-            raise PermissionDenied()
-        else:
-            return dataset
+            if not dataset.published:
+                raise PermissionDenied()
+        return dataset
 
 
 class DatasetUpload(generic.detail.SingleObjectMixin, generic.FormView):
