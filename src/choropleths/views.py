@@ -61,6 +61,18 @@ class ChoroplethView(DetailView):
         return choropleth
 
 
+class ChoroplethEdit(DetailView):
+    template_name = "choropleth/choropleth_edit.html"
+    model = Choropleth
+
+    def get_object(self, **kwargs):
+        choropleth = super(ChoroplethEdit, self).get_object(**kwargs)
+        if choropleth.owner != self.request.user:
+            if choropleth.published == 0:
+                raise PermissionDenied()
+        return choropleth
+
+
 class ChoroplethCreate(TemplateView):
     template_name = "choropleth/choropleth_create.html"
     
