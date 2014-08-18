@@ -9,7 +9,18 @@
 {% endblock head %}
 
 {% block content %}
-<h2>{{ choropleth.name }}</h2>
+<h2>{{ choropleth.name }}
+    <a class="pull-right" href>
+        <button class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit
+        </button>
+    </a>
+    <a class="pull-right" href="{% url "datasets:dataset-detail" choropleth.dataset_id %}">
+        <button class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-book"></span>&nbsp;Dataset
+        </button>
+    </a>
+</h2>
     <div ng-app="d3MappApp" class="col-sm-12">
         <form ng-controller="ViewController" ng-init="init({{ choropleth.id }})">
 
