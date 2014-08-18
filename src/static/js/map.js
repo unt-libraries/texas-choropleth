@@ -200,6 +200,22 @@ d3MappApp.controller('ViewController', function ViewController ($scope, $http, $
 
 });
 
+d3MappApp.controller('EditController', function EditController ($scope, $http, $controller) {
+    $controller('ViewController', {$scope: $scope});
+    var choroplethBaseUrl = "/choropleths/api/"; 
+    var datasetsBaseUrl = "/datasets/api/";
+
+    $scope.submit = function() {
+        console.log($scope.choropleth)
+        var url = choroplethBaseUrl + $scope.choropleth.id + "/";
+        $http.put(url, $scope.choropleth).success(function(data, status) {
+            // if (status == 201) {
+            //     window.location = "/choropleths/";
+        });
+    }
+
+});
+
 d3MappApp.controller('MappCtrl', function MappCtrl ($scope, $http, $controller) {
     $controller('AbstractController', {$scope: $scope});
     var datasetsBaseUrl = "/datasets/api/";
