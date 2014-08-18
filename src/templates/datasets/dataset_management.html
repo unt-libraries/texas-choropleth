@@ -21,7 +21,9 @@
                 <h3>
                     <a href="{% url 'datasets:dataset-detail' dataset.id %}">{{ dataset.name }}</a>
                 </h3>
-                <h5 class="col-sm-offset-1">{{ dataset.description }}</h5>
+                <div class="col-sm-offset-1">
+                    <h5 class="item-description">{{ dataset.description|truncatechars:250 }}</h5>
+                </div>
             </td>
             <td class="vcenter">
                 {% if dataset.choropleth %}
