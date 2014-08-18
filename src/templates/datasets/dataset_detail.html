@@ -9,13 +9,13 @@
         </a>
     </h1>
     <p>{{ dataset.description }}</p>
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal col-sm-7">
         <dt>Document Name</dt><dd>{{ dataset.document }}</dd>
         <dt>Cartogram</dt><dd>{{ dataset.cartogram.name}}</dd>
         <dt>Published</dt><dd>{{ dataset.get_published_display }}</dd>
         <dt>License</dt><dd>{{ dataset.get_license_display }}
     </dl>
-    <div class="well col-sm-6">
+    <div class="well col-sm-5">
         <form method="post" enctype="multipart/form-data" class="form-horizontal">
             {% csrf_token %}
             {% if form.errors %}
@@ -29,8 +29,8 @@
                 {{ form.datafile.label_tag }}
                 {{ form.datafile }}
             </div>
-            <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-upload"></span>&nbsp;Upload</button>
+            <div class="form-group">
             </div>
         </form>
     </div>
