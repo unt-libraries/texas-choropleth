@@ -40,13 +40,22 @@ h1 {
             fill: @gray-lighter;
         }
     }
+
+    .choropleth-description {
+        height: 20em;
+    }
+
+    #submission-btns {
+        margin-top: 1.9em;
+    }
 }
 
 
 
 .list {
     .item-description {
-        color: grey;
+        .text-muted;
+        font-size: @font-size-base + 3;
     }
 
     cartogram-label {
@@ -69,4 +78,23 @@ h1 {
     height: 27em;
     overflow-y: scroll;
     border: @gray-lighter solid 1px;
+}
+
+.dataset-message {
+    padding-top: (27em / 2) - 1;
+    display:block;
+    width: 100%;
+    clear: both;
+    text-align: center;
+    vertical-align: middle;
+
+    .text-muted
+}
+
+.label-cartogram {
+    .label-default;
+    border-radius: 0px;
+    font-weight: lighter;
+    font-size: 65%;
+    padding: .1em .6em .2em;
 }
