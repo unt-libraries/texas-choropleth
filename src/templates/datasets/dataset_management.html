@@ -18,29 +18,29 @@
 
         <tr>
             <td>
-                <h3>
+                <h4>
                     <a href="{% url 'datasets:dataset-detail' dataset.id %}">{{ dataset.name }}</a>
-                </h3>
+                    <span class="label label-cartogram">{{ dataset.cartogram }}</span>
+                </h4>
                 <div class="col-sm-offset-1">
+                    <h5 class="text-muted">Updated {{ dataset.modified_at|timesince }} ago</h5>
                     <h5 class="item-description">{{ dataset.description|truncatechars:250 }}</h5>
                 </div>
             </td>
             <td class="vcenter">
                 {% if dataset.choropleth %}
 
-                    <a class="else" href="{% url "choropleths:choropleth-view" dataset.choropleth.id %}">
+                    <a class="else" href="{% url 'choropleths:choropleth-view' dataset.choropleth.id %}">
                         <button class="btn btn-primary btn-sm">
-                            <span class="glyphicon glyphicon-eye-open"></span>
-                            Choropleth
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;Choropleth
                         </button>
                     </a>
 
                 {% else %}
 
-                    <a href="{% url "choropleths:choropleth-create" dataset.id %}">
+                    <a href="{% url 'choropleths:choropleth-create' dataset.id %}">
                         <button class="btn btn-success btn-sm">
-                            <span class="glyphicon glyphicon-eye-open"></span>
-                            Create Choropleth
+                            <span class="glyphicon glyphicon-plus"></span>&nbsp;Create Choropleth
                         </button>
                     </a>
 
