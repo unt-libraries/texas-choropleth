@@ -1,0 +1,39 @@
+{% extends "_layout.html" %}
+{% load compressed %}
+{% block page_title %}Choropleth{% endblock page_title %}
+
+{% block head %}
+{% compressed_js 'map-vendor' %}
+{% compressed_js 'map' %}
+{% compressed_css 'colorbrewer' %}
+{% endblock head %}
+
+{% block content %}
+
+<div ng-app="d3MappApp" class="col-sm-12" id="choropleth-wrapper">
+    <div ng-controller="EditController" ng-init="init({{ choropleth.id }})">
+        {% csrf_token %}
+        <input type="hidden" id="target" data-target="{% url "choropleths:api-get-put" choropleth.id %}">
+        <div class="form-group">
+            <div class="col-sm-6">
+                <input class="form-control"
+                       id="name"
+                       type="text"
+                       name="title"
+                       value="{{ choropleth.name }}"
+                       ng-model="choropleth.name">
+                <button class="btn btn-success pull-right" ng-click='submit()'>
+                    <span class="glyphicon glyphicon-save"></span>&nbsp;Save
+                </button>
+            </div>
+        </div>
+
+        {% include  'partials/choropleth.html' %}
+        
+        <div class="form-group">
+            <textarea class="form-control" value="{{ choropleth.value }}"ng-model="choropleth.description"></textarea>
+        </div>
+        {$ choropleth $}
+    </div>
+
+{% endblock content %}
