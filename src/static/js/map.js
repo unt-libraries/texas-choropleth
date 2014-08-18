@@ -39,7 +39,7 @@ d3MappApp.directive('choropleth', function($window) {
 
             // Scaling function
             var quantize = d3.scale.quantize()
-                .domain([scope.domain.startPoint, scope.domain.endPoint])
+                .domain([scope.domain.min, scope.domain.max])
                 .range(d3.range(scope.range).map(function(i) { return "q" + i + "-" + scope.range; }));
 
             // Draw the initial SVG
@@ -65,7 +65,7 @@ d3MappApp.directive('choropleth', function($window) {
 
             function updateDomainAndRange(newDomain) {
                 quantize = d3.scale.quantize()
-                    .domain([scope.domain.startPoint, scope.domain.endPoint])
+                    .domain([scope.domain.min, scope.domain.max])
                     .range(d3.range(scope.range).map(function(i) { return "q" + i + "-" + scope.range; }));
 
                 updateData(scope.data);
@@ -139,9 +139,25 @@ d3MappApp.directive('choropleth', function($window) {
     }
 });
 
+d3MappApp.directive('markdown', function($window) {
+    var converter = new $window.Showdown.converter();
+    return {
+        restrict: 'E',
+        scope: {
+            description: '='
+        },
+        link: function(scope, element, attrs) {
+            scope.$watch('description', function(description) { 
+                var htmlText = converter.makeHtml(description);
+                element.html(htmlText)
+            })
+        }
+    }
+});
+
 d3MappApp.controller('AbstractController', function AbstractController ($scope, $http) {
 
-    $scope.domain = {startPoint: 0, endPoint: .15};
+    $scope.domain = {min: 0, max: .15};
         $scope.rangeOptions = [3, 4, 5, 6, 7, 8, 9];
         $scope.schemes = [
             {name: "Sequential", id: 1},
@@ -166,6 +182,7 @@ d3MappApp.controller('AbstractController', function AbstractController ($scope, 
             });
         }
     }
+
 })
 
 d3MappApp.controller('ViewController', function ViewController ($scope, $http, $controller) {
@@ -188,6 +205,7 @@ d3MappApp.controller('ViewController', function ViewController ($scope, $http, $
             $http.get(url).success(function(data, status, headers, config) {
                 $scope.dataset = data;
                 $scope.hasData = true;
+                $scope.getSchemePalettes($scope.choropleth.scheme)
             }).
             error(function(data, status, headers, config) {
                 console.log(data);
@@ -196,6 +214,7 @@ d3MappApp.controller('ViewController', function ViewController ($scope, $http, $
         error(function(data, status, headers, config) {
             console.log(data);
         });
+
     };
 
 });
@@ -209,9 +228,23 @@ d3MappApp.controller('EditController', function EditController ($scope, $http, $
         console.log($scope.choropleth)
         var url = choroplethBaseUrl + $scope.choropleth.id + "/";
         $http.put(url, $scope.choropleth).success(function(data, status) {
-            // if (status == 201) {
-            //     window.location = "/choropleths/";
+            if (status == 200) {
+                window.location = "/choropleths/";
+            }
         });
+    }
+
+    $scope.delete = function() {
+        console.log($scope.choropleth)
+        var url = choroplethBaseUrl + $scope.choropleth.id + "/";
+        if (confirm("Are you sure you want to delete this choropleth?")) {
+            $http.delete(url).success(function(data, status) {
+                console.log(status)
+                if (status == 204) {
+                    window.location = "/choropleths/";
+                }
+            });
+        }
     }
 
 });
