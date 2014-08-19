@@ -46,6 +46,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
     license = models.CharField(
         max_length=8,
         choices=LICENSE_CHOICES,
+        blank=True,
         null=True
     ) 
     cartogram = models.ForeignKey(
