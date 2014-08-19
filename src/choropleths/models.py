@@ -2,13 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from datasets.models import Dataset, PublishedMixin
 
-# Create your models here.
+
 class AbstractModel(models.Model):
     status = models.BooleanField(default=False)
     name = models.CharField(max_length=96)
 
     class Meta:
         abstract= True
+
 
 class SchemeMixin(models.Model):
     SCHEME_CHOICES = (
