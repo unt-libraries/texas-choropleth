@@ -1,4 +1,4 @@
-var d3MappApp = angular.module('d3MappApp', []);
+var d3MappApp = angular.module('d3MappApp', ['ngResource']);
 
 d3MappApp.config(function($interpolateProvider, $httpProvider) {
     $interpolateProvider.startSymbol('{$');
@@ -139,6 +139,22 @@ d3MappApp.directive('choropleth', function($window) {
     }
 });
 
+d3MappApp.factory('Choropleth', function($resource) {
+    return $resource('/choropleths/api/:id/ ', { id: '@id' }, {
+        update: {
+            method: 'PUT'
+        }
+    });
+});
+
+d3MappApp.factory('Dataset', function($resource) {
+    return $resource('/datasets/api/:id/ ');
+});
+
+d3MappApp.factory('Palettes', function($resource) {
+    return $resource('/choropleths/api/palettes/:id/ ');
+});
+
 d3MappApp.directive('markdown', function($window) {
     var converter = new $window.Showdown.converter();
     return {
@@ -147,15 +163,17 @@ d3MappApp.directive('markdown', function($window) {
             description: '='
         },
         link: function(scope, element, attrs) {
-            scope.$watch('description', function(description) { 
-                var htmlText = converter.makeHtml(description);
-                element.html(htmlText)
+            scope.$watch('description', function(newDescription, oldDescription) { 
+                if (newDescription) {
+                    var htmlText = converter.makeHtml(newDescription);
+                    element.html(htmlText)
+                }
             })
         }
     }
 });
 
-d3MappApp.controller('AbstractController', function AbstractController ($scope, $http) {
+d3MappApp.controller('AbstractController', function AbstractController ($scope, $http, Palettes) {
 
     $scope.tab = 1;
 
@@ -168,128 +186,80 @@ d3MappApp.controller('AbstractController', function AbstractController ($scope, 
         ];
 
     $scope.getSchemePalettes = function(id) {
-        var palettes = "/choropleths/api/palettes/" + id + "/";
-        $http.get(palettes).success(function(data, status, headers, config) {
-            $scope.palettes = data
-            $scope.findPalette($scope.choropleth.palette)
+        Palettes.query({id: id}, function(data) {
+            $scope.palettes = data;
+            $scope.findPalette($scope.choropleth.palette);
         })
-    }
+    };
 
     $scope.findPalette = function(id) {
         if (0 < $scope.palettes.length) {
             $scope.palettes.forEach(function (value, index, array) {
                 if (value.id == id) {
                     $scope.palette = value;
-                }
+                };
             });
-        }
-    }
-
-})
-
-d3MappApp.controller('ViewController', function ViewController ($scope, $http, $controller) {
-    $controller('AbstractController', {$scope: $scope});
-    var choroplethBaseUrl = "/choropleths/api/"; 
-    var datasetsBaseUrl = "/datasets/api/";
-
-    $scope.init = function(id) {
-        var url = choroplethBaseUrl + "" + id + "/";
-        $http.get(url).success(function(data, status, headers, config) {
-            $scope.choropleth = data;
-            
-            // Set the saved palette
-            $scope.palette = {}
-            $scope.palette.class_name = data.palette
-
-            datasetID = data.dataset;
-
-            var url = datasetsBaseUrl + datasetID + "/";
-            $http.get(url).success(function(data, status, headers, config) {
-                $scope.dataset = data;
-                $scope.hasData = true;
-                $scope.getSchemePalettes($scope.choropleth.scheme)
-            }).
-            error(function(data, status, headers, config) {
-                console.log(data);
-            });
-        }).
-        error(function(data, status, headers, config) {
-            console.log(data);
-        });
-
+        };
     };
 });
 
-d3MappApp.controller('EditController', function EditController ($scope, $http, $controller) {
+d3MappApp.controller('ViewController', function ViewController ($scope, $controller, Choropleth, Dataset, Palettes ) {
+    $controller('AbstractController', {$scope: $scope});
+
+    $scope.init = function(id) {
+        Choropleth.get({id: id}, function (data) {
+            $scope.choropleth = data;
+            
+            Dataset.get({id: data.dataset}, function(data) {
+                $scope.dataset = data;
+                $scope.hasData = true;
+            });
+
+            Palettes.query({id: data.scheme}, function (data) {
+                $scope.palettes = data;
+                $scope.findPalette($scope.choropleth.palette);
+            });
+        });
+    };
+});
+
+d3MappApp.controller('EditController', function EditController ($scope, $controller, Choropleth, Dataset, Palettes) {
     $controller('ViewController', {$scope: $scope});
-    var choroplethBaseUrl = "/choropleths/api/"; 
-    var datasetsBaseUrl = "/datasets/api/";
 
     $scope.submit = function() {
-        console.log($scope.choropleth)
-        var url = choroplethBaseUrl + $scope.choropleth.id + "/";
-        $http.put(url, $scope.choropleth).success(function(data, status) {
-            if (status == 200) {
-                window.location = "/choropleths/";
-            }
-        });
-    }
+        $scope.choropleth.$update();
+    };
 
     $scope.delete = function() {
-        console.log($scope.choropleth)
-        var url = choroplethBaseUrl + $scope.choropleth.id + "/";
         if (confirm("Are you sure you want to delete this choropleth?")) {
-            $http.delete(url).success(function(data, status) {
-                console.log(status)
-                if (status == 204) {
-                    window.location = "/choropleths/";
-                }
-            });
-        }
-    }
+            $scope.choropleth.$delete();
+        };
+    };
 
 });
 
-d3MappApp.controller('MappCtrl', function MappCtrl ($scope, $http, $controller) {
+d3MappApp.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, Dataset, Palettes) {
     $controller('AbstractController', {$scope: $scope});
     var datasetsBaseUrl = "/datasets/api/";
     $scope.hasData = false;
 
     $scope.init = function(id) {
-        var choropleth = {
-            name: "",
-            description: "",
-            published: 0,
-            scheme: 1,
-            palette: 1,
-            data_classes: 9,
-            dataset: id,
-            owner: 1
-        }
+        $scope.choropleth = new Choropleth()
 
-        var url = datasetsBaseUrl + id + "/";
-
-        $http.get(url).success(function(data, status, headers, config) {
-            $scope.choropleth = choropleth
-            $scope.dataset = data
-            $scope.choropleth.name = data.name
+        Dataset.get({id: id}, function(data) {
+            $scope.dataset = data;
+            $scope.choropleth.dataset = data.id;
+            $scope.choropleth.name = data.name;
             $scope.hasData = true;
-            var palettes = "/choropleths/api/palettes/" + choropleth.scheme + "/";
-            $http.get(palettes).success(function(data, status, headers, config) {
-                $scope.palettes = data
-            })
-        }).
-        error(function(data, status, headers, config) {
-            console.log(data);
+        });
+
+        Palettes.query({id: 1}, function(data) {
+            $scope.palettes = data;
         });
     };
 
     $scope.submit = function() {
-        $http.post("/choropleths/api/", $scope.choropleth).success(function(data, status) {
-            if (status == 201) {
-                window.location = "/choropleths/";
-            }
-        });
+        $scope.choropleth.$save();
     };
 });
 
