@@ -20,7 +20,6 @@
             <td>
                 <h4>
                     <a href="{% url 'datasets:dataset-detail' dataset.id %}">{{ dataset.name }}</a>
-                    <span class="label label-cartogram">{{ dataset.cartogram }}</span>
                 </h4>
                 <div class="col-sm-offset-1">
                     <h5 class="text-muted">Updated {{ dataset.modified_at|timesince }} ago</h5>
