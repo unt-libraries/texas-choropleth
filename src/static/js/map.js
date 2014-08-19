@@ -157,6 +157,8 @@ d3MappApp.directive('markdown', function($window) {
 
 d3MappApp.controller('AbstractController', function AbstractController ($scope, $http) {
 
+    $scope.tab = 1;
+
     $scope.domain = {min: 0, max: .15};
         $scope.rangeOptions = [3, 4, 5, 6, 7, 8, 9];
         $scope.schemes = [
@@ -216,7 +218,6 @@ d3MappApp.controller('ViewController', function ViewController ($scope, $http, $
         });
 
     };
-
 });
 
 d3MappApp.controller('EditController', function EditController ($scope, $http, $controller) {
@@ -271,6 +272,7 @@ d3MappApp.controller('MappCtrl', function MappCtrl ($scope, $http, $controller) 
         $http.get(url).success(function(data, status, headers, config) {
             $scope.choropleth = choropleth
             $scope.dataset = data
+            $scope.choropleth.name = data.name
             $scope.hasData = true;
             var palettes = "/choropleths/api/palettes/" + choropleth.scheme + "/";
             $http.get(palettes).success(function(data, status, headers, config) {
