@@ -10,23 +10,31 @@
     {% if show_form %}
 
     <div class="panel panel-default row">
-        <div class="panel-heading">Map Controls</div>
-            <div class="panel-body text-center">
+        <div class="panel-heading">
+            <a data-toggle="collapse" data-target="#control-body"><span class="glyphicon glyphicon-cog"></span>&nbsp;Map Controls</a>
+        </div>
+            <div id="control-body" class="panel-body text-center collapse">
                 <div class="col-xs-4">
+                    <label for="range" class="control-label">Range</label>
                     <select class="form-control"
+                        name="range"
                         ng-model="choropleth.data_classes"
                         ng-options="n for n in rangeOptions">
                     </select>
                 </div>
                 <div class="col-xs-4">
+                    <label for="scheme" class="control-label">Scheme</label>
                     <select class="form-control"
+                        name="scheme"
                         ng-model="choropleth.scheme"
                         ng-change="getSchemePalettes(choropleth.scheme)"
                         ng-options="scheme.id as scheme.name for scheme in schemes">
                     </select>
                 </div>
                 <div class="col-xs-4">
+                    <label for="palette" class="control-label">Palette</label>
                     <select class="form-control"
+                        name="palette"
                         ng-model="choropleth.palette"
                         ng-change="findPalette(choropleth.palette)"
                         ng-options="palette.id as palette.name for palette in palettes">
