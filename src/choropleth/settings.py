@@ -27,6 +27,7 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 LOGIN_URL = '/login/'
+
 LOGIN_REDIRECT_URL = '/datasets/'
 
 # Application definition
@@ -44,6 +45,7 @@ THIRD_PARTY_APPS = (
     'south',
     'pipeline',
     'rest_framework',
+    'markdown_deux',
 )
 
 LOCAL_APPS = (
@@ -152,7 +154,8 @@ PIPELINE_JS = {
             'vendor/queue-async/queue.min.js',
             'vendor/d3/d3.min.js',
             'vendor/topojson/topojson.js',
-            'vendor/angularjs/angular.min.js',
+            'vendor/angular/angular.min.js',
+            'vendor/angular-resource/angular-resource.min.js',
             'vendor/showdown/src/showdown.js'
         ),
         'output_filename': 'js/map-vendor.js',
