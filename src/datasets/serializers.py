@@ -18,7 +18,7 @@ class DatasetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Dataset
-        fields = ('id','cartogram', 'domain', 'records')
+        fields = ('id', 'name', 'cartogram', 'domain', 'records')
 
     def get_domain(self, obj):
         return {'min': obj.get_min_record(), 'max': obj.get_max_record()}
