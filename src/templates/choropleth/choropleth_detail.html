@@ -1,16 +1,38 @@
 {% extends "_layout.html" %}
+{% load compressed %}
 {% block page_title %}{{ choropleth.name }}{% endblock page_title %}
 
+{% block head %}
+{% compressed_js 'map-vendor' %}
+{% compressed_js 'map' %}
+{% endblock head %}
+
 {% block content %}
-<h2>{{ choropleth.name }}</h2>
-    <ul>
-        <li>Description: {{ choropleth.description }}</li>
-        <li>Document Name: {{ choropleth.document }}</li>
-        <li>Cartogram Association: {{ choropleth.cartogram.name}}</li>
-        <li>Scheme: {{ choropleth.scheme }}</li>
-        <li>Published: {{ choropleth.get_published_display }}</li>
-    </ul>
+    <h1>{{ choropleth.name }}</h1>
+    <hr>
+    <div class="row">
+        <dl class="dl-horizontal col-sm-5">
+            <dt>Dataset</dt><dd>{{ choropleth.dataset }}</dd>
+            <dt>Cartogram</dt><dd>{{ choropleth.dataset.cartogram.name}}</dd>
+            <dt>Published</dt><dd>{{ choropleth.get_published_display }}</dd>
+            <dt>Scheme</dt><dd>{{ choropleth.scheme }}</dd>
+            <dt>Palette</dt><dd>{{ choropleth.palette }}</dd>
+            <dt>Data Classes</dt><dd>{{ choropleth.data_classes }}</dd>
+            <dt>Owner</dt><dd>{{ choropleth.owner }}</dd>
+        </dl>
+        <div class="panel col-sm-7">
+            {{ choropleth.dataset.description }}
+        </div>
+    </div>
+    <div class="row panel panel-default" ng-app="d3MappApp">
+        <div class="panel-heading">Description</div>
+        <div class="panel-body">
+            <markdown>{{ choropleth.description }}</markdown>
+        </div>
+    </div>
     <a href="{% url 'choropleths:choropleth-view' choropleth.pk %}">
         <button class="btn btn-default">View</button>
     </a>
+    
+
 {% endblock content %}
