@@ -44,6 +44,9 @@
         <li ng-class="{active: tab == 2}">
             <a ng-click="tab = 2" href="#description">Preview</a>
         </li>
+        <li ng-class="{active: tab == 3}">
+            <a ng-click="tab = 3" href="#description">Markdown Cheatsheet</a>
+        </li>
     </ul>
     <div id="md" class="tab-member" ng-show="tab == 2">
         <markdown description="choropleth.description"></markdown>
@@ -54,5 +57,10 @@
                   value="{{ choropleth.value }}"
                   ng-model="choropleth.description">
         </textarea>
+    </div>
+    <div class="tab-member" ng-show="tab == 3">
+        <markdown>
+            {% include 'partials/markdown-cheatsheet.md' %}
+        </markdown>
     </div>
 </form>
