@@ -20,18 +20,18 @@
         <tr>
             <td>
                 <h4>
-                    <a href="{% url 'choropleths:choropleth-detail' choropleth.id %}">
+                    <a href="{% url 'choropleths:choropleth-view' choropleth.id %}">
                         {{ choropleth.name }}
                     </a>
                 </h4>
                 <div class="col-sm-offset-1">
                     <h5 class="text-muted">Updated {{ choropleth.modified_at|timesince }} ago</h5>
-                    <h5 class="item-description">{{ choropleth.dataset.description|truncatechars:250 }} </h5>
+                    <h5 class="item-description">{{ choropleth.dataset.description|truncatechars:140 }} </h5>
                 </div>
             </td>
             <td class="vcenter">
-                <a href="{% url 'choropleths:choropleth-view' choropleth.id %}">
-                    <button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span> View</button>
+                <a href="{% url 'choropleths:choropleth-detail' choropleth.id %}">
+                    <button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-file"></span>&nbsp;Detail</button>
                 </a>
             </td>
         </tr>
