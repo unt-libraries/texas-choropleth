@@ -45,7 +45,8 @@ class ChoroplethDetail(DetailView):
     def get_object(self, **kwargs):
         choropleth = super(ChoroplethDetail, self).get_object(**kwargs)
         if choropleth.owner != self.request.user:
-            raise PermissionDenied()
+            if choropleth.published == 0:
+                raise PermissionDenied()
         return choropleth
     
 
