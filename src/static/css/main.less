@@ -7,13 +7,14 @@
 @border-radius-small: 0px;
 
 @bootstrap-grey: #e7e7e7;
+@nav-color: #FFF;
 
 
 html {
 }
 
 .navbar-default {
-    background-color: #FFF;
+    background-color: @nav-color;
 }
 
 h1 {
@@ -87,10 +88,8 @@ h1 {
 }
 
 .dataset {
-    clear: both;
     height: 27em;
     overflow-y: scroll;
-    border: @gray-lighter solid 1px;
 }
 
 .dataset-message {
@@ -110,4 +109,14 @@ h1 {
     font-weight: lighter;
     font-size: 65%;
     padding: .1em .6em .2em;
+}
+
+#datafile-form {
+    input#id_datafile {
+        width: 14em;
+    }
+
+    button {
+        margin-top: 1.5em;
+    }
 }
