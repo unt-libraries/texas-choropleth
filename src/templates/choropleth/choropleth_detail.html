@@ -10,7 +10,7 @@
 {% block content %}
     <h1>{{ choropleth.name }}</h1>
     <hr>
-    <div class="row">
+    <section class="row">
         <dl class="dl-horizontal col-sm-5">
             <dt>Dataset</dt><dd>{{ choropleth.dataset }}</dd>
             <dt>Cartogram</dt><dd>{{ choropleth.dataset.cartogram.name}}</dd>
@@ -20,16 +20,25 @@
             <dt>Data Classes</dt><dd>{{ choropleth.data_classes }}</dd>
             <dt>Owner</dt><dd>{{ choropleth.owner }}</dd>
         </dl>
-        <div class="panel col-sm-7">
-            {{ choropleth.dataset.description }}
+        <div class="col-sm-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">Dataset Description</div>
+                <div class="panel-body">
+                    {{ choropleth.dataset.description }}
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row panel panel-default" ng-app="d3MappApp">
-        <div class="panel-heading">Description</div>
-        <div class="panel-body">
-            <markdown>{{ choropleth.description }}</markdown>
+    </section>
+    <section class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default" ng-app="d3MappApp">
+                <div class="panel-heading">Description</div>
+                <div class="panel-body">
+                    <markdown>{{ choropleth.description }}</markdown>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
     <a href="{% url 'choropleths:choropleth-view' choropleth.pk %}">
         <button class="btn btn-default">View</button>
     </a>
