@@ -2,46 +2,64 @@
 {% block page_title %}Dataset Management{% endblock page_title %}
 
 {% block content %}
-    <h1>
-        {{ dataset.name }}
+    <div id="page-header" class="row">
+        <h1>
+            {{ dataset.name }}
+
+            {% if dataset.owner.id == user.id %}
+                <div class="pull-right control-btns">
+                    <a href="{% url 'csv-template' dataset.cartogram.id %}">
+                        <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
+                    </a>
+                    <a href="{% url 'datasets:dataset-update' dataset.id %}">
+                        <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
+                    </a>
+                </div>
+            {% endif %}
+
+        </h1>
+    </div>
+    <hr>
+    <div class="row">
+        <p>{{ dataset.description }}</p>
+        <dl class="dl-horizontal col-sm-7">
+            <dt>Document Name</dt><dd>{{ dataset.document }}</dd>
+            <dt>Cartogram</dt><dd>{{ dataset.cartogram.name}}</dd>
+            <dt>Published</dt><dd>{{ dataset.get_published_display }}</dd>
+            <dt>License</dt><dd>{{ dataset.get_license_display }}
+        </dl>
         {% if dataset.owner.id == user.id %}
-            <a class="pull-right" href="{% url 'datasets:dataset-update' dataset.id %}">
-                <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit </button>
-            </a>
-        {% endif %}
-    </h1>
-    <p>{{ dataset.description }}</p>
-    <dl class="dl-horizontal col-sm-7">
-        <dt>Document Name</dt><dd>{{ dataset.document }}</dd>
-        <dt>Cartogram</dt><dd>{{ dataset.cartogram.name}}</dd>
-        <dt>Published</dt><dd>{{ dataset.get_published_display }}</dd>
-        <dt>License</dt><dd>{{ dataset.get_license_display }}
-    </dl>
-    {% if dataset.owner.id == user.id %}
-        <div class="well col-sm-5">
-            <form method="post" enctype="multipart/form-data" class="form-horizontal">
-                {% csrf_token %}
-                {% if form.errors %}
+            <div id="datafile-form" class="well col-sm-5">
+                <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        <div class="form-group">
+                            <div class="col-sm-4 alert alert-danger">
+                                {{ form.errors.datafile }}
+                            </div>
+                        </div>
+                    {% endif %}
                     <div class="form-group">
-                        <div class="col-sm-4 alert alert-danger">
-                            {{ form.errors.datafile }}
+                        <div class="col-sm-8">
+                        {{ form.datafile.label_tag }}
+                        {{ form.datafile }}
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-upload"></span>&nbsp;Upload</button>
                         </div>
                     </div>
-                {% endif %}
-                <div class="form-group">
-                    {{ form.datafile.label_tag }}
-                    {{ form.datafile }}
-                </div>
-                    <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-upload"></span>&nbsp;Upload</button>
-                <div class="form-group">
-                </div>
-            </form>
-        </div>
-    {% endif %}
-
+                    <div class="form-group">
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+    
     {% if dataset.records.exists %}
 
-        <div class="row dataset">
+    <div class="panel panel-default">
+        <div class="panel-heading">Records</div>
+        <div class="panel-body dataset">
             <table class="table table-condensed table-striped">
                 <thead>
                     <tr>
@@ -63,6 +81,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
     
     {% else %}
 
@@ -71,4 +90,5 @@
         </div>
 
     {% endif %}
+
 {% endblock content %}
