@@ -11,16 +11,20 @@
 {% block content %}
 <h2>{{ choropleth.name }}
     <div class="btn-group pull-right">
+        {% if choropleth.owner.id == user.id %}
         <a  href="{% url 'choropleths:choropleth-edit' choropleth.id %}">
             <button class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit
             </button>
         </a>
+        {% endif %}
+        {% if choropleth.dataset.published %}
         <a  href="{% url 'datasets:dataset-detail' choropleth.dataset_id %}">
             <button class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-book"></span>&nbsp;Dataset
             </button>
         </a>
+        {% endif %}
     </div>
 </h2>
     <div ng-app="d3MappApp" class="col-sm-12" id="choropleth-wrapper">
