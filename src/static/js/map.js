@@ -163,10 +163,20 @@ d3MappApp.directive('markdown', function($window) {
             description: '='
         },
         link: function(scope, element, attrs) {
-            scope.$watch('description', function(newDescription, oldDescription) { 
-                if (newDescription) {
-                    var htmlText = converter.makeHtml(newDescription);
-                    element.html(htmlText)
+            function markdownify(html) {
+                var htmlText = converter.makeHtml(html);
+                element.html(htmlText);
+            }
+
+            // For static viewing
+            if (!scope.description) {
+                markdownify(element.text());
+            }
+
+            // For live editing
+            scope.$watch('description', function(newVal, oldVal) { 
+                if (newVal) {
+                    markdownify(newVal);
                 }
             })
         }
@@ -176,6 +186,10 @@ d3MappApp.directive('markdown', function($window) {
 d3MappApp.controller('AbstractController', function AbstractController ($scope, $http, Palettes) {
 
     $scope.tab = 1;
+
+    $scope._success = function() {
+        window.location = "/choropleths/";
+    }
 
     $scope.domain = {min: 0, max: .15};
         $scope.rangeOptions = [3, 4, 5, 6, 7, 8, 9];
@@ -227,12 +241,12 @@ d3MappApp.controller('EditController', function EditController ($scope, $control
     $controller('ViewController', {$scope: $scope});
 
     $scope.submit = function() {
-        $scope.choropleth.$update();
+        $scope.choropleth.$update($scope._success);
     };
 
     $scope.delete = function() {
         if (confirm("Are you sure you want to delete this choropleth?")) {
-            $scope.choropleth.$delete();
+            $scope.choropleth.$delete($scope._success);
         };
     };
 
@@ -259,7 +273,7 @@ d3MappApp.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropl
     };
 
     $scope.submit = function() {
-        $scope.choropleth.$save();
+        $scope.choropleth.$save($scope._success);
     };
 });
 
