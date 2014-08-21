@@ -10,10 +10,18 @@ class DatasetUploadForm(forms.ModelForm):
         }
 
 class DatasetForm(forms.ModelForm):
+
+    # Change the label of the published field.
+    # This will change back in later versions
+    def __init__(self, *args, **kwargs):
+        super(DatasetForm, self).__init__(*args, **kwargs)
+        self.fields['published'].label = 'Shared'
+
     class Meta:
         model = Dataset
         fields = ['name', 'description', 'published', 'license']
 
+        # Add Bootstrap form classes to the widgets
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),

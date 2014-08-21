@@ -24,8 +24,8 @@ class AbstractNameModel(AbstractModel):
 
 class PublishedMixin(models.Model):
     PUBLISH_CHOICES = (
-        (0, 'Not Published'),
-        (1, 'Published'),
+        (0, 'No'),
+        (1, 'Yes'),
         # (2, 'Secret'), # Implemented in a later version
     )
     published = models.IntegerField(
