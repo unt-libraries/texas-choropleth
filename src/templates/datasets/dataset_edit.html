@@ -9,53 +9,51 @@
         <h1>New Dataset</h1>
     {% endif %}
 
-    <form method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
-        {% csrf_token %}
-        {% if form.errors %}
-            <div class="form-group">
-                <div class="col-sm-4 alert alert-danger">
-                    {{ form.errors.datafile }}
+    <div class="row">
+        <div class="col-sm-11 col-sm-offset-1">
+            <form method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div class="form-group">
+                        <div class="col-sm-4 alert alert-danger">
+                            {{ form.errors.datafile }}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label for={{form.name.name}} class="control-label">{{form.name.label}}</label>
+                        {{ form.name }}
+                    </div>
                 </div>
-            </div>
-        {% endif %}
-        <div class="form-group">
-            <div class="col-lg-2">
-                {{ form.name.label_tag }}
-            </div>
-            <div class="col-lg-4">
-                {{ form.name }}
-            </div>
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <label for={{form.description.name}} class="control-label">{{form.description.label}}&nbsp;</label>
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        {{ form.description }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label for={{form.published.name}} class="control-label">{{form.published.label}}&nbsp;</label>
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        {{ form.published }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label for={{form.license.name}} class="control-label">{{form.license.label}}</label>
+                        {{ form.license }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-1">
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <div class="col-lg-2">
-                {{ form.description.label_tag }}
-            </div>
-            <div class="col-lg-6">
-                {{ form.description }}
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-lg-2">
-                {{ form.published.label_tag }}
-            </div>
-            <div class="col-lg-4">
-                {{ form.published }}
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-lg-2"> 
-                {{ form.license.label_tag }}
-            </div>
-            <div class="col-lg-4">
-                {{ form.license }}
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-lg-1">
-                <button type="submit" class="btn btn-default">Submit</button>
-            </div>
-        </div>
-        <div>
-    </form>
-        
+    </div>
+ 
 {% endblock content %}
+
