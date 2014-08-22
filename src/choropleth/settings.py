@@ -149,20 +149,26 @@ PIPELINE_JS = {
         ),
         'output_filename': 'js/map.js',
     },
+    'app': {
+        'source_filenames': (
+            'js/app.js',
+        ),
+        'output_filename': 'js/app.js',
+    },
     'map-vendor': {
         'source_filenames': (
             'vendor/queue-async/queue.min.js',
             'vendor/d3/d3.min.js',
             'vendor/d3-tip/index.js',
             'vendor/topojson/topojson.js',
-            'vendor/angular/angular.min.js',
-            'vendor/angular-resource/angular-resource.min.js',
             'vendor/showdown/src/showdown.js'
         ),
         'output_filename': 'js/map-vendor.js',
     },
     'vendor': {
         'source_filenames': (
+            'vendor/angular/angular.min.js',
+            'vendor/angular-resource/angular-resource.min.js',
             'vendor/jquery/dist/jquery.min.js',
             'vendor/bootstrap/dist/js/bootstrap.min.js',
         ),
