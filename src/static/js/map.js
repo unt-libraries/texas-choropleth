@@ -42,7 +42,13 @@ d3MappApp.directive('choropleth', function($window) {
                 .domain([scope.domain.min, scope.domain.max])
                 .range(d3.range(scope.range).map(function(i) { return "q" + i + "-" + scope.range; }));
 
-            var tip = d3.tip().attr('class', 'd3-tip').html(function(d, i) {return "<span>"+ d.properties.countyName + ": " + rateById.get(d.properties.countyCode) + "</span>"});
+            var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .html(function(d, i) {
+                    return "<span><strong>FIPS</strong>: " + d.properties.countyCode + "</span><br>"
+                    + "<span><strong>Name</strong>: "+ d.properties.countyName + "</span><br> "
+                    + "<span><strong>Value</strong>: " + rateById.get(d.properties.countyCode) + "</span>"
+                });
 
             // Draw the initial SVG
             var svg = d3.select(element[0]).append("svg")
