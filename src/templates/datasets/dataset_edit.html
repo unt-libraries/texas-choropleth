@@ -15,50 +15,49 @@
         <h1>New Dataset</h1>
     {% endif %}
 
-    <div class="row" ng-app="App">
+    <div class="row">
         <div class="col-sm-11 col-sm-offset-1">
             <form method="post" enctype="multipart/form-data" id="dataset-form" class="form-horizontal" role="form">
-                {% csrf_token %}
-                {% if form.errors %}
-                    <div class="form-group">
-                        <div class="col-sm-4 alert alert-danger">
-                            {{ form.errors.datafile }}
+                <div ng-app="App">
+                    {% csrf_token %}
+                    <div class="form-group" has-error>
+                        <div class="col-sm-6">
+                            <label for={{form.name.name}} class="control-label">{{form.name.label}}</label>
+                            {{ form.name }}
+                            {{ form.errors.name }}
                         </div>
                     </div>
-                {% endif %}
-                <div class="form-group">
-                    <div class="col-sm-6">
-                        <label for={{form.name.name}} class="control-label">{{form.name.label}}</label>
-                        {{ form.name }}
+                    <div class="form-group" has-error>
+                        <div class="col-sm-8">
+                            <label for={{form.description.name}} class="control-label">{{form.description.label}}&nbsp;</label>
+                            <span class="glyphicon glyphicon-info-sign form-info"
+                                  popover
+                                  data-content="This is also used as the short description for the choropleth"></span>
+                            {{ form.description }}
+                            {{ form.description.errors }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-8">
-                        <label for={{form.description.name}} class="control-label">{{form.description.label}}&nbsp;</label>
-                        <span class="glyphicon glyphicon-info-sign form-info"
-                              popover
-                              data-content="This is also used as the short description for the choropleth"></span>
-                        {{ form.description }}
+                    <div class="form-group" has-error>
+                        <div class="col-sm-6">
+                            <label for={{form.published.name}} class="control-label">{{form.published.label}}&nbsp;</label>
+                            <span class="glyphicon glyphicon-info-sign form-info"
+                                  data-content="Sharing will make this dataset's detail page public when the choropleth is published."
+                                  popover></span>
+                            {{ form.published }}
+                            {{ form.published.errors }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-6">
-                        <label for={{form.published.name}} class="control-label">{{form.published.label}}&nbsp;</label>
-                        <span class="glyphicon glyphicon-info-sign form-info"
-                              data-content="Sharing will make this dataset's detail page public when the choropleth is published."
-                              popover></span>
-                        {{ form.published }}
+                    <div class="form-group" has-error>
+                        <div class="col-sm-6">
+                            <label for={{form.license.name}} class="control-label">{{form.license.label}}</label>
+                            {{ form.license }}
+                            {{ form.license.errors }}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-6">
-                        <label for={{form.license.name}} class="control-label">{{form.license.label}}</label>
-                        {{ form.license }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-1">
-                        <button type="submit" class="btn btn-default">Submit</button>
+                    <div class="form-group">
+                        <div class="col-lg-1">
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
                     </div>
                 </div>
             </form>

@@ -17,3 +17,15 @@ App.directive('popover', function() {
         }
     }
 });
+
+App.directive('hasError', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var formGroup = $(element);
+            if (formGroup.find('.errorlist').length > 0) {
+                formGroup.addClass('has-error');
+            }
+        }
+    }
+});
