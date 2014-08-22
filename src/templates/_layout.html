@@ -5,9 +5,9 @@
     <head>
         <title>{% block page_title %}{% endblock page_title %} | UNT Choropleths</title>
         {# <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"> #}
-        {% block head %}{% endblock head %}
         {% compressed_css  'main' %}
         {% compressed_js 'vendor' %}
+        {% block head %}{% endblock head %}
 
     </head>
     <body>
