@@ -42,16 +42,19 @@ d3MappApp.directive('choropleth', function($window) {
                 .domain([scope.domain.min, scope.domain.max])
                 .range(d3.range(scope.range).map(function(i) { return "q" + i + "-" + scope.range; }));
 
+            var tip = d3.tip().attr('class', 'd3-tip').html(function(d, i) {return "<span>"+ d.properties.countyName + ": " + rateById.get(d.properties.countyCode) + "</span>"});
+
             // Draw the initial SVG
             var svg = d3.select(element[0]).append("svg")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .call(tip);
 
             // Legend SVGs
             var legend = svg.selectAll('g.legendEntry')
                 .data(quantize.range())
                 .enter()
-                .append('g').attr('class', 'legendEntry')
+                .append('g').attr('class', 'legendEntry');
 
 
             function updateData(data) {
@@ -106,7 +109,9 @@ d3MappApp.directive('choropleth', function($window) {
                 .enter().append("path")
                   .attr("id", function(d) { return d.properties.countyCode })
                   .attr("d", path)
-                  .attr("class", function(d) { return quantize(rateById.get(d.properties.countyCode)); });
+                  .attr("class", function(d) {return quantize(rateById.get(d.properties.countyCode)); })
+                  .on('mouseover', tip.show)
+                  .on('mouseout', tip.hide);
             }
 
             function render(data) {

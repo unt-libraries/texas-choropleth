@@ -153,6 +153,7 @@ PIPELINE_JS = {
         'source_filenames': (
             'vendor/queue-async/queue.min.js',
             'vendor/d3/d3.min.js',
+            'vendor/d3-tip/index.js',
             'vendor/topojson/topojson.js',
             'vendor/angular/angular.min.js',
             'vendor/angular-resource/angular-resource.min.js',
