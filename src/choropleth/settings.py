@@ -45,7 +45,6 @@ THIRD_PARTY_APPS = (
     'south',
     'pipeline',
     'rest_framework',
-    'markdown_deux',
 )
 
 LOCAL_APPS = (
