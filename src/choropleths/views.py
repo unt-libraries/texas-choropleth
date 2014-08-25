@@ -24,7 +24,6 @@ class ChoroplethAPIView(RetrieveAPIView):
 class PaletteAPIView(ListAPIView):
     model = Palette
     serializer_class = PaletteSerializer
-    paginate_by = 10
 
     def get_queryset(self):
         palettes = Palette.objects.filter(scheme=self.kwargs['pk'])
@@ -34,6 +33,7 @@ class PaletteAPIView(ListAPIView):
 class ChoroplethList(ListView):
     model = Choropleth
     template_name = 'choropleth/choropleth_list.html'
+    paginate_by = 10
 
     def get_queryset(self):
         user = get_object_or_404(User, pk=self.request.user.id)
