@@ -11,9 +11,10 @@ from .forms import DatasetUploadForm, DatasetForm
 class DatasetManagement(generic.ListView):
     template_name="datasets/dataset_management.html"
     model = Dataset
+    paginate_by = 10
 
     def get_queryset(self):
-        return Dataset.objects.filter(owner_id=self.request.user.pk)
+        return Dataset.objects.filter(owner_id=self.request.user.pk).order_by('-modified_at')
 
 
 class DatasetDisplay(generic.DetailView):

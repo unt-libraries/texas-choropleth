@@ -13,7 +13,8 @@ from datasets.models import Dataset
 class GalleryView(ListView):
     model = Choropleth
     template_name = "choropleth/gallery.html"
-    queryset = Choropleth.objects.filter(published=1)
+    paginate_by = 10
+    queryset = Choropleth.objects.filter(published=1).order_by('-created_at', 'name')
 
 class ChoroplethAPIView(RetrieveAPIView):
     model = Choropleth
@@ -23,6 +24,7 @@ class ChoroplethAPIView(RetrieveAPIView):
 class PaletteAPIView(ListAPIView):
     model = Palette
     serializer_class = PaletteSerializer
+    paginate_by = 10
 
     def get_queryset(self):
         palettes = Palette.objects.filter(scheme=self.kwargs['pk'])
@@ -35,7 +37,7 @@ class ChoroplethList(ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, pk=self.request.user.id)
-        return Choropleth.objects.filter(owner=user)
+        return Choropleth.objects.filter(owner=user).order_by('-modified_at')
 
 
 class ChoroplethDetail(DetailView):
