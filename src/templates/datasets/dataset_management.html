@@ -2,8 +2,7 @@
 {% block page_title %}Dataset Management{% endblock page_title %}
 
 {% block content %}
-<div class="row">
-    <div class='col-sm-12'>
+    <div class="row">
         <h1>
            Dataset Management
             <a class="pull-right" href="{% url 'datasets:dataset-create' %}">
@@ -11,8 +10,8 @@
             </a>
         </h1>
     </div>
-</div>
-<table class="table list">
+    <br>
+    <table class="table list">
 
     {% for dataset in object_list %}
 
@@ -45,6 +44,7 @@
 
                 {% endif %}
             </td>
+        </tr>
 
         {% endfor %}
 
