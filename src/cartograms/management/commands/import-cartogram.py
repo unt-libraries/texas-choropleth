@@ -18,7 +18,7 @@ class Command(BaseCommand):
         for entity in data['objects']['counties']['geometries']:
             cartogram_entity = CartogramEntity()
             cartogram_entity.name = entity['properties']['name']
-            cartogram_entity.entity_id = entity['properties']['countyCode']
+            cartogram_entity.entity_id = entity['properties']['fips']
             cartogram.entities.add(cartogram_entity)
 
         cartogram.save()
