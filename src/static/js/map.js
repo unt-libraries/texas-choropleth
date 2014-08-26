@@ -45,9 +45,10 @@ d3MappApp.directive('choropleth', function($window) {
             var tip = d3.tip()
                 .attr('class', 'd3-tip')
                 .html(function(d, i) {
-                    return "<span><strong>FIPS</strong>: " + d.properties.countyCode + "</span><br>"
+                    console.log(d);
+                    return "<span><strong>FIPS</strong>: " + d.properties.fips + "</span><br>"
                     + "<span><strong>Name</strong>: "+ d.properties.countyName + "</span><br> "
-                    + "<span><strong>Value</strong>: " + rateById.get(d.properties.countyCode) + "</span>"
+                    + "<span><strong>Value</strong>: " + rateById.get(d.properties.fips) + "</span>"
                 });
 
             // Draw the initial SVG
@@ -68,7 +69,7 @@ d3MappApp.directive('choropleth', function($window) {
                     .attr('class', null)
                     .attr('class', function(d) {
                         data.forEach(function(d) { rateById.set(d.cartogram_entity, +d.value); })
-                        return quantize(rateById.get(d.properties.countyCode));
+                        return quantize(rateById.get(d.properties.fips));
                     })
             }
 
@@ -113,9 +114,9 @@ d3MappApp.directive('choropleth', function($window) {
                 .selectAll("path")
                  .data(topojson.feature(texas, texas.objects.counties).features)
                 .enter().append("path")
-                  .attr("id", function(d) { return d.properties.countyCode })
+                  .attr("id", function(d) { return d.properties.fips })
+                  .attr("class", function(d) {return quantize(rateById.get(d.properties.fips)); })
                   .attr("d", path)
-                  .attr("class", function(d) {return quantize(rateById.get(d.properties.countyCode)); })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide);
             }
