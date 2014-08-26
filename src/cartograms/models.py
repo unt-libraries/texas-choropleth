@@ -13,6 +13,8 @@ class Cartogram(AbstractCartogram): # Initially named Map, but changed to avoid 
         max_length=16,
         unique=True
     )
+    region_label = models.CharField(max_length=96)
+    subregion_label = models.CharField(max_length=96)
     json_filename = models.CharField(max_length=96)
 
     def __unicode__(self):
