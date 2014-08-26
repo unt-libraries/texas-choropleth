@@ -27,9 +27,27 @@ h1 {
 }
 
 #choropleth-wrapper {
-    #name {
+    #top-form-wrapper {
 
         margin-bottom: 1.7em;
+
+        input[name=name] {
+            width: 20em;
+        }
+
+        select[name=published] {
+            width: 10em;
+        }
+
+        @media (max-width: 768px) {
+            input[name=name] {
+                width: 100%;
+            }
+
+            select[name=published] {
+                width: 100%;
+            }
+        }
     }
 
     #choropleth {
@@ -47,7 +65,7 @@ h1 {
     }
 
     #submission-btns {
-        margin-top: 1.9em;
+        margin-top: 1.6em;
     }
 
     #control-body {

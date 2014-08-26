@@ -1,17 +1,21 @@
-<form>
+<form name="form" novalidate>
     {% csrf_token %}
-    <div class="form-horizontal">
-        <div class="form-group">
-            <div class="col-sm-6">
+    <div id="top-form-wrapper"class="form-inline">
+        <div class="form-group" ng-class="{'has-error': form.name.$invalid && !form.name.$pristine}">
+            <div class="col-sm-10">
                <label for="name" class="control-label">Name</label>
                 <input class="form-control"
-                       id="name"
+                       {# id="name" #}
                        type="text"
                        name="name"
                        value="{{ choropleth.name }}"
-                       ng-model="choropleth.name">
+                       ng-maxlength="96"
+                       ng-model="choropleth.name"
+                       required>
            </div>
-           <div class="col-sm-2">
+       </div>
+        <div class="form-group" ng-class="{'has-error': form.published.$invalid && !form.published.$pristine}">
+           <div class="col-sm-10">
                <label for="published" class="control-label">Published</label>
                <select class="form-control"
                        name="published"
@@ -20,23 +24,74 @@
                        <option value="1">Yes</option>
                </select>
            </div>
-           <div class="pull-right" id="submission-btns">
+       </div>
+       <div class="form-group pull-right">
+           <div  id="submission-btns">
+
                {% if not create %}
 
-                    <button class="btn btn-default btn-sm" ng-click='delete()'>
+                    <button class="btn btn-default btn-sm" ng-click="delete()">
                         <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
                     </button>
 
                 {% endif %}
-                <button class="btn btn-default btn-sm" ng-click='submit()'>
+
+                <button class="btn btn-default btn-sm" ng-click="submit()" ng-disabled="!form.$valid">
                     <span class="glyphicon glyphicon-save"></span>&nbsp;Save
                 </button>
             </div>
         </div>
     </div>
 
-    {% include  'partials/choropleth.html' with show_form=True %}
+    {% include  'partials/choropleth.html' %}
 
+
+    <section class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a data-toggle="collapse" data-target="#control-body"><span class="glyphicon glyphicon-cog"></span>&nbsp;Map Controls</a>
+            </div>
+            <div id="control-body" class="panel-body text-center collapse">
+
+                {# Range Select #}
+                <div class="form-group col-xs-4" ng-class="{'has-error': form.range.$invalid && !form.range.$pristine}">
+                    <label for="range" class="control-label">Range</label>
+                    <select class="form-control"
+                        name="range"
+                        ng-model="choropleth.data_classes"
+                        ng-options="n for n in rangeOptions"
+                        required>
+                    </select>
+                </div>
+
+                {# Scheme Select #}
+                <div class="form-group col-xs-4">
+                    <label for="scheme" class="control-label">Scheme</label>
+                    <select class="form-control"
+                        name="scheme"
+                        ng-model="choropleth.scheme"
+                        ng-change="getSchemePalettes(choropleth.scheme)"
+                        ng-options="scheme.id as scheme.name for scheme in schemes"
+                        required>
+                    </select>
+                </div>
+
+                {# Palette Select #}
+                <div class="form-group col-xs-4">
+                    <label for="palette" class="control-label">Palette</label>
+                    <select class="form-control"
+                        name="palette"
+                        ng-model="choropleth.palette"
+                        ng-change="findPalette(choropleth.palette)"
+                        ng-options="palette.id as palette.name for palette in palettes"
+                        required>
+                    </select>
+                </div>
+            <div>
+        </div>
+    </section>
+
+    {# Mardown description  #}
     <ul class="nav nav-tabs" role="tablist">
         <li ng-class="{active: tab == 1}">
             <a ng-click="tab = 1" href="#description">Description</a>
