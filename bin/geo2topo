@@ -1,0 +1,2 @@
+#! bin/bash
+topojson -p FIPS=GEOID10,name=NAME10,countyName=NAMELSAD10,countyCode=COUNTYFP10,stateCode=STATEFP10 -o $*
