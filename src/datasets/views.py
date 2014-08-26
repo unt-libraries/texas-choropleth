@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.views import generic
 from rest_framework.generics import RetrieveAPIView
@@ -89,6 +89,15 @@ class DatasetCreate(generic.edit.CreateView):
 
     def get_success_url(self):
         return reverse('datasets:dataset-detail', kwargs={'pk': self.object.pk})
+
+class DatasetDelete(generic.edit.DeleteView):
+   model = Dataset
+   success_url = reverse_lazy('datasets:dataset-management')
+
+   def delete(self, request, *args, **kwargs):
+       if self.get_object().owner != request.user:
+           raise PermissionDenied
+       return super(DatasetDelete, self).delete(request, *args, **kwargs)
 
 
 class DatasetUpdate(generic.edit.UpdateView):
