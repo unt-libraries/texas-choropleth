@@ -2,7 +2,7 @@
 {% block page_title %}Dataset Management{% endblock page_title %}
 
 {% block content %}
-    <div id="page-header" class="row">
+    <div class="row">
         <h1>
             {{ dataset.name }}
 
@@ -11,6 +11,9 @@
                     <a href="{% url 'csv-template' dataset.cartogram.id %}">
                         <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
                     </a>
+                    <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete-form-modal">
+                        <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+                    </button>
                     <a href="{% url 'datasets:dataset-update' dataset.id %}">
                         <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
                     </a>
@@ -90,5 +93,25 @@
         </div>
 
     {% endif %}
+
+    <div class="modal fade" id="delete-form-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title"><h4>Delete {{ dataset.name }}?</h4></div>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete <strong>{{ dataset.name }}</strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" action="{% url 'datasets:dataset-delete' dataset.id %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete" class="btn btn-danger">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}
