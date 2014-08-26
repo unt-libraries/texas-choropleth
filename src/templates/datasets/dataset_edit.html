@@ -9,12 +9,16 @@
 
 {% block content %}
 
-    {% if dataset %}
-        <h1>{{ dataset.name }}</h1>
-    {% else %}
-        <h1>New Dataset</h1>
-    {% endif %}
+    <div class="row">
 
+        {% if dataset %}
+            <h1>{{ dataset.name }}</h1>
+        {% else %}
+            <h1>New Dataset</h1>
+        {% endif %}
+
+    </div>
+    <hr>
     <div class="row">
         <div class="col-sm-11 col-sm-offset-1">
             <form method="post" enctype="multipart/form-data" id="dataset-form" class="form-horizontal" role="form">
