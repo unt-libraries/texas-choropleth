@@ -62,7 +62,7 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <span>Records</span>
+            <strong>Records</strong>
             {% ifequal dataset.owner user %}
                 <span class="pull-right">
                     <a href="{% url 'datasets:dataset-export' dataset.id %}"><span class="glyphicon glyphicon-circle-arrow-down"></span>&nbsp;Export</a>
