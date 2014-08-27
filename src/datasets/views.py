@@ -1,3 +1,5 @@
+import csv
+
 from django.shortcuts import render
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
@@ -6,6 +8,7 @@ from rest_framework.generics import RetrieveAPIView
 from .models import Dataset, DatasetDocument
 from .serializers import DatasetSerializer
 from .forms import DatasetUploadForm, DatasetForm
+from django.http import HttpResponse
 
 
 class DatasetManagement(generic.ListView):
@@ -118,3 +121,22 @@ class DatasetUpdate(generic.edit.UpdateView):
 class DatasetAPIView(RetrieveAPIView):
     model = Dataset 
     serializer_class = DatasetSerializer
+
+
+def export_dataset(request, pk):
+    dataset = Dataset.objects.get(id=pk)
+    if dataset.owner != request.user:
+        raise PermissionDenied()
+
+    content_disposition = 'attachment; filename="{}.csv"'.format(dataset.name.lower())
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = content_disposition
+
+
+    writer = csv.writer(response)
+    writer.writerow(['fips', 'name', 'value'])
+    for record in dataset.records.all():
+        writer.writerow([record.get_entity_id(), record.get_entity_name(), record.value.normalize()])
+
+    return response
