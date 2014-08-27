@@ -1,13 +1,15 @@
 {% extends "_layout.html" %}
 {% block page_title %}Choropleths{% endblock page_title %}
 
+{% block header %}
+    Gallery
+{% endblock header %}
+
 {% block content %}
-    <div class="row">
-        <h1>
-            Gallery
-        </h1>
-    </div>
-    <br>
+{% with noHorizontalRule=True %}
+{{ block.super }}
+{% endwith %}
+
     <table class="table list">
         {% for choropleth in object_list %}
         <tr>

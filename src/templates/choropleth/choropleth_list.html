@@ -1,19 +1,24 @@
 {% extends "_layout.html" %}
 {% block page_title %}Choropleths{% endblock page_title %}
 
+{% block header %}
+    Choropleths
+{% endblock header %}
+
+{% block control-btns %}
+    <a class="pull-right" href="{% url 'datasets:dataset-create' %}">
+        <button class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-plus"></span>
+            New Dataset
+        </button>
+    </a>
+{% endblock control-btns %}
+
 {% block content %}
-    <div class="row">
-        <h1>
-            Choropleths
-            <a class="pull-right" href="{% url 'datasets:dataset-create' %}">
-                <button class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    New Dataset
-                </button>
-            </a>
-        </h1>
-    </div>
-    <br>
+{% with noHorizontalRule=True %}
+{{ block.super }}
+{% endwith %}
+
     <table class="table list">
         {% for choropleth in object_list %}
         <tr>

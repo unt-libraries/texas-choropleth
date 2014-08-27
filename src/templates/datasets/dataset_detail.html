@@ -1,28 +1,26 @@
 {% extends "_layout.html" %}
 {% block page_title %}Dataset Management{% endblock page_title %}
 
+{% block header %}
+    {{ dataset.name }}
+{% endblock header %}
+
+{% if dataset.owner.id == user.id %}
+    {% block control-btns %}
+        <a href="{% url 'csv-template' dataset.cartogram.id %}">
+            <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
+        </a>
+        <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete-form-modal">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+        </button>
+        <a href="{% url 'datasets:dataset-update' dataset.id %}">
+            <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
+        </a>
+    {% endblock control-btns %}
+{% endif %}
+
 {% block content %}
-    <div class="row">
-        <h1>
-            {{ dataset.name }}
-
-            {% if dataset.owner.id == user.id %}
-                <div class="pull-right control-btns">
-                    <a href="{% url 'csv-template' dataset.cartogram.id %}">
-                        <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
-                    </a>
-                    <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete-form-modal">
-                        <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
-                    </button>
-                    <a href="{% url 'datasets:dataset-update' dataset.id %}">
-                        <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
-                    </a>
-                </div>
-            {% endif %}
-
-        </h1>
-    </div>
-    <hr>
+{{ block.super }}
     <div class="row">
         <p>{{ dataset.description }}</p>
         <dl class="dl-horizontal col-sm-7">
