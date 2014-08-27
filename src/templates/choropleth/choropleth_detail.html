@@ -27,6 +27,8 @@
 
     <section class="row">
         <dl class="dl-horizontal col-sm-5">
+            <dt>Created</dt><dd>{{ choropleth.created_at|date:'m/d/Y' }}</dd>
+            <dt>Last Modified</dt><dd>{{ choropleth.modified_at|timesince }} ago</dd>
             <dt>Dataset</dt><dd>{{ choropleth.dataset }}</dd>
             <dt>Cartogram</dt><dd>{{ choropleth.dataset.cartogram.name}}</dd>
             <dt>Published</dt><dd>{{ choropleth.get_published_display }}</dd>
