@@ -19,7 +19,21 @@
                     {% block sidebar-left %}{% endblock sidebar-left %}
                 </div>
                 <div class="col-sm-10">
-                    {% block content %}{% endblock content %}
+                    {% block content %}
+                        <div class="row">
+                            <h1>
+                                {% block header %}{% endblock header %}
+                                <div class="pull-right control-btns">
+                                    {% block control-btns %}{% endblock control-btns %}
+                                </div>
+                            </h1>
+                        </div>
+                        {% if noHorizontalRule %}
+                            <br>
+                        {% else %}
+                            <hr>
+                        {% endif %}
+                    {% endblock content %}
                 </div>
                 <div class="col-sm-1">
                 </div>
