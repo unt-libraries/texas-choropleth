@@ -89,11 +89,11 @@ class Dataset(PublishedMixin, AbstractNameModel):
                 entity = self.cartogram.entities.get(entity_id=row[0])
                 record, created =  self.records.get_or_create(
                     cartogram_entity=entity,
-                    defaults = {'value': row[1]}
+                    defaults = {'value': row[2]}
                 )
                 # Update the value only if it has changed
-                if not created and record.value != Decimal(row[1]):
-                    record.value = row[1]
+                if not created and record.value != Decimal(row[2]):
+                    record.value = row[2]
                     record.save()
                     imported_records += 1
                 elif created:
@@ -148,6 +148,12 @@ class DatasetRecord(AbstractModel):
 
     def replace_datafile(self, document):
         self.objects.remove
+
+    def get_entity_id(self):
+        return self.cartogram_entity.entity_id
+
+    def get_entity_name(self):
+        return self.cartogram_entity.name
 
     class Meta:
         db_table = "datasets_dataset_record"
