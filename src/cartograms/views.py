@@ -3,14 +3,17 @@ from django.http import HttpResponse
 from .models import Cartogram
 
 def cartogram_csv_template(request, pk):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="somefile.csv"'
-
     cartogram = Cartogram.objects.get(id=pk)
 
+    content_disposition = 'attachment; filename="{}.csv"'.format(cartogram.name.lower())
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = content_disposition
+
+
     writer = csv.writer(response)
-    writer.writerow(['entity_id', 'value'])
+    writer.writerow(['fips', 'name', 'value'])
     for entity in cartogram.entities.all():
-        writer.writerow([entity.entity_id, 'null'])
+        writer.writerow([entity.entity_id, entity.name, 0])
 
     return response
