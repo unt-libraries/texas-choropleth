@@ -1,4 +1,4 @@
-{% extends "_layout.html" %}
+{% extends "_list-layout.html" %}
 {% block page_title %}Choropleths{% endblock page_title %}
 
 {% block header %}
@@ -14,34 +14,30 @@
     </a>
 {% endblock control-btns %}
 
+{% block object_name %}
+    <a href="{% url 'choropleths:choropleth-view' object.id %}">
+        {{ object.name }}
+    </a>
+{% endblock object_name %}
+
+{% block object_description %}
+    {{ object.dataset.description|truncatechars:140 }}
+{% endblock object_description %}
+
+{% block list_item_icons %}
+    <a href="{% url 'choropleths:choropleth-detail' object.id %}">
+        <span class="glyphicon glyphicon-file"></span>
+    </a>
+    <a href="{% url 'choropleths:choropleth-view' object.id %}">
+        <span class="glyphicon glyphicon-globe"></span>
+    </a>
+    <a href="{% url 'datasets:dataset-detail' object.dataset.id %}">
+        <span class="glyphicon glyphicon-book"></span>
+    </a>
+{% endblock list_item_icons %}
+
 {% block content %}
 {% with noHorizontalRule=True %}
 {{ block.super }}
 {% endwith %}
-
-    <table class="table list">
-        {% for choropleth in object_list %}
-        <tr>
-            <td>
-                <h4>
-                    <a href="{% url 'choropleths:choropleth-view' choropleth.id %}">
-                        {{ choropleth.name }}
-                    </a>
-                </h4>
-                <div class="col-sm-offset-1">
-                    <h5 class="text-muted">Updated {{ choropleth.modified_at|timesince }} ago</h5>
-                    <h5 class="item-description">{{ choropleth.dataset.description|truncatechars:140 }} </h5>
-                </div>
-            </td>
-            <td class="vcenter">
-                <a href="{% url 'choropleths:choropleth-detail' choropleth.id %}">
-                    <button class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-file"></span>&nbsp;Detail</button>
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    {% include 'partials/pagination.html' %}
-
 {% endblock content %}
