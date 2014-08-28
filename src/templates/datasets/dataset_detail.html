@@ -10,9 +10,13 @@
         <a href="{% url 'csv-template' dataset.cartogram.id %}">
             <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
         </a>
-        <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete-form-modal">
-            <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
-        </button>
+
+        {% ifequal dataset.owner user %}
+            <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete-form-modal">
+                <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+            </button>
+        {% endifequal %}
+
         <a href="{% url 'datasets:dataset-update' dataset.id %}">
             <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
         </a>
