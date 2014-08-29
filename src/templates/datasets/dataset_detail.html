@@ -37,7 +37,7 @@
         </dl>
         {% if dataset.owner.id == user.id %}
             <div id="datafile-form" class="well col-sm-5">
-                <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form method="post" action="{% url 'datasets:dataset-detail' dataset.id %}" enctype="multipart/form-data" class="form-horizontal">
                     {% csrf_token %}
                     {% if form.errors %}
                         <div class="form-group">
