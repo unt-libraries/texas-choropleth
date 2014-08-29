@@ -7,10 +7,11 @@
         {# <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"> #}
         {% compressed_css  'main' %}
         {% compressed_js 'vendor' %}
+        {% compressed_js 'app' %}
         {% block head %}{% endblock head %}
 
     </head>
-    <body>
+    <body ng-app="App">
         {% include 'partials/navbar.html' %}
         <div class="container">
             <div class="row">
