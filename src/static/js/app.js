@@ -5,6 +5,17 @@ App.config(function($interpolateProvider, $httpProvider) {
     $interpolateProvider.endSymbol('$}');
 })
 
+App.directive('isActive', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            if (attrs.href === window.location.pathname) {
+                element.parent().addClass('active')
+            }
+        }
+    }
+});
+
 // Still uses the data-content attr for content
 App.directive('popover', function() {
     return {
@@ -29,3 +40,26 @@ App.directive('hasError', function() {
         }
     }
 });
+
+App.directive('tooltip', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            $(element).tooltip();
+        }
+    }
+});
+
+App.directive('hasRecords', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            // Compare it with the python bool 
+            if (attrs.records == 'False') {
+                element.addClass('no-records');
+            }
+        }
+    }
+});
+
+
