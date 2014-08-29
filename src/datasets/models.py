@@ -60,6 +60,12 @@ class Dataset(PublishedMixin, AbstractNameModel):
         on_delete=models.SET_NULL
     )
 
+    def has_records(self):
+        return self.records.exists()
+
+    def has_choropleth(self):
+        return self.choropleth.exists()
+
     def get_max_record(self):
         if self.records.exists():
             max_value = self.records.all().aggregate(models.Max('value'))
