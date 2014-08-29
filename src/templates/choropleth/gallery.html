@@ -16,15 +16,19 @@
 {% endblock object_description %}
 
 {% block list_item_icons %}
-    <a href="{% url 'choropleths:choropleth-detail' object.id %}">
-        <span class="glyphicon glyphicon-file"></span>
-    </a>
     <a href="{% url 'choropleths:choropleth-view' object.id %}">
         <span class="glyphicon glyphicon-globe"></span>
     </a>
-    <a href="{% url 'datasets:dataset-detail' object.dataset.id %}">
-        <span class="glyphicon glyphicon-book"></span>
+    <a href="{% url 'choropleths:choropleth-detail' object.id %}">
+        <span class="glyphicon glyphicon-file"></span>
     </a>
+
+    {% if object.dataset.published %}
+        <a href="{% url 'datasets:dataset-detail' object.dataset.id %}">
+            <span class="glyphicon glyphicon-book"></span>
+        </a>
+    {% endif %}
+
 {% endblock list_item_icons %}
 
 {% block content %}
