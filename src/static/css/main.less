@@ -123,6 +123,10 @@ a:hover {
             min-width: 9em;
         }
 
+        .notification {
+            cursor: pointer;
+        }
+
         .list-item-icons {
             .list-inline;
             .pull-right;
@@ -134,47 +138,33 @@ a:hover {
                 margin-left: 1em;
             }
 
-            .success {
-                color: @brand-success;
+            .icon-styling(@icon-color) {
+                color: @icon-color;
                 &:hover {
                     color: @gray;
                 }
+            }
+
+            .success {
+                .icon-styling(@brand-success);
             }
 
             .success.choro {
-                color: @brand-success;
-                &:hover {
-                    color: @gray;
-                }
+                .icon-styling(@brand-success);
             }
 
             .success.choro-detail {
-                color: @brand-primary;
-                &:hover {
-                    color: @gray;
-                }
+                .icon-styling(@brand-primary);
             }
 
             .add-choro {
-                color: @brand-info;
-                &:hover {
-                    color: @gray;
-                }
+                .icon-styling(@brand-info);
             }
 
             .data-detail {
-                color: @gray-light;
-
-                &:hover {
-                    color: @gray;
-                }
-
+                .icon-styling(@gray-light);
                 &.no-records {
-                    color: @brand-warning;
-
-                    &:hover {
-                        color: @gray;
-                    }
+                    .icon-styling(@brand-warning);
                 }
             }
 
