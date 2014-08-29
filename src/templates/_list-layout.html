@@ -16,13 +16,14 @@
                             {% block object_description %}{% endblock object_description %}
                         </h5>
                         <h5 class="text-muted">Updated {{ object.modified_at|timesince }} ago</h5>
+                        {% block notification %}{% endblock notification %}
                     </div>
                 </div>
-                <div class="col-sm-2">
-                    <div class="list-item-icons">
+                {# <div class="col-sm-2 icon-container"> #}
+                    <ul class="list-item-icons">
                         {% block list_item_icons %}{% endblock list_item_icons %}
-                    </div>
-                </div>
+                    </ul>
+                {# </div> #}
             </div>
         </div>
         {% endfor %}
