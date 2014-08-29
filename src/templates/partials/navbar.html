@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default" role="navigation">
-    <div class="container">
+    <div class="container"> 
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
@@ -9,21 +9,26 @@
             </button>
             <a class="navbar-brand" href="{% url "gallery" %}">Choropleth</a>
         </div>
-
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             {% if user.is_authenticated %}
                 <ul class="nav navbar-nav">
-                        <li>
-                            <a href="{% url 'datasets:dataset-management' %}"><span class="glyphicon glyphicon-stats"></span>&nbsp;Datasets</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'choropleths:choropleth-list' %}"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;Choropleths</a>
-                        </li>
+                    <li>
+                        <a href="{% url 'datasets:dataset-management' %}" is-active><span class="glyphicon glyphicon-stats"></span>&nbsp;Datasets</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'choropleths:choropleth-list' %}" is-active><span class="glyphicon glyphicon-globe"></span>&nbsp;Choropleths</a>
+                    </li>
                 </ul>
             {% endif %}
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        {{ user }}&nbsp;<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
                 {% else %}
                     <li><a href="{% url 'login' %}">Login</a></li>
                 {% endif %}
