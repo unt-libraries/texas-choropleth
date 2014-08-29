@@ -1,14 +1,11 @@
-var d3MappApp = angular.module('d3MappApp', ['ngResource']);
+var App = angular.module('App', ['ngResource']);
 
-d3MappApp.config(function($interpolateProvider, $httpProvider) {
-    $interpolateProvider.startSymbol('{$');
-    $interpolateProvider.endSymbol('$}');
-
+App.config(function($interpolateProvider, $httpProvider) {
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
 })
 
-d3MappApp.directive('choropleth', function($window) {
+App.directive('choropleth', function($window) {
 
     var width = 600,
         height = 600;
@@ -151,7 +148,7 @@ d3MappApp.directive('choropleth', function($window) {
     }
 });
 
-d3MappApp.factory('Choropleth', function($resource) {
+App.factory('Choropleth', function($resource) {
     return $resource('/choropleths/api/:id/ ', { id: '@id' }, {
         update: {
             method: 'PUT'
@@ -159,15 +156,18 @@ d3MappApp.factory('Choropleth', function($resource) {
     });
 });
 
-d3MappApp.factory('Dataset', function($resource) {
+// Resource for Dataset
+App.factory('Dataset', function($resource) {
     return $resource('/datasets/api/:id/ ');
 });
 
-d3MappApp.factory('Palettes', function($resource) {
+// Resource for Palettes
+App.factory('Palettes', function($resource) {
     return $resource('/choropleths/api/palettes/:id/ ');
 });
 
-d3MappApp.directive('markdown', function($window) {
+// Live edit and generic rendering directive for Markdown
+App.directive('markdown', function($window) {
     var converter = new $window.Showdown.converter();
     return {
         restrict: 'E',
@@ -195,7 +195,7 @@ d3MappApp.directive('markdown', function($window) {
     }
 });
 
-d3MappApp.controller('AbstractController', function AbstractController ($scope, $http, Palettes) {
+App.controller('AbstractController', function AbstractController ($scope, $http, Palettes) {
 
     $scope.tab = 1;
 
@@ -229,7 +229,7 @@ d3MappApp.controller('AbstractController', function AbstractController ($scope, 
     };
 });
 
-d3MappApp.controller('ViewController', function ViewController ($scope, $controller, Choropleth, Dataset, Palettes ) {
+App.controller('ViewController', function ViewController ($scope, $controller, Choropleth, Dataset, Palettes ) {
     $controller('AbstractController', {$scope: $scope});
 
     $scope.init = function(id) {
@@ -249,7 +249,7 @@ d3MappApp.controller('ViewController', function ViewController ($scope, $control
     };
 });
 
-d3MappApp.controller('EditController', function EditController ($scope, $controller, Choropleth, Dataset, Palettes) {
+App.controller('EditController', function EditController ($scope, $controller, Choropleth, Dataset, Palettes) {
     $controller('ViewController', {$scope: $scope});
 
     $scope.submit = function() {
@@ -264,7 +264,7 @@ d3MappApp.controller('EditController', function EditController ($scope, $control
 
 });
 
-d3MappApp.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, Dataset, Palettes) {
+App.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, Dataset, Palettes) {
     $controller('AbstractController', {$scope: $scope});
     var datasetsBaseUrl = "/datasets/api/";
     $scope.hasData = false;
