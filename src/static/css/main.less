@@ -17,7 +17,11 @@ html {
     background-color: @nav-color;
 }
 
-h1 {
+
+a:hover {
+    button {
+        text-decoration: none;
+    }
 }
 
 #counties {
@@ -94,18 +98,96 @@ h1 {
         font-size: @font-size-base + 3;
     }
 
-    cartogram-label {
-
+    .list-item:last-child {
+        border-bottom: @gray-lighter solid 1px;
     }
 
-    tr > td.vcenter {
-        vertical-align: middle;
-        text-align: center;
+    .list-item {
+        border-top: @gray-lighter solid 1px;
 
-        a {
-            .pull-right;
+        .notification {
+            &.data {
+                color: @brand-warning;
+            }
+
+            &.choro {
+                color: @brand-info;
+            }
         }
 
+        .list-item-description {
+            margin-left: 1em;
+        }
+
+        .icon-container {
+            min-width: 9em;
+        }
+
+        .list-item-icons {
+            .list-inline;
+            .pull-right;
+            font-size: 17px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+
+            a:not(:first-child) {
+                margin-left: 1em;
+            }
+
+            .success {
+                color: @brand-success;
+                &:hover {
+                    color: @gray;
+                }
+            }
+
+            .success.choro {
+                color: @brand-success;
+                &:hover {
+                    color: @gray;
+                }
+            }
+
+            .success.choro-detail {
+                color: @brand-primary;
+                &:hover {
+                    color: @gray;
+                }
+            }
+
+            .add-choro {
+                color: @brand-info;
+                &:hover {
+                    color: @gray;
+                }
+            }
+
+            .data-detail {
+                color: @gray-light;
+
+                &:hover {
+                    color: @gray;
+                }
+
+                &.no-records {
+                    color: @brand-warning;
+
+                    &:hover {
+                        color: @gray;
+                    }
+                }
+            }
+
+            a {
+                color: @gray-light
+            }
+
+            a:hover {
+               text-decoration: none;
+               color: @gray;
+            }
+
+        }
     }
 }
 
