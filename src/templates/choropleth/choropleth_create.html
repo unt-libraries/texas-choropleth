@@ -9,7 +9,7 @@
 {% endblock head %}
 
 {% block content %}
-<div ng-app="d3MappApp" class="col-sm-12" id="choropleth-wrapper">
+<div class="col-sm-12" id="choropleth-wrapper">
     <div ng-controller="MappCtrl" ng-init="init({{ dataset.id }})">
         {% include 'partials/choropleth_form.html' with create=True %}
     </div>
