@@ -43,6 +43,7 @@ DJANGO_APPS = (
 
 THIRD_PARTY_APPS = (
     'south',
+    'debug_toolbar',
     'pipeline',
     'rest_framework',
 )
@@ -67,6 +68,10 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'choropleth.urls'
 
 WSGI_APPLICATION = 'choropleth.wsgi.application'
+
+INTERNAL_IPS = (
+    '172.17.42.1',        
+)
 
 
 # Database
@@ -100,6 +105,11 @@ DATE_FORMAT = 'N j, Y'
 
 # Cartogram and Cartogram Entity information  will
 # be defined in fixtures
+
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+)
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
