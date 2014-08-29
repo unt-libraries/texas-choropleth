@@ -1,10 +1,12 @@
 var App = angular.module('App', []);
 
 App.config(function($interpolateProvider, $httpProvider) {
+    // New symbols to prevent interference with Django templating language
     $interpolateProvider.startSymbol('{$');
     $interpolateProvider.endSymbol('$}');
 })
 
+// Bootstrap active tab helper
 App.directive('isActive', function() {
     return {
         restrict: 'A',
@@ -29,6 +31,7 @@ App.directive('popover', function() {
     }
 });
 
+// Form Validation helper
 App.directive('hasError', function() {
     return {
         restrict: 'A',
@@ -41,6 +44,7 @@ App.directive('hasError', function() {
     }
 });
 
+// Add a Bootstrap tooltip
 App.directive('tooltip', function() {
     return {
         restrict: 'A',
@@ -50,6 +54,7 @@ App.directive('tooltip', function() {
     }
 });
 
+// Helper for notifications and list-item-icons
 App.directive('hasRecords', function() {
     return {
         restrict: 'A',
