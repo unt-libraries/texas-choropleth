@@ -1,6 +1,11 @@
 {% extends "_list-layout.html" %}
 {% block page_title %}Dataset Management{% endblock page_title %}
 
+{% load compressed %}
+{% block head %}
+{% compressed_js 'app' %}
+{% endblock head %}
+
 {% block header %}
    Dataset Management
 {% endblock header %}
@@ -21,20 +26,73 @@
     {{ object.description|truncatechars:140 }}
 {% endblock object_description %}
 
+{% block notification %}
+
+    <ul class="list-unstyled"
+    {% if not object.has_records %}
+        <li>
+            <span class="notification data" data-content="Upload some data to make your choropleth more meaningful" popover>
+                <span class="glyphicon glyphicon-certificate"></span>
+                &nbsp;No data 
+            </span>
+        </li>
+    {% endif %}
+
+    {% if not object.has_choropleth %}
+        <li>
+            <span class="notification choro" data-content="Click the plus sign to create a new choropleth" popover>
+                <span class="glyphicon glyphicon-certificate"></span>
+                &nbsp;Choropleth not created 
+            </span>
+        </li>
+    {% endif %}
+    </ul>
+
+{% endblock notification %}
+
 {% block list_item_icons %}
-    <a href="{% url 'choropleths:choropleth-detail' object.choropleth.id %}">
-        <span class="glyphicon glyphicon-file"></span>
-    </a>
-    <a href="{% url 'choropleths:choropleth-view' object.id %}">
-        <span class="glyphicon glyphicon-globe"></span>
-    </a>
-    <a href="{% url 'datasets:dataset-detail' object.id %}">
+
+    {% if object.choropleth %}
+        <a class="success choro"
+           href="{% url 'choropleths:choropleth-view' object.choropleth.id %}"
+           data-toggle="tooltip"
+           title="View Choropleth"
+           tooltip>
+            <span class="glyphicon glyphicon-globe"></span>
+        </a>
+        <a class="success choro-detail"
+           href="{% url 'choropleths:choropleth-detail' object.choropleth.id %}"
+           data-toggle="tooltip"
+           title="Choropleth Detail"
+           tooltip>
+            <span class="glyphicon glyphicon-file"></span>
+        </a>
+    {% else %}
+    <a class="add-choro"
+           href="{% url 'choropleths:choropleth-create' object.id %}"
+           data-toggle="tooltip"
+           title="New Choropleth"
+           tooltip>
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    {% endif %}
+
+    <a class="data-detail"
+       href="{% url 'datasets:dataset-detail' object.id %}"
+       data-toggle="tooltip"
+       title="Dataset Detail"
+       data-placement="left"
+       data-records={{ object.has_records }}
+       has-records
+       tooltip>
         <span class="glyphicon glyphicon-book"></span>
     </a>
 {% endblock list_item_icons %}
 
 {% block content %}
 {% with noHorizontalRule=True %}
+<div ng-app="App">
 {{ block.super }}
+</div>
 {% endwith %}
 {% endblock content %}
