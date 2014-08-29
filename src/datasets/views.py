@@ -22,6 +22,7 @@ class DatasetManagement(generic.ListView):
 
 class DatasetDisplay(generic.DetailView):
     model = Dataset
+    queryset = Dataset.objects.prefetch_related('records__cartogram_entity')
 
     def get_context_data(self, **kwargs):
         context = super(DatasetDisplay, self).get_context_data(**kwargs)
