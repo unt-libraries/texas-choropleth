@@ -88,7 +88,7 @@
                     <tr>
                         <td>{{ record.cartogram_entity }}</td>
                         <td>{{ record.cartogram_entity.entity_id }}</td>
-                        <td>{{ record.value|floatformat:3 }}</td>
+                        <td>{{ record.value.normalize }}</td>
                     </tr>
                 {% endfor %}
 
