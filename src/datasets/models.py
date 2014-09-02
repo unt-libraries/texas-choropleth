@@ -43,6 +43,10 @@ class Dataset(PublishedMixin, AbstractNameModel):
     )
 
     description = models.TextField(blank=True)
+    label = models.CharField(
+        max_length=48,
+        blank=True,
+    )
     license = models.CharField(
         max_length=8,
         choices=LICENSE_CHOICES,
