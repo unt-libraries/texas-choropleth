@@ -12,6 +12,25 @@
 <div class="col-sm-12" id="choropleth-wrapper">
     <div ng-controller="EditController" ng-init="init({{ choropleth.id }})">
         {% include 'partials/choropleth_form.html' %}
+
+        <div class="modal fade" id="delete-choropleth-form" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title"><h4>Delete {{ choropleth.name }}?</h4></div>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete <strong>{{ choropleth.name }}</strong>?</p>
+                    </div>
+                    <div class="modal-footer">
+                            <input type="submit" value="Delete" class="btn btn-danger" ng-click="delete()">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

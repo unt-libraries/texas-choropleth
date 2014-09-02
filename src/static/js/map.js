@@ -260,9 +260,7 @@ App.controller('EditController', function EditController ($scope, $controller, C
     };
 
     $scope.delete = function() {
-        if (confirm("Are you sure you want to delete this choropleth?")) {
-            $scope.choropleth.$delete($scope._success);
-        }
+        $scope.choropleth.$delete($scope._success);
     };
 
 });
