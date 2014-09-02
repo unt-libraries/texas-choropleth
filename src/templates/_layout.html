@@ -1,4 +1,4 @@
-{# {% load staticfiles %} #}
+{% load staticfiles %}
 {% load compressed %}
 <!doctype html>
 <html>
@@ -39,6 +39,9 @@
                 <div class="col-sm-1">
                 </div>
             </div>
+        </div>
+        <div id="loader">
+            <img src="{% static "img/loader.gif" %}">
         </div>
         {% block scripts %}{% endblock scripts %}
     </body>
