@@ -41,6 +41,16 @@
                     </div>
                     <div class="form-group" has-error>
                         <div class="col-sm-6">
+                            <label for={{form.label.name}} class="control-label">{{form.label.label}}</label>
+                            <span class="glyphicon glyphicon-info-sign form-info"
+                                  popover
+                                  data-content="This is used to label the dataset records in the choropleth."></span>
+                            {{ form.label }}
+                            {{ form.errors.label }}
+                        </div>
+                    </div>
+                    <div class="form-group" has-error>
+                        <div class="col-sm-6">
                             <label for={{form.published.name}} class="control-label">{{form.published.label}}&nbsp;</label>
                             <span class="glyphicon glyphicon-info-sign form-info"
                                   data-content="Sharing will make this dataset's detail page public when the choropleth is published."

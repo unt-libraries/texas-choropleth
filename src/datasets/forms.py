@@ -19,12 +19,13 @@ class DatasetForm(forms.ModelForm):
 
     class Meta:
         model = Dataset
-        fields = ['name', 'description', 'published', 'license']
+        fields = ['name', 'description', 'label', 'published', 'license']
 
         # Add Bootstrap form classes to the widgets
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'label': forms.TextInput(attrs={'class': 'form-control'}),
             'published' : forms.Select(attrs={'class': 'form-control'}),
             'license': forms.Select(attrs={'class': 'form-control'}),
         }
