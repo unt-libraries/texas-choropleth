@@ -26,7 +26,7 @@ App.directive('choropleth', function($window) {
             data: '=',
             domain: '=',
             range: '=',
-            scale: '=',
+            label: '=',
             scheme: '=',
         },
         link: function (scope, element, attrs) {
@@ -41,7 +41,7 @@ App.directive('choropleth', function($window) {
                 .html(function(d, i) {
                     return "<span><strong>FIPS</strong>: " + d.properties.fips + "</span><br>" +
                     "<span><strong>Name</strong>: "+ d.properties.countyName + "</span><br> " +
-                    "<span><strong>Value</strong>: " + rateById.get(d.properties.fips) + "</span>";
+                    "<span><strong>Value</strong>: " + rateById.get(d.properties.fips) + " " + scope.label + "</span>";
                 });
 
             // Draw the initial SVG
@@ -99,7 +99,7 @@ App.directive('choropleth', function($window) {
                     .style("font-size", "10px")
                     .text(function(d,i) {
                         var extent = quantize.invertExtent(d);
-                        var format = d3.format("0.2f");
+                        var format = d3.format("6.2r");
                         return format(+extent[0])+ " - " + format(+extent[1]);
                     });
             }
