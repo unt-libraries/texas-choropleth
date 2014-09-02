@@ -1,10 +1,13 @@
-var App = angular.module('App', []);
+var App = angular.module('App', ['ngResource']);
 
 App.config(function($interpolateProvider, $httpProvider) {
     // New symbols to prevent interference with Django templating language
     $interpolateProvider.startSymbol('{$');
     $interpolateProvider.endSymbol('$}');
-})
+
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+});
 
 // Bootstrap active tab helper
 App.directive('isActive', function() {
@@ -12,10 +15,10 @@ App.directive('isActive', function() {
         restrict: 'A',
         link: function(scope, element, attrs) {
             if (attrs.href === window.location.pathname) {
-                element.parent().addClass('active')
+                element.parent().addClass('active');
             }
         }
-    }
+    };
 });
 
 // Still uses the data-content attr for content
@@ -25,10 +28,10 @@ App.directive('popover', function() {
         link: function(scope, element, attrs) {
             options = {
                 trigger: 'hover'
-            }
+            };
             $(element).popover(options);
         }
-    }
+    };
 });
 
 // Form Validation helper
@@ -41,7 +44,7 @@ App.directive('hasError', function() {
                 formGroup.addClass('has-error');
             }
         }
-    }
+    };
 });
 
 // Add a Bootstrap tooltip
@@ -51,7 +54,7 @@ App.directive('tooltip', function() {
         link: function(scope, element, attrs) {
             $(element).tooltip();
         }
-    }
+    };
 });
 
 // Helper for notifications and list-item-icons
@@ -64,7 +67,7 @@ App.directive('hasRecords', function() {
                 element.addClass('no-records');
             }
         }
-    }
+    };
 });
 
 
