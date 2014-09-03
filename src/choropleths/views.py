@@ -12,7 +12,7 @@ from datasets.models import Dataset
 
 class GalleryView(ListView):
     model = Choropleth
-    template_name = "choropleths/gallery.html"
+    template_name = "choropleth/gallery.html"
     paginate_by = 10
     queryset = Choropleth.objects.filter(published=1).order_by('-created_at', 'name')
 
@@ -32,7 +32,7 @@ class PaletteAPIView(ListAPIView):
 
 class ChoroplethList(ListView):
     model = Choropleth
-    template_name = 'choropleths/choropleth_list.html'
+    template_name = 'choropleth/choropleth_list.html'
     paginate_by = 10
 
     def get_queryset(self):
@@ -42,7 +42,7 @@ class ChoroplethList(ListView):
 
 class ChoroplethDetail(DetailView):
     model = Choropleth
-    template_name = 'choropleths/choropleth_detail.html'
+    template_name = 'choropleth/choropleth_detail.html'
 
     def get_object(self, **kwargs):
         choropleth = super(ChoroplethDetail, self).get_object(**kwargs)
@@ -53,7 +53,7 @@ class ChoroplethDetail(DetailView):
     
 
 class ChoroplethView(DetailView):
-    template_name = 'choropleths/choropleth_view.html'
+    template_name = 'choropleth/choropleth_view.html'
     model = Choropleth 
 
     def get_object(self, **kwargs):
@@ -65,7 +65,7 @@ class ChoroplethView(DetailView):
 
 
 class ChoroplethEdit(DetailView):
-    template_name = "choropleths/choropleth_edit.html"
+    template_name = "choropleth/choropleth_edit.html"
     model = Choropleth
 
     def get_object(self, **kwargs):
@@ -76,7 +76,7 @@ class ChoroplethEdit(DetailView):
 
 
 class ChoroplethCreate(TemplateView):
-    template_name = "choropleths/choropleth_create.html"
+    template_name = "choropleth/choropleth_create.html"
     
     def get_context_data(self, **kwargs):
         context = super(ChoroplethCreate, self).get_context_data(**kwargs)

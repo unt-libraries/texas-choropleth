@@ -4,7 +4,10 @@
 <html>
     <head>
         <title>{% block page_title %}{% endblock page_title %} | UNT Choropleths</title>
+        {# <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"> #}
         {% compressed_css  'main' %}
+        {% compressed_js 'vendor' %}
+        {% compressed_js 'app' %}
         {% block head %}{% endblock head %}
 
     </head>
@@ -40,8 +43,6 @@
         <div id="loader">
             <img src="{% static "img/loader.gif" %}">
         </div>
-        {% compressed_js 'vendor' %}
-        {% compressed_js 'app' %}
         {% block scripts %}{% endblock scripts %}
     </body>
 </html>

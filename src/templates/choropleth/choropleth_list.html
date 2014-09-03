@@ -1,6 +1,11 @@
 {% extends "_list-layout.html" %}
 {% block page_title %}Choropleths{% endblock page_title %}
 
+{% load compressed %}
+{% block head %}
+{% compressed_js 'app' %}
+{% endblock head %}
+
 {% block header %}
     Choropleths
 {% endblock header %}
