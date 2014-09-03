@@ -1,0 +1,10 @@
+<div id="choropleth" class="row text-center">
+    <div ng-if="hasData">
+        <div ng-class="palette.class_name">
+
+            {# Choropleth Directive | See static/js/map.js #}
+            <choropleth data="dataset.records" label="dataset.label" domain="dataset.domain" range="choropleth.data_classes" palette="choropleth.palette"></choropleth>
+
+        </div>
+    </div>
+</div>

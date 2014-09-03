@@ -1,11 +1,5 @@
-{% extends "_layout.html" %}
-{% load compressed %}
+{% extends "choropleths/_layout.html" %}
 {% block page_title %}{{ choropleth.name }}{% endblock page_title %}
-
-{% block head %}
-{% compressed_js 'map-vendor' %}
-{% compressed_js 'map' %}
-{% endblock head %}
 
 {% block header %}
     {{ choropleth.name }}

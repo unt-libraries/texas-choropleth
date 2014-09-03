@@ -1,0 +1,17 @@
+{% extends "_layout.html" %}
+{% load compressed %}
+
+{% block head %}
+{% compressed_css 'colorbrewer' %}
+{% endblock head %}
+
+{% block page_title %}{% endblock page_title %}
+
+{% block content %}
+{{ block.super }}
+{% endblock content %}
+
+{% block scripts %}
+{% compressed_js 'map-vendor' %}
+{% compressed_js 'map' %}
+{% endblock scripts %}

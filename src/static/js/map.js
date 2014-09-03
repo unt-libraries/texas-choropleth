@@ -265,7 +265,7 @@ App.controller('EditController', function EditController ($scope, $controller, C
 
 });
 
-App.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, Dataset, Palettes) {
+App.controller('CreateController', function MappCtrl ($scope, $controller, Choropleth, Dataset, Palettes) {
     $controller('AbstractController', {$scope: $scope});
     var datasetsBaseUrl = "/datasets/api/";
     $scope.hasData = false;
