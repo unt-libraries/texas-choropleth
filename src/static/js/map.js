@@ -28,93 +28,82 @@ App.directive('choropleth', function($window) {
             range: '=',
             label: '=',
             scheme: '=',
+            scale: '=',
+            palette: '=',
         },
         link: function (scope, element, attrs) {
+            var scale, svg;
 
-            // Scaling function
-            var quantize = d3.scale.quantize()
-                .domain([scope.domain.min, scope.domain.max])
-                .range(d3.range(scope.range).map(function(i) { return "q" + i + "-" + scope.range; }));
-
-            var tip = d3.tip()
-                .attr('class', 'd3-tip')
-                .html(function(d, i) {
-                    return "<span><strong>FIPS</strong>: " + d.properties.fips + "</span><br>" +
-                    "<span><strong>Name</strong>: "+ d.properties.countyName + "</span><br> " +
-                    "<span><strong>Value</strong>: " + rateById.get(d.properties.fips) + " " + scope.label + "</span>";
-                });
-
-            // Draw the initial SVG
-            var svg = d3.select(element[0]).append("svg")
+            svg = d3.select(element[0]).append("svg")
                 .attr("width", width)
-                .attr("height", height)
-                // .attr('class', 'hide')
-                .call(tip);
+                .attr("height", height);
 
             $('svg').hide();
 
-            // Legend SVGs
-            var legend = svg.selectAll('g.legendEntry')
-                .data(quantize.range())
-                .enter()
-                .append('g').attr('class', 'legendEntry');
+            // Watch for changes in the dataset
+            scope.$watch('data', function(newVals, oldVals) {
+                updateData(newVals);
+            }, true);
 
+            scope.$watchCollection('[scale, range, scheme, palette]', function(newVals, oldVals) {
+                setScale(newVals[0]);
+                updateData(scope.data);
+            });
+
+            function setScale(scaleId) {
+                switch(scaleId) {
+                    // Quantize
+                    case 0:
+                        if (scope.palette && scope.range) {
+                            scale = d3.scale.quantize()
+                                .domain([scope.domain.min, scope.domain.max])
+                                .range(d3.range(scope.range).map(function(i) {
+                                return colorbrewer[scope.palette][scope.range][i];
+                                }));
+                        }
+                        break;
+
+                    // Non-Quantize
+                    case 1:
+                        if (scope.palette && scope.range) {
+                            var palette = colorbrewer[scope.palette][scope.range];
+
+                            var color1 = palette[0];
+                                color2 = palette[palette.length -1];
+
+                            scale = d3.scale.log()
+                                .domain([scope.domain.min, scope.domain.max])
+                                .range([color1, color2]);
+                        }
+                        break;
+
+                    // No scale
+                    default:
+                        scale = function() {
+                            return "none";
+                        };
+                }
+                return scale;
+            }
 
             function updateData(data) {
-                svg.select("#counties").selectAll("path")
+                svg.select("#entities").selectAll("path")
                     .attr('class', null)
-                    .attr('class', function(d) {
+                    .attr('fill', function(d) {
                         data.forEach(function(d) { rateById.set(d.cartogram_entity, +d.value); });
-                        return quantize(rateById.get(d.properties.fips));
-                    });
-            }
-
-            function updateDomainAndRange(newDomain) {
-                quantize = d3.scale.quantize()
-                    .domain([scope.domain.min, scope.domain.max])
-                    .range(d3.range(scope.range).map(function(i) { return "q" + i + "-" + scope.range; }));
-
-                updateData(scope.data);
-                drawLegend();
-            }
-
-            function drawLegend() {
-                svg.selectAll('g.legendEntry').remove();
-                var legend = svg.selectAll('g.legendEntry')
-                    .data(quantize.range())
-                    .enter()
-                    .append('g').attr('class', 'legendEntry');
-
-                legend.append('rect')
-                    .attr("x", width - 580)
-                    .attr("y", function(d, i) {return (i * 10) + 50;})
-                    .attr("width", 10)
-                    .attr('height', 10)
-                    .attr("class", function(d) { return d; });
-
-                legend.append('text')
-                    .attr("x", width - 565)
-                    .attr("y", function(d, i) {return  (i*10) + 50;} )
-                    .attr('dy', "1em")
-                    .style("font-size", "10px")
-                    .text(function(d,i) {
-                        var extent = quantize.invertExtent(d);
-                        var format = d3.format("6.2r");
-                        return format(+extent[0])+ " - " + format(+extent[1]);
+                        return scale(rateById.get(d.properties.fips));
                     });
             }
 
             function ready(error, texas) {
               svg.append("g")
-                  .attr("id", "counties")
+                  .attr("id", "entities")
                 .selectAll("path")
                  .data(topojson.feature(texas, texas.objects.counties).features)
                 .enter().append("path")
                   .attr("id", function(d) { return d.properties.fips; })
-                  .attr("class", function(d) {return quantize(rateById.get(d.properties.fips)); })
-                  .attr("d", path)
-                  .on('mouseover', tip.show)
-                  .on('mouseout', tip.hide);
+                  .attr("fill", function(d) {return scale(rateById.get(d.properties.fips)); })
+                  .attr("d", path);
 
               choropleth.find('#loader').fadeOut('slow', function() {
                   this.remove();
@@ -130,24 +119,6 @@ App.directive('choropleth', function($window) {
             }
 
             render(scope.data);
-
-            /* ---- Watchers ---- */
-
-            // Watch for changes in the dataset
-            scope.$watch('data', function(newVals, oldVals) {
-                updateData(newVals);
-            }, true);
-
-            // Watch for changes in the domain inputs
-            scope.$watch('domain', function(newVals, oldVals) {
-                updateDomainAndRange(newVals);
-            }, true);
-
-            // Watch for changes in the range
-            scope.$watch('range', function(newVals, oldVals) {
-                updateDomainAndRange(newVals);
-            }, true);
-
         }
     };
 });
@@ -208,6 +179,10 @@ App.controller('AbstractController', function AbstractController ($scope, $http,
     };
 
     $scope.rangeOptions = [3, 4, 5, 6, 7, 8, 9];
+    $scope.scales = [
+        {name: 'Quantized', id: 0},
+        {name: 'Logarithmic', id: 1}
+    ];
     $scope.schemes = [
         {name: "Sequential", id: 1},
         {name: "Diverging", id: 2},
@@ -223,9 +198,16 @@ App.controller('AbstractController', function AbstractController ($scope, $http,
 
     $scope.findPalette = function(id) {
         if (0 < $scope.palettes.length) {
+
+            // Set defaults if the choropleth doesn't already have values
+            $scope.palette = $scope.palettes[0];
+            $scope.choropleth.palette = $scope.palette.id;
+
+            // Set palette if the palette id is in the palettes array
             $scope.palettes.forEach(function (value, index, array) {
                 if (value.id == id) {
                     $scope.palette = value;
+                    $scope.choropleth.palette = value.id;
                 }
             });
         }
@@ -262,13 +244,9 @@ App.controller('EditController', function EditController ($scope, $controller, C
     $scope.delete = function() {
         $scope.choropleth.$delete($scope._success);
     };
-
 });
-
 App.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, Dataset, Palettes) {
     $controller('AbstractController', {$scope: $scope});
-    var datasetsBaseUrl = "/datasets/api/";
-    $scope.hasData = false;
 
     $scope.init = function(id) {
         $scope.choropleth = new Choropleth();
@@ -277,6 +255,7 @@ App.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, D
             $scope.dataset = data;
             $scope.choropleth.dataset = data.id;
             $scope.choropleth.name = data.name;
+            $scope.choropleth.data_classes = 3;
             $scope.hasData = true;
         });
 

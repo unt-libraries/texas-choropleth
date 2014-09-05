@@ -36,7 +36,7 @@ class Palette(SchemeMixin, AbstractModel):
 class Choropleth(PublishedMixin, SchemeMixin, AbstractModel):
     SCALE_CHOICES = (
         (0, "Quantize"),
-        # (1, "Logarithmic"), # Scheduled for v.2
+        (1, "Logarithmic"),
         # (2, "Linear"), # Scheduled for v.2
         # (3, "Exponential"), # Scheduled for v.2
     )

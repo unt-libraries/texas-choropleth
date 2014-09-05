@@ -154,6 +154,7 @@ PIPELINE_CSS = {
 PIPELINE_JS = {
     'map': {
         'source_filenames': (
+            'js/colorbrewer.js',
             'js/map.js',
         ),
         'output_filename': 'js/map.js',

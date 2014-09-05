@@ -16,6 +16,7 @@ class ChoroplethSerializer(serializers.ModelSerializer):
             'name',
             'description',
             'published',
+            'scale',
             'scheme',
             'palette',
             'data_classes',
