@@ -9,6 +9,14 @@
 @bootstrap-grey: #e7e7e7;
 @nav-color: #FFF;
 
+
+.icon-styling(@icon-color) {
+    color: @icon-color;
+    &:hover {
+        color: @gray;
+    }
+}
+
 .navbar-default {
     background-color: @nav-color;
 }
