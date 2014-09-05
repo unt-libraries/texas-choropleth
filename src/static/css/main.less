@@ -146,56 +146,66 @@ a:hover {
         }
 
         .list-item-icons {
-            .list-inline;
+            .item-icons;
             .pull-right;
-            font-size: 17px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-
-            a:not(:first-child) {
-                margin-left: 1em;
-            }
-
-            .icon-styling(@icon-color) {
-                color: @icon-color;
-                &:hover {
-                    color: @gray;
-                }
-            }
-
-            .success {
-                .icon-styling(@brand-success);
-            }
-
-            .success.choro {
-                .icon-styling(@brand-success);
-            }
-
-            .success.choro-detail {
-                .icon-styling(@brand-primary);
-            }
-
-            .add-choro {
-                .icon-styling(@brand-info);
-            }
-
-            .data-detail {
-                .icon-styling(@gray-light);
-                &.no-records {
-                    .icon-styling(@brand-warning);
-                }
-            }
-
-            a {
-                color: @gray-light
-            }
-
-            a:hover {
-               text-decoration: none;
-               color: @gray;
-            }
-
         }
+    }
+
+}
+.item-icons {
+    .list-iline;
+    font-size: 17px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    a:not(:first-child) {
+        margin-left: 1em;
+    }
+
+
+    .success {
+        .icon-styling(@brand-success);
+    }
+
+    .success.choro {
+        .icon-styling(@brand-success);
+    }
+
+    .success.choro-detail {
+        .icon-styling(@brand-primary);
+    }
+
+    .add-choro {
+        .icon-styling(@brand-info);
+    }
+
+    .data-detail {
+        .icon-styling(@gray-light);
+        &.no-records {
+            .icon-styling(@brand-warning);
+        }
+    }
+
+    a {
+        color: @gray-light
+    }
+
+    a:hover {
+       text-decoration: none;
+       color: @gray;
+    }
+
+}
+
+.grid-item {
+    margin-bottom: 1em; 
+    // margin-left: 1em;
+    min-height: 6em;
+    border-left: @gray-lighter solid .5em;
+
+    .grid-item-icons {
+        .item-icons;
+        .list-inline;
     }
 }
 
