@@ -2,13 +2,26 @@ from rest_framework import serializers
 from django.db.models import Min, Max
 from .models import Dataset, DatasetRecord
 
+class DatasetRecordNameField(serializers.Field):
+    def field_to_native(self, obj, field_name):
+        return obj.cartogram_entity.name
+
+
 class DatasetRecordSerializer(serializers.ModelSerializer):
     cartogram_entity = serializers.SlugRelatedField(read_only=True, slug_field='entity_id')
-    # cartogram_entity = serializers.PrimaryKeyRelatedField()
+    name = DatasetRecordNameField()
+    value = serializers.SerializerMethodField('normalize_value')
 
     class Meta:
         model = DatasetRecord
-        fields = ('id', 'cartogram_entity', 'value')
+        fields = ('id', 'name', 'cartogram_entity', 'value')
+
+    def normalize_value(self, obj):
+        """
+        Convert to float to avoid extra processing client side.
+        """
+        if obj.value:
+            return float(obj.value)
 
 
 class DatasetSerializer(serializers.ModelSerializer):
@@ -22,6 +35,4 @@ class DatasetSerializer(serializers.ModelSerializer):
 
     def get_domain(self, obj):
         return {'min': obj.get_min_record(), 'max': obj.get_max_record()}
-
-
 

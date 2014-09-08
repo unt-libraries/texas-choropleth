@@ -70,4 +70,56 @@ App.directive('hasRecords', function() {
     };
 });
 
+App.directive('loading', function($http) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            scope.isLoading = function() {
+                return $http.pendingRequests.length > 0;
+            };
 
+            loader = $('#loader');
+
+            scope.$watch(scope.isLoading, function(v) {
+                if (v) {
+                    element.append(loader.show());
+                } else {
+                    $(element).find('#loader').remove();
+                }
+            });
+        }
+    };
+});
+
+
+App.factory('Choropleth', function($resource) {
+    return $resource('/choropleths/api/:id/ ', { id: '@id' }, {
+        update: {
+            method: 'PUT'
+        }
+    });
+});
+
+// Resource for Dataset
+App.factory('Dataset', function($resource) {
+    return $resource('/datasets/api/:id/ ');
+});
+
+// Resource for Palettes
+App.factory('Palettes', function($resource) {
+    return $resource('/choropleths/api/palettes/:id/ ');
+});
+
+
+App.controller('DatasetTableController', function($scope, $http, Dataset) {
+
+    $scope.init = function(id) {
+        Dataset.get({id: id}, function(data) {
+            $scope.dataset = data;
+        });
+
+        $scope.reverse = false;
+        $scope.sortOrder='name';
+    };
+    
+});

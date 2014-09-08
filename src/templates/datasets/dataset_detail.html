@@ -73,24 +73,22 @@
                 <span>
             {% endifequal %}
         </div>
-        <div class="panel-body dataset">
+        <div loading class="panel-body dataset" ng-controller="DatasetTableController" ng-init="init({{ dataset.id }})">
             <table class="table table-condensed table-striped">
                 <thead>
                     <tr>
-                        <th>{{ dataset.cartogram.subregion_label }} Name</th>
-                        <th>FIPS</th>
-                        <th>Value</th>
+                        <th ng-click="sortOrder = 'name'; reverse=!reverse">{{ dataset.cartogram.subregion_label }} Name</th>
+                        <th ng-click="sortOrder = 'cartogram_entity'; reverse=!reverse">FIPS</th>
+                        <th ng-click="sortOrder = 'value'; reverse=!reverse">Value</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                {% for record in dataset.records.all %}
-                    <tr>
-                        <td>{{ record.cartogram_entity }}</td>
-                        <td>{{ record.cartogram_entity.entity_id }}</td>
-                        <td>{{ record.value.normalize }}</td>
+                    <tr ng-repeat="record in dataset.records | orderBy:sortOrder:reverse">
+                        <td>{$ record.name $}</td>
+                        <td>{$ record.cartogram_entity $}</td>
+                        <td>{$ record.value | number $}</td>
                     </tr>
-                {% endfor %}
 
                 </tbody>
             </table>

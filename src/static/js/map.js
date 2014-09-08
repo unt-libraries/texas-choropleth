@@ -123,24 +123,6 @@ App.directive('choropleth', function($window) {
     };
 });
 
-App.factory('Choropleth', function($resource) {
-    return $resource('/choropleths/api/:id/ ', { id: '@id' }, {
-        update: {
-            method: 'PUT'
-        }
-    });
-});
-
-// Resource for Dataset
-App.factory('Dataset', function($resource) {
-    return $resource('/datasets/api/:id/ ');
-});
-
-// Resource for Palettes
-App.factory('Palettes', function($resource) {
-    return $resource('/choropleths/api/palettes/:id/ ');
-});
-
 // Live edit and generic rendering directive for Markdown
 App.directive('markdown', function($window) {
     var converter = new $window.Showdown.converter();
