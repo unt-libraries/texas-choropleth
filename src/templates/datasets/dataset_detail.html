@@ -6,6 +6,9 @@
 {% endblock header %}
 
 {% if dataset.owner.id == user.id %}
+    {% block workflow %}
+        {% include 'partials/workflow.html' %}
+    {% endblock workflow %}
 
     {% block control-btns %}
 

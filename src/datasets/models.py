@@ -68,19 +68,17 @@ class Dataset(PublishedMixin, AbstractNameModel):
         return self.records.exists()
 
     def has_choropleth(self):
-        return self.choropleth.exists()
+        return hasattr(self, 'choropleth')
 
     def get_max_record(self):
         if self.records.exists():
             max_value = self.records.all().aggregate(models.Max('value'))
             return max_value['value__max']
 
-
     def get_min_record(self):
         if self.records.exists():
             min_value = self.records.all().aggregate(models.Min('value'))
             return min_value['value__min']
-
 
     def import_dataset(self):
         """

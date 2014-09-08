@@ -82,6 +82,7 @@ class ChoroplethCreate(TemplateView):
         context = super(ChoroplethCreate, self).get_context_data(**kwargs)
         dataset = Dataset.objects.get(id=kwargs['pk'])
         if dataset.owner == self.request.user:
+            context['object'] = dataset
             context['dataset'] = dataset
             return context
         else:

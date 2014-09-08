@@ -138,6 +138,9 @@ def export_dataset(request, pk):
     writer = csv.writer(response)
     writer.writerow(['fips', 'name', 'value'])
     for record in dataset.records.all().order_by('cartogram_entity__entity_id'):
-        writer.writerow([record.get_entity_id(), record.get_entity_name(), record.value.normalize()])
+        if record.value != None:
+            writer.writerow([record.get_entity_id(), record.get_entity_name(), record.value.normalize()])
+        else:
+            writer.writerow([record.get_entity_id(), record.get_entity_name(), ])
 
     return response
