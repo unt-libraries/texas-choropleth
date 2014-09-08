@@ -6,46 +6,49 @@
 {% endblock header %}
 
 {% if dataset.owner.id == user.id %}
+
     {% block control-btns %}
+
         <a href="{% url 'csv-template' dataset.cartogram.id %}">
             <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
         </a>
 
         {% ifequal dataset.owner user %}
+
             <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete-form-modal">
                 <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
             </button>
+            <a href="{% url 'datasets:dataset-update' dataset.id %}">
+                <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
+            </a>
+
         {% endifequal %}
 
-        <a href="{% url 'datasets:dataset-update' dataset.id %}">
-            <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
-        </a>
     {% endblock control-btns %}
+
 {% endif %}
 
 {% block content %}
 {{ block.super }}
     <div class="row">
         <p>{{ dataset.description }}</p>
-        <dl class="dl-horizontal col-sm-7">
-            <dt>Created</dt><dd>{{ dataset.created_at|date:'m/d/Y' }}</dd>
-            <dt>Last Modified</dt><dd>{{ dataset.modified_at|timesince }} ago</dd>
-            <dt>Document Name</dt><dd>{{ dataset.document }}</dd>
-            <dt>Cartogram</dt><dd>{{ dataset.cartogram.name}}</dd>
-            <dt>Published</dt><dd>{{ dataset.get_published_display }}</dd>
-            <dt>License</dt><dd>{{ dataset.get_license_display }}
-        </dl>
+
         {% if dataset.owner.id == user.id %}
-            <div id="datafile-form" class="well col-sm-5">
+
+            <div id="datafile-form" class="well col-sm-6">
                 <form method="post" action="{% url 'datasets:dataset-detail' dataset.id %}" enctype="multipart/form-data" class="form-horizontal">
                     {% csrf_token %}
+
                     {% if form.errors %}
+
                         <div class="form-group">
                             <div class="text-danger">
                                 {{ form.errors.datafile }}
                             </div>
                         </div>
+
                     {% endif %}
+
                     <div class="form-group">
                         <div class="col-sm-8">
                         {{ form.datafile.label_tag }}
@@ -59,7 +62,30 @@
                     </div>
                 </form>
             </div>
+
         {% endif %}
+
+        <div class="col-sm-6">
+            <div id="info-panel" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <a data-toggle="collapse" data-parent="#info-wrapper" href="#info"><strong>Info</strong></a>
+                    </div>
+                </div>
+                <div id="info" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Created</dt><dd>{{ dataset.created_at|date:'m/d/Y' }}</dd>
+                            <dt>Last Modified</dt><dd>{{ dataset.modified_at|timesince }} ago</dd>
+                            <dt>Document Name</dt><dd>{{ dataset.document }}</dd>
+                            <dt>Cartogram</dt><dd>{{ dataset.cartogram.name}}</dd>
+                            <dt>Published</dt><dd>{{ dataset.get_published_display }}</dd>
+                            <dt>License</dt><dd>{{ dataset.get_license_display }}
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     
     {% if dataset.records.exists %}
@@ -67,11 +93,15 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <strong>Records</strong>
+
             {% ifequal dataset.owner user %}
+
                 <span class="pull-right">
                     <a href="{% url 'datasets:dataset-export' dataset.id %}"><span class="glyphicon glyphicon-circle-arrow-down"></span>&nbsp;Export</a>
                 <span>
+
             {% endifequal %}
+
         </div>
         <div loading class="panel-body dataset" ng-controller="DatasetTableController" ng-init="init({{ dataset.id }})">
             <table class="table table-condensed table-striped">
