@@ -29,6 +29,7 @@ class AbstractNameModel(AbstractModel):
     class Meta:
         abstract = True
 
+
 class PublishedMixin(models.Model):
     PUBLISH_CHOICES = (
         (0, 'No'),
@@ -41,6 +42,7 @@ class PublishedMixin(models.Model):
     )
     class Meta:
         abstract = True
+
 
 class Dataset(PublishedMixin, AbstractNameModel):
     LICENSE_CHOICES = (
@@ -78,11 +80,21 @@ class Dataset(PublishedMixin, AbstractNameModel):
         return hasattr(self, 'choropleth')
 
     def get_max_record(self):
+        """
+        Maximum Record:
+        
+        Used to determine the domain of the dataset
+        """
         if self.records.exists():
             max_value = self.records.all().aggregate(models.Max('value'))
             return max_value['value__max']
 
     def get_min_record(self):
+        """
+        Minimum Record:
+        
+        Used to determine the domain of the dataset
+        """
         if self.records.exists():
             min_value = self.records.all().aggregate(models.Min('value'))
             return min_value['value__min']
@@ -127,9 +139,8 @@ class Dataset(PublishedMixin, AbstractNameModel):
                 )
 
                 # Update the value only if it has changed
-                new_records = 0
-                updated_records = 0
                 if not created:
+                    # Explicitly check if the record is null. Cannot create Decimal with ''
                     if (is_null and record.value != row[2]) or (not is_null and record.value != Decimal(row[2])):
                         record.value = row[2]
                         record.save()
@@ -139,14 +150,17 @@ class Dataset(PublishedMixin, AbstractNameModel):
 
         self.save()
         self.get_datafile().seek(0)
-        print imported_records
         return imported_records
 
     def get_datafile(self):
+        """
+        Shortcut to the datafile
+        """
         return self.document.datafile
 
     def __unicode__(self):
         return self.name
+
 
 class DatasetDocument(AbstractModel):
     datafile = models.FileField(
@@ -189,9 +203,15 @@ class DatasetRecord(AbstractModel):
         self.objects.remove
 
     def get_entity_id(self):
+        """
+        Shortcut to the cartogram_entity's id
+        """
         return self.cartogram_entity.entity_id
 
     def get_entity_name(self):
+        """
+        Shortcut to the cartogram_entity's name
+        """
         return self.cartogram_entity.name
 
     class Meta:
