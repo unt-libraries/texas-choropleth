@@ -1,18 +1,21 @@
 {% extends "_layout.html" %}
 {% block page_title %}Edit {{ dataset.name }}{% endblock page_title %}
 
-{% load compressed %}
-{% block head %}
-{% compressed_js 'app' %}
-{% endblock head %}
 
 {% block header %}
+
     {% if dataset %}
+
         <h1>{{ dataset.name }}</h1>
+
     {% else %}
+
         <h1>New Dataset</h1>
+
     {% endif %}
+
 {% endblock header %}
+
 
 {% block content %}
 {{ block.super }}

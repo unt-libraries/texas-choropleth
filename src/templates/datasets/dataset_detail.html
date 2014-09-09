@@ -1,14 +1,18 @@
 {% extends "_layout.html" %}
 {% block page_title %}Dataset Management{% endblock page_title %}
 
-{% block header %}
-    {{ dataset.name }}
-{% endblock header %}
+
+{% block header %}{{ dataset.name }}{% endblock header %}
+
 
 {% if dataset.owner.id == user.id %}
+
     {% block workflow %}
+
         {% include 'partials/workflow.html' %}
+
     {% endblock workflow %}
+
 
     {% block control-btns %}
 
@@ -31,8 +35,10 @@
 
 {% endif %}
 
+
 {% block content %}
 {{ block.super }}
+
     <div class="row">
         <p>{{ dataset.description }}</p>
 
@@ -41,7 +47,6 @@
             <div id="datafile-form" class="well col-sm-6">
                 <form method="post" action="{% url 'datasets:dataset-detail' dataset.id %}" enctype="multipart/form-data" class="form-horizontal">
                     {% csrf_token %}
-
                     {% if form.errors %}
 
                         <div class="form-group">
