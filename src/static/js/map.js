@@ -73,7 +73,9 @@ App.directive('choropleth', function($window) {
 
                             scale = d3.scale.log()
                                 .domain([scope.domain.min, scope.domain.max])
-                                .range([color1, color2]);
+                                .range([color1, color2])
+                                .clamp(true);
+                            console.log(scope.domain.min, scope.domain.max)
                         }
                         break;
 
@@ -90,9 +92,19 @@ App.directive('choropleth', function($window) {
                 svg.select("#entities").selectAll("path")
                     .attr('class', null)
                     .attr('fill', function(d) {
-                        data.forEach(function(d) { rateById.set(d.cartogram_entity, +d.value); });
-                        return scale(rateById.get(d.properties.fips));
+                        data.forEach(function(d) { rateById.set(d.cartogram_entity, d.value); });
+                        return fill(d);
                     });
+            }
+
+            function fill(d) {
+                 value = rateById.get(d.properties.fips);
+                 if (value == null) {
+                     return 'none'
+                 } else {
+                     return scale(rateById.get(d.properties.fips));
+                 }
+
             }
 
             function ready(error, texas) {
@@ -102,7 +114,7 @@ App.directive('choropleth', function($window) {
                  .data(topojson.feature(texas, texas.objects.counties).features)
                 .enter().append("path")
                   .attr("id", function(d) { return d.properties.fips; })
-                  .attr("fill", function(d) {return scale(rateById.get(d.properties.fips)); })
+                  .attr("fill", function(d) { return fill(d); })
                   .attr("d", path);
 
               choropleth.find('#loader').fadeOut('slow', function() {
@@ -112,7 +124,7 @@ App.directive('choropleth', function($window) {
             }
 
             function render(data) {
-                data.forEach(function(d) {rateById.set(d.cartogram_entity, +d.value); });
+                data.forEach(function(d) {rateById.set(d.cartogram_entity, d.value); });
                 queue()
                     .defer(d3.json, "/static/JSON/texas.json")
                     .await(ready);
@@ -205,6 +217,7 @@ App.controller('ViewController', function ViewController ($scope, $controller, C
 
             Dataset.get({id: data.dataset}, function(data) {
                 $scope.dataset = data;
+                $scope.scales = data.scale_options
                 $scope.hasData = true;
             });
 
@@ -238,6 +251,7 @@ App.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, D
             $scope.choropleth.dataset = data.id;
             $scope.choropleth.name = data.name;
             $scope.choropleth.data_classes = 3;
+            $scope.scales = data.scale_options;
             $scope.hasData = true;
         });
 
