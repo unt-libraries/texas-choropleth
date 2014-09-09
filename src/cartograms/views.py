@@ -14,6 +14,6 @@ def cartogram_csv_template(request, pk):
     writer = csv.writer(response)
     writer.writerow(['fips', 'name', 'value'])
     for entity in cartogram.entities.all().order_by('entity_id'):
-        writer.writerow([entity.entity_id, entity.name, 0])
+        writer.writerow([entity.entity_id, entity.name, ''])
 
     return response
