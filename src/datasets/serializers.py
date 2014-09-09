@@ -20,11 +20,33 @@ class DatasetSerializer(serializers.ModelSerializer):
     records = DatasetRecordSerializer(many=True)
     cartogram = serializers.PrimaryKeyRelatedField()
     domain = serializers.SerializerMethodField('get_domain')
+    scale_options = serializers.SerializerMethodField('get_scales')
 
     class Meta:
         model = Dataset
-        fields = ('id', 'name','label', 'cartogram', 'domain', 'records')
+        fields = (
+                'id',
+                'name',
+                'label',
+                'scale_options',
+                'cartogram',
+                'domain',
+                'records'
+        )
 
     def get_domain(self, obj):
+        """
+        Format the min and max into a dictionary for the JS to reference by key
+        """
+
         return {'min': obj.get_min_record(), 'max': obj.get_max_record()}
+
+    def get_scales(self, obj):
+        """
+        Format the data into a dictionary for the JS to reference by key
+        """
+        scales = obj.get_scales()
+        keys = ['id', 'name']
+
+        return map(lambda scale: dict(zip(keys, scale)), scales)
 
