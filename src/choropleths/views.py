@@ -58,7 +58,7 @@ class ChoroplethEdit(GetPublishedObjectMixin, generic.DetailView):
 
     def get_object(self, **kwargs):
         """
-        Only the owner may show get a status 200
+        Only the owner will get a status 200
         """
         choropleth = super(ChoroplethEdit, self).get_object(**kwargs)
         if choropleth.owner != self.request.user:
