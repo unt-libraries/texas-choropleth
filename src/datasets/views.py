@@ -9,6 +9,7 @@ from .models import Dataset, DatasetDocument
 from .serializers import DatasetSerializer
 from .forms import DatasetUploadForm, DatasetForm
 from django.http import HttpResponse
+from choropleths.views import GetPublishedObjectMixin
 
 
 class DatasetManagement(generic.ListView):
@@ -20,7 +21,7 @@ class DatasetManagement(generic.ListView):
         return Dataset.objects.filter(owner_id=self.request.user.pk).order_by('-modified_at')
 
 
-class DatasetDisplay(generic.DetailView):
+class DatasetDisplay(GetPublishedObjectMixin, generic.DetailView):
     model = Dataset
     queryset = Dataset.objects.prefetch_related('records__cartogram_entity')
 
@@ -28,13 +29,6 @@ class DatasetDisplay(generic.DetailView):
         context = super(DatasetDisplay, self).get_context_data(**kwargs)
         context['form'] = DatasetUploadForm()
         return context
-
-    def get_object(self, **kwargs):
-        dataset = super(DatasetDisplay, self).get_object(**kwargs)
-        if dataset.owner != self.request.user:
-            if not dataset.published:
-                raise PermissionDenied()
-        return dataset
 
 
 class DatasetUpload(generic.detail.SingleObjectMixin, generic.FormView):
@@ -94,6 +88,7 @@ class DatasetCreate(generic.edit.CreateView):
     def get_success_url(self):
         return reverse('datasets:dataset-detail', kwargs={'pk': self.object.pk})
 
+
 class DatasetDelete(generic.edit.DeleteView):
    model = Dataset
    success_url = reverse_lazy('datasets:dataset-management')
@@ -116,13 +111,12 @@ class DatasetUpdate(generic.edit.UpdateView):
         dataset = super(DatasetUpdate, self).get_object(**kwargs)
         if dataset.owner != self.request.user:
             raise PermissionDenied()
-        else:
-            return dataset
+        return dataset
+
 
 class DatasetAPIView(RetrieveAPIView):
     model = Dataset 
     serializer_class = DatasetSerializer
-
 
 def export_dataset(request, pk):
     dataset = Dataset.objects.get(id=pk)
