@@ -10,18 +10,10 @@ class DatasetRecordNameField(serializers.Field):
 class DatasetRecordSerializer(serializers.ModelSerializer):
     cartogram_entity = serializers.SlugRelatedField(read_only=True, slug_field='entity_id')
     name = DatasetRecordNameField()
-    value = serializers.SerializerMethodField('normalize_value')
 
     class Meta:
         model = DatasetRecord
         fields = ('id', 'name', 'cartogram_entity', 'value')
-
-    def normalize_value(self, obj):
-        """
-        Convert to float to avoid extra processing client side.
-        """
-        if obj.value:
-            return float(obj.value)
 
 
 class DatasetSerializer(serializers.ModelSerializer):
