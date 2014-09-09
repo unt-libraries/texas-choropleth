@@ -3,23 +3,28 @@
 {% block page_title %}{{ choropleth.name }}{% endblock page_title %}
 
 {% block head %}
-{% compressed_js 'map-vendor' %}
-{% compressed_js 'map' %}
+    {% compressed_js 'map-vendor' %}
+    {% compressed_js 'map' %}
 {% endblock head %}
 
-{% block header %}
-    {{ choropleth.name }}
-{% endblock header %}
+
+{% block header %}{{ choropleth.name }}{% endblock header %}
+
 
 {% block control-btns %}
+
     <a href="{% url 'choropleths:choropleth-edit' choropleth.pk %}">
         <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
     </a>
+
     {% ifequal user choropleth.owner %}
+
         <a href="{% url 'choropleths:choropleth-view' choropleth.pk %}">
             <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;View</button>
         </a>
+
     {% endifequal %}
+
 {% endblock control-btns %}
 
 {% block content %}

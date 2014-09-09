@@ -2,15 +2,18 @@
 {% load compressed %}
 {% block page_title %}Choropleth{% endblock page_title %}
 
+
 {% block head %}
-{% compressed_js 'map-vendor' %}
-{% compressed_js 'map' %}
-{% compressed_css 'colorbrewer' %}
+    {% compressed_js 'map-vendor' %}
+    {% compressed_js 'map' %}
 {% endblock head %}
 
+
 {% block content %}
+
 <div class="col-sm-12" id="choropleth-wrapper">
     <div ng-controller="EditController" ng-init="init({{ choropleth.id }})">
+
         {% include 'partials/choropleth_form.html' %}
 
         <div class="modal fade" id="delete-choropleth-form" tabindex="-1" role="dialog">
@@ -23,13 +26,12 @@
                         <p>Are you sure you want to delete <strong>{{ choropleth.name }}</strong>?</p>
                     </div>
                     <div class="modal-footer">
-                            <input type="submit" value="Delete" class="btn btn-danger" ng-click="delete()">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button
+                        <input type="submit" value="Delete" class="btn btn-danger" ng-click="delete()">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 

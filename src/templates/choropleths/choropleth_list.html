@@ -1,52 +1,61 @@
 {% extends "_list-layout.html" %}
 {% block page_title %}Choropleths{% endblock page_title %}
 
-{% load compressed %}
-{% block head %}
-{% compressed_js 'app' %}
-{% endblock head %}
+{% block header %}Choropleths{% endblock header %}
 
-{% block header %}
-    Choropleths
-{% endblock header %}
 
 {% block control-btns %}
+
     <a class="pull-right" href="{% url 'datasets:dataset-create' %}">
-        <button class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-plus"></span>
-            New Dataset
-        </button>
+        <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-plus"></span>&nbsp;New Dataset</button>
     </a>
+    
 {% endblock control-btns %}
 
+
 {% block object_name %}
+
     <a href="{% url 'choropleths:choropleth-view' object.id %}">
         {{ object.name }}
     </a>
+
     {% if not object.published %}
+
         <small><span class="glyphicon glyphicon-lock" data-content="This choropleth is not published" popover></span></small>
+
     {% endif %}
+
 {% endblock object_name %}
 
+
 {% block object_description %}
+
     {{ object.dataset.description|truncatechars:140 }}
+
 {% endblock object_description %}
+
 
 {% block notification %}
     <ul class="list-unstyled"
+
     {% if not object.dataset.has_records %}
+
         <li>
             <span class="notification data" data-content="Upload some data to make your choropleth more meaningful" popover>
                 <span class="glyphicon glyphicon-certificate"></span>
                 &nbsp;No data 
             </span>
         </li>
+
     {% endif %}
 
     </ul>
+
 {% endblock notification %}
 
+
 {% block list_item_icons %}
+
     <a class="success choro"
        href="{% url 'choropleths:choropleth-view' object.id %}"
        data-toggle="tooltip"
@@ -71,12 +80,17 @@
        tooltip>
         <span class="glyphicon glyphicon-book"></span>
     </a>
+
 {% endblock list_item_icons %}
 
 {% block content %}
+
 {% with noHorizontalRule=True %}
+
 <div ng-app="App">
 {{ block.super }}
 </div>
+
 {% endwith %}
+
 {% endblock content %}

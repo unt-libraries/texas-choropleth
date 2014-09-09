@@ -9,14 +9,17 @@
 {% endblock head %}
 
 {% block workflow %}
+
     {% include 'partials/workflow.html' %}
+
 {% endblock workflow %}
 
 {% block content %}
 
-<div class="col-sm-12" id="choropleth-wrapper">
-    <div ng-controller="MappCtrl" ng-init="init({{ dataset.id }})">
-        {% include 'partials/choropleth_form.html' with create=True %}
+    <div class="col-sm-12" id="choropleth-wrapper">
+        <div ng-controller="MappCtrl" ng-init="init({{ dataset.id }})">
+            {% include 'partials/choropleth_form.html' with create=True %}
+        </div>
     </div>
 
 {% endblock content %}

@@ -3,34 +3,37 @@
 {% block page_title %}{{ choropleth.name }}{% endblock page_title %}
 
 {% block head %}
-{% compressed_js 'map-vendor' %}
-{% compressed_js 'map' %}
-{% compressed_css 'colorbrewer' %}
+    {% compressed_js 'map-vendor' %}
+    {% compressed_js 'map' %}
 {% endblock head %}
 
-{% block header %}
-    {{ choropleth.name }}
-{% endblock header %}
+
+{% block header %}{{ choropleth.name }}{% endblock header %}
+
 
 {% block control-btns %}
+
     {% if choropleth.owner.id == user.id %}
-    <a  href="{% url 'choropleths:choropleth-edit' choropleth.id %}">
-        <button class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit
-        </button>
-    </a>
+
+        <a  href="{% url 'choropleths:choropleth-edit' choropleth.id %}">
+            <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
+        </a>
+
     {% endif %}
+
     {% if choropleth.dataset.published %}
-    <a  href="{% url 'datasets:dataset-detail' choropleth.dataset_id %}">
-        <button class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-book"></span>&nbsp;Dataset
-        </button>
-    </a>
+
+        <a  href="{% url 'datasets:dataset-detail' choropleth.dataset_id %}">
+            <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-book"></span>&nbsp;Dataset</button>
+        </a>
+
     {% endif %}
+
 {% endblock control-btns %}
 
 
 {% block content %}
+
 {% with noHorizontalRule=True %}
 {{ block.super }}
 {% endwith %}

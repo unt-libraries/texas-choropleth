@@ -1,12 +1,10 @@
 {% extends "_layout.html" %}
 {% block page_title %}Gallery{% endblock page_title %}
 
-{% block header %}
-Gallery
-{% endblock header %}
+{% block header %}Gallery{% endblock header %}
 
 {% block content %}
-    {{block.super}}
+{{block.super}}
 
     {% for object in object_list %}
 
@@ -14,14 +12,10 @@ Gallery
             <div class="row">
                 <div class="col-sm-10">
                     <h4>
-                        <a href="{% url 'choropleths:choropleth-view' object.id %}">
-                            {{ object.name }}
-                        </a>
+                        <a href="{% url 'choropleths:choropleth-view' object.id %}">{{ object.name }}</a>
                     </h4>
                     <div class="list-item-description">
-                        <h5 class="item-description">
-                            {{ object.dataset.description|truncatechars:50 }}
-                        </h5>
+                        <h5 class="item-description">{{ object.dataset.description|truncatechars:50 }}</h5>
                         <h5 class="text-muted">Updated {{ object.modified_at|timesince }} ago</h5>
                     </div>
                 </div>
@@ -29,19 +23,12 @@ Gallery
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="grid-item-icons">
-
-                        <a href="{% url 'choropleths:choropleth-view' object.id %}">
-                            <span class="glyphicon glyphicon-globe"></span>
-                        </a>
-                        <a href="{% url 'choropleths:choropleth-detail' object.id %}">
-                            <span class="glyphicon glyphicon-file"></span>
-                        </a>
+                        <a href="{% url 'choropleths:choropleth-view' object.id %}"><span class="glyphicon glyphicon-globe"></span></a>
+                        <a href="{% url 'choropleths:choropleth-detail' object.id %}"><span class="glyphicon glyphicon-file"></span></a>
 
                         {% if object.dataset.published %}
 
-                            <a href="{% url 'datasets:dataset-detail' object.dataset.id %}">
-                                <span class="glyphicon glyphicon-book"></span>
-                            </a>
+                            <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"><span class="glyphicon glyphicon-book"></span></a>
 
                         {% endif %}
 
