@@ -5,9 +5,7 @@ class DatasetUploadForm(forms.ModelForm):
     class Meta:
         model = DatasetDocument
         fields = ['datafile']
-        labels = {
-            'datafile': ('CSV File'),
-        }
+        labels = { 'datafile': ('CSV File'), }
 
 class DatasetForm(forms.ModelForm):
 
