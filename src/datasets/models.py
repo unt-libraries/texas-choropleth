@@ -86,7 +86,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
         """
         document = csv.reader(self.get_datafile().read().splitlines())
 
-        imported_records = 0
+        imported_records = dict([('created', 0), ('updated', 0)])
         for row_num, row in enumerate(document):
             #skip over the headers
             if row_num == 0:
@@ -94,21 +94,30 @@ class Dataset(PublishedMixin, AbstractNameModel):
             elif len(row) == 0:
                 continue
             else:
+                is_null = True if not row[2] else False
+                if is_null:
+                    row[2] = None
+
                 entity = self.cartogram.entities.get(entity_id=row[0])
                 record, created =  self.records.get_or_create(
                     cartogram_entity=entity,
                     defaults = {'value': row[2]}
                 )
+
                 # Update the value only if it has changed
-                if not created and record.value != Decimal(row[2]):
-                    record.value = row[2]
-                    record.save()
-                    imported_records += 1
-                elif created:
-                    imported_records += 1
+                new_records = 0
+                updated_records = 0
+                if not created:
+                    if (is_null and record.value != row[2]) or (not is_null and record.value != Decimal(row[2])):
+                        record.value = row[2]
+                        record.save()
+                        imported_records['updated'] += 1
+                if created:
+                    import_records['created'] += 1
 
         self.save()
         self.get_datafile().seek(0)
+        print imported_records
         return imported_records
 
     def get_datafile(self):
