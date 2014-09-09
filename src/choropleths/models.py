@@ -1,7 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datasets.models import Dataset, PublishedMixin
+from datasets.models import Dataset, PublishedMixin, SCALE_CHOICES
 
+SCHEME_CHOICES = (
+    (1, 'Sequential'),
+    (2, 'Diverging'),
+    (3, 'Qualitative'),
+)
 
 class AbstractModel(models.Model):
     status = models.BooleanField(default=False)
@@ -12,11 +17,7 @@ class AbstractModel(models.Model):
 
 
 class SchemeMixin(models.Model):
-    SCHEME_CHOICES = (
-        (1, 'Sequential'),
-        (2, 'Diverging'),
-        (3, 'Qualitative'),
-    )
+    SCHEME_CHOICES = SCHEME_CHOICES
 
     scheme = models.IntegerField(
         choices=SCHEME_CHOICES,
@@ -34,12 +35,7 @@ class Palette(SchemeMixin, AbstractModel):
 
 
 class Choropleth(PublishedMixin, SchemeMixin, AbstractModel):
-    SCALE_CHOICES = (
-        (0, "Quantize"),
-        (1, "Logarithmic"),
-        # (2, "Linear"), # Scheduled for v.2
-        # (3, "Exponential"), # Scheduled for v.2
-    )
+    SCALE_CHOICES = SCALE_CHOICES
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     dataset = models.OneToOneField(Dataset, null=True)
