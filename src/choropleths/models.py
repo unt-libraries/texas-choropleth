@@ -27,6 +27,7 @@ class SchemeMixin(models.Model):
     class Meta:
         abstract = True
 
+
 class Palette(SchemeMixin, AbstractModel):
     class_name = models.CharField(max_length=96, unique=True)
 
@@ -40,7 +41,7 @@ class Choropleth(PublishedMixin, SchemeMixin, AbstractModel):
     modified_at = models.DateTimeField(auto_now=True)
     dataset = models.OneToOneField(Dataset, null=True)
     description = models.TextField(blank=True)
-    data_classes = models.SmallIntegerField(null=True) # Will only be null when using a non-quantized scale.
+    data_classes = models.SmallIntegerField(null=True)
     scale = models.IntegerField(
         choices=SCALE_CHOICES, 
         default=0
