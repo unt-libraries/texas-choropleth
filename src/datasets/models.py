@@ -7,6 +7,13 @@ from django.contrib.auth.models import User
 from cartograms.models import Cartogram, CartogramEntity
 from .validators import import_validator
 
+SCALE_CHOICES = (
+    (0, "Quantize"),
+    (1, "Logarithmic"),
+    # (2, "Linear"), # Scheduled for v.2
+    # (3, "Exponential"), # Scheduled for v.2
+)
+
 class AbstractModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
@@ -80,6 +87,21 @@ class Dataset(PublishedMixin, AbstractNameModel):
             min_value = self.records.all().aggregate(models.Min('value'))
             return min_value['value__min']
 
+    def get_scales(self):
+        """
+        Scales are stored with the Choropleth
+        However, the elible options are determined based on
+        the min and max of the dataset
+        """
+        scales = [SCALE_CHOICES[0]]
+        min_value = self.get_min_record()
+        max_value = self.get_max_record()
+
+        if abs(min_value) > 0 and abs(max_value):
+            scales.append(SCALE_CHOICES[1])
+
+        return scales
+
     def import_dataset(self):
         """
         Import datafile records into the DatasetRecord
@@ -113,7 +135,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
                         record.save()
                         imported_records['updated'] += 1
                 if created:
-                    import_records['created'] += 1
+                    imported_records['created'] += 1
 
         self.save()
         self.get_datafile().seek(0)
