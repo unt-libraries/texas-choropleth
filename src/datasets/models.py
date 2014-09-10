@@ -74,9 +74,15 @@ class Dataset(PublishedMixin, AbstractNameModel):
     )
 
     def has_records(self):
+        """
+        True if the dataset has at least one record
+        """
         return self.records.exists()
 
     def has_choropleth(self):
+        """
+        True if the dataset has an associated choropleth object
+        """
         return hasattr(self, 'choropleth')
 
     def get_max_record(self):
@@ -89,6 +95,17 @@ class Dataset(PublishedMixin, AbstractNameModel):
             max_value = self.records.all().aggregate(models.Max('value'))
             return max_value['value__max']
 
+    def get_non_zero_max_record(self):
+        """
+        Maximum Non-zero Record
+
+        Value is used when the maximum value must not be zero
+        """
+        if self.records.exists() and self.domain_contains_zero():
+            max_value = self.records.exclude(value=0).exclude(value=None).aggregate(models.Max('value'))
+            return max_value['value__max']
+        return self.get_max_record()
+
     def get_min_record(self):
         """
         Minimum Record:
@@ -99,8 +116,42 @@ class Dataset(PublishedMixin, AbstractNameModel):
             min_value = self.records.all().aggregate(models.Min('value'))
             return min_value['value__min']
 
-    def get_scales(self):
+    def get_non_zero_min_record(self):
         """
+        Minimum Non-zero Record
+
+        Value is used when the minimum value must not be zero
+        """
+        if self.records.exists() and self.domain_contains_zero():
+            min_value = self.records.exclude(value=0).exclude(value=None).aggregate(models.Min('value'))
+            return min_value['value__min']
+        return self.get_min_record()
+
+
+    def domain_contains_zero(self):
+        """
+        Determines if the Zero is contained in the interval created by the 
+        minimum record value and maximum record value
+
+        The domain is the interval created by the the Min record value and the 
+        Max record value
+        """
+        min_value = self.get_min_record()
+        max_value = self.get_max_record()
+
+        return min_value <= 0 <= max_value
+
+    def get_scale_options(self):
+        """
+        Return appropriate scales for the dataset's climate
+
+        Quantized is always added to the list of eligible scales becuase the
+        scale is not effected by have 0 in the domain.
+
+        Logarithmic is added to the list of eligible scales if the the Min and Max
+        records are both not zero, or if the domain does not contain both positive
+        and negative numbers
+
         Scales are stored with the Choropleth
         However, the elible options are determined based on
         the min and max of the dataset
@@ -109,9 +160,16 @@ class Dataset(PublishedMixin, AbstractNameModel):
         min_value = self.get_min_record()
         max_value = self.get_max_record()
 
-        if abs(min_value) > 0 and abs(max_value):
-            scales.append(SCALE_CHOICES[1])
-
+        if self.domain_contains_zero():
+            # Don't include Logarithmic scale if both values are zero
+            if min_value == 0 and max_value == 0:
+                return scales
+            # Don't include Logaritmic scale if the domain reaches into both the 
+            # positive and negative spectrum
+            if min_value < 0 < max_value:
+                return scales
+            
+        scales.append(SCALE_CHOICES[1])
         return scales
 
     def import_dataset(self):

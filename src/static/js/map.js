@@ -72,7 +72,7 @@ App.directive('choropleth', function($window) {
                 color2 = palette[palette.length -1];
 
               scale = d3.scale.log()
-                .domain([scope.domain.min, scope.domain.max])
+                .domain([scope.domain.non_zero_min, scope.domain.non_zero_max])
                 .range([color1, color2])
                 .clamp(true);
             }
