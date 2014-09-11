@@ -9,9 +9,13 @@
 
     {% for object in object_list %}
 
-        <div class="grid-item col-sm-6">
+        {% if forloop.counter|divisibleby:"3"  %}
             <div class="row">
-                <div class="col-sm-10">
+        {% endif %}
+
+        <div class="grid-item col-sm-4">
+            <div class="row">
+                <div class="col-sm-10"l>
                     <h4>
                         {% if object.thumbnail %}
 
@@ -33,12 +37,25 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="grid-item-icons">
-                        <a href="{% url 'choropleths:choropleth-view' object.id %}"><span class="glyphicon glyphicon-globe"></span></a>
-                        <a href="{% url 'choropleths:choropleth-detail' object.id %}"><span class="glyphicon glyphicon-file"></span></a>
+                        <a href="{% url 'choropleths:choropleth-view' object.id %}"
+                            data-toggle="tooltip"
+                            title="View Choropleth"
+                            tooltip>
+                            <span class="glyphicon glyphicon-globe"></span>
+                        </a>
+                        <a href="{% url 'choropleths:choropleth-detail' object.id %}"
+                            data-toggle="tooltip"
+                            title="Choropleth Detail"
+                            tooltip ><span class="glyphicon glyphicon-file"></span>
+                        </a>
 
                         {% if object.dataset.published %}
 
-                            <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"><span class="glyphicon glyphicon-book"></span></a>
+                            <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"
+                                data-toggle="tooltip"
+                                title="Dataset Detail"
+                                tooltip><span class="glyphicon glyphicon-book"></span>
+                            </a>
 
                         {% endif %}
 
@@ -46,6 +63,10 @@
                 </div>
             </div>
         </div>
+
+        {% if forloop.counter|divisibleby:"3"  %}
+            </div>
+        {% endif %}
 
     {% endfor %}
 
