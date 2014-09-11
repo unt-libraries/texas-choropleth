@@ -91,7 +91,6 @@ App.directive('loading', function($http) {
   };
 });
 
-
 App.factory('Choropleth', function($resource) {
   return $resource('/choropleths/api/:id/ ', { id: '@id' }, {
     update: {
