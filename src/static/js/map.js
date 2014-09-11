@@ -252,7 +252,7 @@ App.controller('EditController', function EditController ($scope, $controller, C
   $controller('ViewController', {$scope: $scope});
 
   $scope.submit = function() {
-    $('#saving-choropleth-modal').modal();
+    $('#in-progress').modal();
     $scope.choropleth.$update($scope._success);
   };
 
@@ -282,7 +282,7 @@ App.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, D
   };
 
   $scope.submit = function() {
-    $('#saving-choropleth-modal').modal();
+    $('#in-progress').modal();
     $scope.choropleth.$save($scope._success);
   };
 });

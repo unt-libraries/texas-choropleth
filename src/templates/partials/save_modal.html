@@ -1,14 +1,20 @@
-<div class="modal fade" id="saving-choropleth-modal" tabindex="-1" role="dialog">
+<div class="modal fade" id="in-progress" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
-            <div class="modal-header">
-            </div>
-            <div class="modal-body">
-                <p class="text-center">Saving <strong>{{ choropleth.name }}</strong></p>
+            <div class="modal-header"></div>
+                <div class="modal-body">
+                {% if upload %}
+
+                    <p class="text-center">Uploading...</p>
+
+                {% else %}
+
+                    <p class="text-center">Saving <strong>{{ object.name }}</strong></p>
+
+                {% endif %}
                 <div loading></div>
             </div>
-            <div class="modal-footer">
-            </div>
+            <div class="modal-footer"></div>
         </div>
     </div>
 </div>
