@@ -1,8 +1,9 @@
 FROM orchardup/python:2.7
 ENV PYTHONUNBUFFERED 1
-RUN apt-get update -qq && apt-get install -y python-mysqldb mysql-client nodejs npm
+RUN apt-get update -qq && apt-get install -y python-mysqldb mysql-client nodejs npm imagemagick
+RUN apt-get build-dep -y  phantomjs
 RUN ln -s $(which nodejs) /usr/local/bin/node
-RUN npm install -g less yuglify
+RUN npm install -g less yuglify phantomjs
 RUN mkdir /app
 WORKDIR /app
 ADD requirements.txt /app/

@@ -39,6 +39,13 @@ a:hover {
     stroke-width: 1px;
 }
 
+
+#export {
+// Div that contains the exportable SVG
+    width: 800px;
+    height: 600px;
+}
+
 #choropleth-wrapper {
     #top-form-wrapper {
 
@@ -73,6 +80,10 @@ a:hover {
         path:hover {
             fill: @gray-lighter;
         }
+
+        #loader {
+            margin-top: 15em;
+        }
     }
 
     .panel-heading > a {
@@ -87,9 +98,6 @@ a:hover {
         margin-top: 1.6em;
     }
     
-    #loader {
-        margin-top: 15em;
-    }
 
     svg.show {
         display: inline !important;

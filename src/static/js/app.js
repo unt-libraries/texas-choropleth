@@ -78,7 +78,7 @@ App.directive('loading', function($http) {
         return $http.pendingRequests.length > 0;
       };
 
-      loader = $('#loader');
+      loader = $('#loader').clone();
 
       scope.$watch(scope.isLoading, function(v) {
         if (v) {

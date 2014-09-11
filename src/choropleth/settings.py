@@ -10,8 +10,12 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
+
+LOG_DIR = os.path.join(PROJECT_ROOT, 'log')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -119,7 +123,10 @@ TEMPLATE_DIRS = (
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDIA_URL = '/media/'
+
+MEDIA_URL = '/media/'
+
+IMAGE_EXPORT_TMP_DIR = os.path.join('/', 'tmp')
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
@@ -128,7 +135,6 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
-
 
 STATIC_URL = '/static/'
 
@@ -169,7 +175,6 @@ PIPELINE_JS = {
         'source_filenames': (
             'vendor/queue-async/queue.min.js',
             'vendor/d3/d3.min.js',
-            'vendor/d3-tip/index.js',
             'vendor/topojson/topojson.js',
             'vendor/showdown/src/showdown.js'
         ),

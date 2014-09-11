@@ -1,8 +1,13 @@
 App.directive('choropleth', function($window) {
 
-  var loader = $("#loader");
-  var choropleth = $("#choropleth");
-      choropleth.append(loader.show());
+  var loader = $("#loader").clone();
+  var hasLoader = loader.length > 0;
+
+
+  if (hasLoader) {
+      var choropleth = $("#choropleth");
+          choropleth.append(loader.show());
+  }
 
   var width = 600,
       height = 600;
@@ -32,13 +37,15 @@ App.directive('choropleth', function($window) {
       palette: '=',
     },
     link: function (scope, element, attrs) {
-      var scale, svg;
+      var scale, svg, $svg;
 
       svg = d3.select(element[0]).append("svg")
         .attr("width", width)
         .attr("height", height);
 
-      $('svg').hide();
+      $svg = $('svg');
+
+      hasLoader ? $svg.hide() : false;
 
       // Watch for changes in the dataset
       scope.$watch('data', function(newVals, oldVals) {
@@ -98,8 +105,8 @@ App.directive('choropleth', function($window) {
 
       function fill(d) {
          value = rateById.get(d.properties.fips);
-         if (value == null) {
-           return 'none'
+         if (value === null) {
+           return 'none';
          } else {
            return scale(rateById.get(d.properties.fips));
          }
@@ -115,10 +122,12 @@ App.directive('choropleth', function($window) {
           .attr("fill", function(d) { return fill(d); })
           .attr("d", path);
 
-        choropleth.find('#loader').fadeOut('slow', function() {
-          this.remove();
-          $('svg').fadeIn('slow');
-        });
+        if (hasLoader) {
+            choropleth.find('#loader').fadeOut('slow', function() {
+              this.remove();
+              $('svg').fadeIn('slow');
+            });
+        }
       }
 
       function render(data) {
@@ -215,7 +224,7 @@ App.controller('ViewController', function ViewController ($scope, $controller, C
 
       Dataset.get({id: data.dataset}, function(data) {
         $scope.dataset = data;
-        $scope.scales = data.scale_options
+        $scope.scales = data.scale_options;
         $scope.hasData = true;
       });
 
@@ -231,6 +240,7 @@ App.controller('EditController', function EditController ($scope, $controller, C
   $controller('ViewController', {$scope: $scope});
 
   $scope.submit = function() {
+    $('#saving-choropleth-modal').modal();
     $scope.choropleth.$update($scope._success);
   };
 
@@ -260,6 +270,7 @@ App.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, D
   };
 
   $scope.submit = function() {
+    $('#saving-choropleth-modal').modal();
     $scope.choropleth.$save($scope._success);
   };
 });

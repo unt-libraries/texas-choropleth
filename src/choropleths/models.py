@@ -50,6 +50,7 @@ class Choropleth(PublishedMixin, SchemeMixin, AbstractModel):
         Palette,
         null=True,
     ) 
+    thumbnail = models.ImageField(upload_to="thumbnails", null=True)
     owner = models.ForeignKey(User, related_name="choropleths")
 
     def __unicode__(self):
