@@ -21,7 +21,7 @@
 
     {% endif %}
 
-    {% if choropleth.dataset.published %}
+    {% if choropleth.dataset.published or choropleth.owner == user %}
 
         <a  href="{% url 'datasets:dataset-detail' choropleth.dataset_id %}">
             <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-book"></span>&nbsp;Dataset</button>
