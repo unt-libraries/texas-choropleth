@@ -18,7 +18,7 @@ class DatasetManagement(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Dataset.objects.filter(owner_id=self.request.user.pk).order_by('-modified_at')
+        return Dataset.objects.filter(owner_id=self.request.user.pk).order_by('-modified_at').select_related('choropleth')
 
 
 class DatasetDisplay(GetPublishedObjectMixin, generic.DetailView):
@@ -117,6 +117,7 @@ class DatasetUpdate(generic.edit.UpdateView):
 class DatasetAPIView(RetrieveAPIView):
     model = Dataset 
     serializer_class = DatasetSerializer
+    queryset = Dataset.objects.prefetch_related('records__cartogram_entity')
 
 def export_dataset(request, pk):
     dataset = Dataset.objects.get(id=pk)

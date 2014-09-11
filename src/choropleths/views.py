@@ -33,8 +33,8 @@ class GetPublishedObjectMixin(object):
 class GalleryView(generic.ListView):
     model = Choropleth
     template_name = "choropleths/gallery.html"
-    paginate_by = 10
-    queryset = Choropleth.objects.filter(published=1).order_by('-created_at', 'name')
+    paginate_by = 12
+    queryset = Choropleth.objects.filter(published=1).order_by('-created_at', 'name').select_related('dataset')
 
 
 class ChoroplethExport(generic.DetailView):
@@ -49,7 +49,7 @@ class ChoroplethList(generic.ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, pk=self.request.user.id)
-        return Choropleth.objects.filter(owner=user).order_by('-modified_at')
+        return Choropleth.objects.filter(owner=user).order_by('-modified_at').select_related('dataset')
 
 
 class ChoroplethDetail(GetPublishedObjectMixin, generic.DetailView):
@@ -101,6 +101,7 @@ class PaletteAPIView(generics.ListAPIView):
 class ChoroplethAPI(viewsets.ModelViewSet):
     model = Choropleth
     serializer_class = ChoroplethSerializer 
+    queryset = Choropleth.objects.select_related('dataset', 'palette')
     
     def pre_save(self, obj):
         obj.owner = self.request.user
