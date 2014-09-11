@@ -148,12 +148,6 @@ PIPELINE_CSS = {
             'css/main.less',
         ),
         'output_filename': 'css/main.css',
-    },        
-    'colorbrewer': {
-        'source_filenames': (
-            'css/colorbrewer.css',
-        ),
-        'output_filename': 'css/colorbrewer.css',
     }
 }
 
