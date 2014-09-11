@@ -16,9 +16,7 @@
         <div class="container">
             <div class="row">
                 {% block ng-app %}{% endblock ng-app %}
-                <div class="col-sm-1">
-                    {% block sidebar-left %}{% endblock sidebar-left %}
-                </div>
+                <div class="col-sm-1"></div>
                 <div class="col-sm-10">
                     {% block workflow %}{% endblock workflow %}
                     {% block content %}
@@ -37,8 +35,7 @@
                         {% endif %}
                     {% endblock content %}
                 </div>
-                <div class="col-sm-1">
-                </div>
+                <div class="col-sm-1"></div>
             </div>
         </div>
         <div id="loader">
