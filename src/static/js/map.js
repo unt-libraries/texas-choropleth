@@ -28,12 +28,8 @@ App.directive('choropleth', function($window) {
   return {
     restrict: "E",
     scope: {
-      data: '=',
-      domain: '=',
-      range: '=',
-      label: '=',
-      scheme: '=',
-      scale: '=',
+      dataset: '=',
+      choropleth: '=',
       palette: '=',
     },
     link: function (scope, element, attrs) {
@@ -48,38 +44,46 @@ App.directive('choropleth', function($window) {
       hasLoader ? $svg.hide() : false;
 
       // Watch for changes in the dataset
-      scope.$watch('data', function(newVals, oldVals) {
+      scope.$watch('dataset.records', function(newVals, oldVals) {
         updateData(newVals);
       }, true);
 
-      scope.$watchCollection('[scale, range, scheme, palette]', function(newVals, oldVals) {
+      scope.$watchCollection('[choropleth.scale, choropleth.data_classes, palette]', function(newVals, oldVals) {
         setScale(newVals[0]);
-        updateData(scope.data);
+        updateData(scope.dataset.records);
       });
 
       function setScale(scaleId) {
+        var range = scope.choropleth.data_classes;
+
         switch(scaleId) {
           // Quantize
           case 0:
-            if (scope.palette && scope.range) {
+            if (scope.palette && scope.choropleth.data_classes) {
+              var min = scope.dataset.domain.min,
+                  max = scope.dataset.domain.max;
+
               scale = d3.scale.quantize()
-                .domain([scope.domain.min, scope.domain.max])
-                .range(d3.range(scope.range).map(function(i) {
-                  return colorbrewer[scope.palette][scope.range][i];
+                .domain([min, max])
+                .range(d3.range(range).map(function(i) {
+                  return colorbrewer[scope.palette][range][i];
                 }));
             }
             break;
 
           // Non-Quantize
           case 1:
-            if (scope.palette && scope.range) {
-              var palette = colorbrewer[scope.palette][scope.range];
+            if (scope.palette && range) {
+              var palette = colorbrewer[scope.palette][range];
 
               var color1 = palette[0];
-                color2 = palette[palette.length -1];
+                  color2 = palette[palette.length -1];
+
+              var min = scope.dataset.domain.non_zero_min,
+                  max = scope.dataset.domain.non_zero_max;
 
               scale = d3.scale.log()
-                .domain([scope.domain.non_zero_min, scope.domain.non_zero_max])
+                .domain([min, max])
                 .range([color1, color2])
                 .clamp(true);
             }
@@ -98,7 +102,8 @@ App.directive('choropleth', function($window) {
         svg.select("#entities").selectAll("path")
           .attr('class', null)
           .attr('fill', function(d) {
-            data.forEach(function(d) { rateById.set(d.cartogram_entity, d.value); });
+            // Updates changes in the dataset
+            // data.forEach(function(d) { rateById.set(d.cartogram_entity, d.value); });
             return fill(d);
           });
       }
@@ -107,9 +112,8 @@ App.directive('choropleth', function($window) {
          value = rateById.get(d.properties.fips);
          if (value === null) {
            return 'none';
-         } else {
-           return scale(rateById.get(d.properties.fips));
          }
+         return scale(rateById.get(d.properties.fips));
       }
 
       function ready(error, texas) {
@@ -137,7 +141,7 @@ App.directive('choropleth', function($window) {
           .await(ready);
       }
 
-      render(scope.data);
+      render(scope.dataset.records);
     }
   };
 });
@@ -192,8 +196,8 @@ App.controller('AbstractController', function AbstractController ($scope, $http,
     keys = [];
     if (palette) {
       for (var index in colorbrewer[palette.class_name]) keys.push(index);
-      min = Math.min.apply(null, keys)
-      max = Math.max.apply(null, keys)
+      min = Math.min.apply(null, keys);
+      max = Math.max.apply(null, keys);
     }
     $scope.range = {
       options: keys,

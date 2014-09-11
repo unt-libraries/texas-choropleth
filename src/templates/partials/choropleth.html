@@ -3,14 +3,7 @@
         <div ng-class="palette.class_name">
 
             {# Choropleth Directive | See static/js/map.js #}
-            <choropleth data="dataset.records"
-                 label="dataset.label"
-                 domain="dataset.domain"
-                 range="choropleth.data_classes"
-                 scale="choropleth.scale"
-                 scheme="choropleth.scheme"
-                 palette="palette.class_name">
-             </choropleth>
+            <choropleth dataset="dataset" choropleth="choropleth" palette="palette.class_name"></choropleth>
 
         </div>
     </div>
