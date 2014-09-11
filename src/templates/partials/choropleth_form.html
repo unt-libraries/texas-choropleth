@@ -69,7 +69,7 @@
                     {# Range Select #}
                     <div class="form-group col-xs-3" ng-class="{'has-error': form.range.$invalid && !form.range.$pristine}">
                         <label for="range" class="control-label">Range</label>
-                        <select class="form-control" name="range" ng-model="choropleth.data_classes" ng-options="n for n in rangeOptions" required>
+                        <select class="form-control" name="range" ng-model="choropleth.data_classes" ng-options="n for n in range.options" kkkrequired>
                         </select>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                 {# Tune Slider #}
                     <div class="form-group col-xs-3" ng-class="{'has-error': form.range.$invalid && !form.range.$pristine}">
                         <label for="range" class="control-label">Tune</label>
-                        <input  name="range" type="range" ng-model="choropleth.data_classes" min="3" max="9" required>
+                        <input  name="range" type="range" ng-model="choropleth.data_classes" min="3" max="8" required>
                         </select>
                     </div>
                 </div>
