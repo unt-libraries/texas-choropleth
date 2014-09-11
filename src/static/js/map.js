@@ -179,16 +179,28 @@ App.controller('AbstractController', function AbstractController ($scope, $http,
     window.location = "/choropleths/";
   };
 
-  $scope.rangeOptions = [3, 4, 5, 6, 7, 8, 9];
-  $scope.scales = [
-    {name: 'Quantized', id: 0},
-    {name: 'Logarithmic', id: 1}
-  ];
   $scope.schemes = [
     {name: "Sequential", id: 1},
     {name: "Diverging", id: 2},
     {name: "Qualitivative", id: 3}
   ];
+
+  // Update the number data_classes available based on the current palette selection
+  $scope.$watch('palette', function (palette) {
+    var keys, min, max;
+
+    keys = [];
+    if (palette) {
+      for (var index in colorbrewer[palette.class_name]) keys.push(index);
+      min = Math.min.apply(null, keys)
+      max = Math.max.apply(null, keys)
+    }
+    $scope.range = {
+      options: keys,
+      min: min,
+      max: max
+    };
+  });
 
   $scope.getSchemePalettes = function(id) {
     Palettes.query({id: id}, function(data) {
