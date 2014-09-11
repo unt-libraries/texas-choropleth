@@ -5,27 +5,29 @@
 
     <div class="row list">
         {% for object  in object_list %}
-        <div class="row list-item">
-            <div class="col-sm-12">
-                <div class="col-sm-10">
-                    <h4>
-                        {% block object_name %}{% endblock object_name %}
-                    </h4>
-                    <div class="list-item-description">
-                        <h5 class="item-description">
-                            {% block object_description %}{% endblock object_description %}
-                        </h5>
-                        <h5 class="text-muted">Updated {{ object.modified_at|timesince }} ago</h5>
-                        {% block notification %}{% endblock notification %}
+
+            <div class="row list-item">
+                <div class="col-sm-12">
+                    <div class="col-sm-10">
+                        <h4>
+                            {% block object_name %}{% endblock object_name %}
+                        </h4>
+                        <div class="list-item-description">
+                            <h5 class="item-description">
+                                {% block object_description %}{% endblock object_description %}
+                            </h5>
+                            <h5 class="text-muted">Updated {{ object.modified_at|timesince }} ago</h5>
+                            {% block notification %}{% endblock notification %}
+                        </div>
                     </div>
+                    {# <div class="col-sm-2 icon-container"> #}
+                        <ul class="list-item-icons">
+                            {% block list_item_icons %}{% endblock list_item_icons %}
+                        </ul>
+                    {# </div> #}
                 </div>
-                {# <div class="col-sm-2 icon-container"> #}
-                    <ul class="list-item-icons">
-                        {% block list_item_icons %}{% endblock list_item_icons %}
-                    </ul>
-                {# </div> #}
             </div>
-        </div>
+
         {% endfor %}
     </div>
 
