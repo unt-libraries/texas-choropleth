@@ -2,9 +2,15 @@
     <div ng-if="hasData">
         <div ng-class="palette.class_name">
 
+
             {# Choropleth Directive | See static/js/map.js #}
-            <choropleth dataset="dataset" choropleth="choropleth" palette="palette.class_name"></choropleth>
+            <choropleth></choropleth>
 
         </div>
     </div>
+    <div ng-if="choropleth.selection.id">
+        <p><strong>Name:</strong> {$ choropleth.selection.name $}</p>
+        <p><strong>{$ dataset.label $}:</strong> {$ choropleth.selection.value $}</p>
+    </div>
+            
 </div>
