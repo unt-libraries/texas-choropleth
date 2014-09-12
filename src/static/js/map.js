@@ -27,13 +27,9 @@ App.directive('choropleth', function($window) {
 
   return {
     restrict: "E",
-    scope: {
-      dataset: '=',
-      choropleth: '=',
-      palette: '=',
-    },
+    scope: true,
     link: function (scope, element, attrs) {
-      var scale, svg, $svg;
+      var scale, svg, $svg, g;
 
       svg = d3.select(element[0]).append("svg")
         .attr("width", width)
@@ -48,7 +44,18 @@ App.directive('choropleth', function($window) {
         updateData(newVals);
       }, true);
 
-      scope.$watchCollection('[choropleth.scale, choropleth.data_classes, palette]', function(newVals, oldVals) {
+      scope.$watch('choropleth.selection.cartogram_entity', function(newVals, oldVals) {
+          if (newVals !== oldVals) {
+              var records = scope.dataset.records
+              records.forEach(function(record) {
+                  if (newVals === record.cartogram_entity) {
+                      scope.choropleth.selection = JSON.parse(JSON.stringify(record))
+                  }
+              })
+          }
+      });
+
+      scope.$watchCollection('[choropleth.scale, choropleth.data_classes, palette.class_name]', function(newVals, oldVals) {
         setScale(newVals[0]);
         updateData(scope.dataset.records);
       });
@@ -66,7 +73,7 @@ App.directive('choropleth', function($window) {
               scale = d3.scale.quantize()
                 .domain([min, max])
                 .range(d3.range(range).map(function(i) {
-                  return colorbrewer[scope.palette][range][i];
+                  return colorbrewer[scope.palette.class_name][range][i];
                 }));
             }
             break;
@@ -74,7 +81,7 @@ App.directive('choropleth', function($window) {
           // Non-Quantize
           case 1:
             if (scope.palette && range) {
-              var palette = colorbrewer[scope.palette][range];
+              var palette = colorbrewer[scope.palette.class_name][range];
 
               var color1 = palette[0];
                   color2 = palette[palette.length -1];
@@ -124,6 +131,10 @@ App.directive('choropleth', function($window) {
         .enter().append("path")
           .attr("id", function(d) { return d.properties.fips; })
           .attr("fill", function(d) { return fill(d); })
+          .on("click", function(d) {
+            scope.choropleth.selection.cartogram_entity = d.properties.fips;
+            scope.$apply();
+          })
           .attr("d", path);
 
         if (hasLoader) {
@@ -237,6 +248,7 @@ App.controller('ViewController', function ViewController ($scope, $controller, C
   $scope.init = function(id) {
     Choropleth.get({id: id}, function (data) {
       $scope.choropleth = data;
+      $scope.choropleth.selection = {};
 
       Dataset.get({id: data.dataset}, function(data) {
         $scope.dataset = data;
@@ -276,6 +288,7 @@ App.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, D
       $scope.choropleth.dataset = data.id;
       $scope.choropleth.name = data.name;
       $scope.choropleth.data_classes = 3;
+      $scope.choropleth.selection = {};
       $scope.scales = data.scale_options;
       $scope.hasData = true;
     });
