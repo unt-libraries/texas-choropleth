@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 
 LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = '/datasets/'
+LOGIN_REDIRECT_URL = '/choropleths/'
 
 
 # Application definition
