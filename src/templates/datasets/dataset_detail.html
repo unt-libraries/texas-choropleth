@@ -16,11 +16,19 @@
 
     {% block control-btns %}
 
-        <a href="{% url 'csv-template' dataset.cartogram.id %}">
-            <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
-        </a>
+        {% if dataset.has_choropleth %}
+
+            <a href="{% url 'choropleths:choropleth-view' dataset.choropleth.id %}">
+                <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-globe"></span>&nbsp;Choropleth</button>
+            </a>
+
+        {% endif %}
 
         {% ifequal dataset.owner user %}
+
+            <a href="{% url 'csv-template' dataset.cartogram.id %}">
+                <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
+            </a>
 
             <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete-form-modal">
                 <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
@@ -100,15 +108,18 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <strong>Records</strong>
+            <div class="panel-title">
+                <strong>Records</strong>
 
-            {% ifequal dataset.owner user %}
+                {% ifequal dataset.owner user %}
 
-                <span class="pull-right">
-                    <a href="{% url 'datasets:dataset-export' dataset.id %}"><span class="glyphicon glyphicon-circle-arrow-down"></span>&nbsp;Export</a>
-                <span>
+                    <span id="export-dataset" class="pull-right">
+                        <a href="{% url 'datasets:dataset-export' dataset.id %}"><span class="glyphicon glyphicon-circle-arrow-down"></span>&nbsp;Export</a>
+                    <span>
 
-            {% endifequal %}
+                {% endifequal %}
+
+            </div>
 
         </div>
         <div loading class="panel-body dataset" ng-controller="DatasetTableController" ng-init="init({{ dataset.id }})">
