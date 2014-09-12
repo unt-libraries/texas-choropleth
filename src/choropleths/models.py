@@ -53,5 +53,19 @@ class Choropleth(PublishedMixin, SchemeMixin, AbstractModel):
     thumbnail = models.ImageField(upload_to="thumbnails", null=True)
     owner = models.ForeignKey(User, related_name="choropleths")
 
+    def get_dataset_id(self):
+        """
+        Double dispatch method for getting the Dataset id from the generic 
+        context object.
+        """
+        return self.dataset.id
+
+    def get_choropleth_id(self):
+        """
+        Double dispatch method for getting the Choropleth id from the generic 
+        context object.
+        """
+        return self.id
+
     def __unicode__(self):
         return self.name

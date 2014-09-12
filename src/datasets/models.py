@@ -73,6 +73,13 @@ class Dataset(PublishedMixin, AbstractNameModel):
         on_delete=models.SET_NULL
     )
 
+    def get_dataset_id(self):
+        """
+        Double dispatch method for getting the Dataset id from the generic 
+        context object.
+        """
+        return self.id
+
     def has_records(self):
         """
         True if the dataset has at least one record
@@ -84,6 +91,14 @@ class Dataset(PublishedMixin, AbstractNameModel):
         True if the dataset has an associated choropleth object
         """
         return hasattr(self, 'choropleth')
+
+    def get_choropleth_id(self):
+        """
+        Double dispatch method for getting the Choropleth id from the generic 
+        context object.
+        """
+        if self.has_choropleth():
+            return self.choropleth.id
 
     def get_max_record(self):
         """
