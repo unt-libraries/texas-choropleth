@@ -9,7 +9,8 @@
 
     {% for object in object_list %}
 
-        {% if forloop.counter|divisibleby:"3"  %}
+        {% if forloop.counter0|divisibleby:"3"  %}
+            True
             <div class="row">
         {% endif %}
 
@@ -29,8 +30,9 @@
                         
                     </h4>
                     <div class="list-item-description">
-                        <h5 class="item-description">{{ object.dataset.description|truncatechars:50 }}</h5>
+                        <h5 class="item-description">{{ object.dataset.description|truncatechars:140 }}</h5>
                         <h5 class="text-muted">Updated {{ object.modified_at|timesince }} ago</h5>
+                        <h5 class="text-muted">Created by: {{ object.owner }}</h5>
                     </div>
                 </div>
             </div>
@@ -39,13 +41,13 @@
                     <ul class="grid-item-icons">
                         <a href="{% url 'choropleths:choropleth-view' object.id %}"
                             data-toggle="tooltip"
-                            title="View Choropleth"
+                            title="View"
                             tooltip>
                             <span class="glyphicon glyphicon-globe"></span>
                         </a>
                         <a href="{% url 'choropleths:choropleth-detail' object.id %}"
                             data-toggle="tooltip"
-                            title="Choropleth Detail"
+                            title="Inspect"
                             tooltip ><span class="glyphicon glyphicon-file"></span>
                         </a>
 
@@ -53,7 +55,7 @@
 
                             <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"
                                 data-toggle="tooltip"
-                                title="Dataset Detail"
+                                title="Dataset"
                                 tooltip><span class="glyphicon glyphicon-book"></span>
                             </a>
 
