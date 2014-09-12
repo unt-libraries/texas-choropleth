@@ -1,5 +1,5 @@
 import os
-from choropleth.settings import LOG_DIR
+from django.conf import settings
 from subprocess import Popen, PIPE
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -18,7 +18,7 @@ def execute_command(command):
 
 def do_screen_capturing(url, screen_path, width, height):
     print "Capturing screen.."
-    driver = webdriver.PhantomJS(service_log_path=os.path.join(LOG_DIR, 'ghostdriver.log'))
+    driver = webdriver.PhantomJS(service_log_path=os.path.join(settings.LOG_DIR, 'ghostdriver.log'))
     # it save service log file in same directory
     # if you want to have log file stored else where
     # initialize the webdriver.PhantomJS() as

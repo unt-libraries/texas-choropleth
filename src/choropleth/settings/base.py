@@ -11,19 +11,16 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# Project Directory Definitions
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
 LOG_DIR = os.path.join(PROJECT_ROOT, 'log')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'jw)fm_v6fb8-oh(1o_^23+#0e)d#udtgc%*@$j2038r!!lo($a'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 TEMPLATE_DEBUG = True
@@ -34,8 +31,8 @@ LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/datasets/'
 
-# Application definition
 
+# Application definition
 DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,7 +44,6 @@ DJANGO_APPS = (
 
 THIRD_PARTY_APPS = (
     'south',
-    'debug_toolbar',
     'pipeline',
     'rest_framework',
 )
@@ -73,14 +69,7 @@ ROOT_URLCONF = 'choropleth.urls'
 
 WSGI_APPLICATION = 'choropleth.wsgi.application'
 
-INTERNAL_IPS = (
-    '172.17.42.1',        
-)
-
-
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
+# Database Settings
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -92,9 +81,8 @@ DATABASES = {
     }
 }
 
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
 
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -107,9 +95,8 @@ USE_TZ = True
 
 DATE_FORMAT = 'N j, Y'
 
-# Cartogram and Cartogram Entity information  will
-# be defined in fixtures
 
+# Template Settings
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
@@ -119,15 +106,16 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
 
+# Media Settings
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
 IMAGE_EXPORT_TMP_DIR = os.path.join('/', 'tmp')
 
+
+# Static Files Settings
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 STATICFILES_DIRS = (
@@ -138,6 +126,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
 STATIC_URL = '/static/'
 
+
+# Pipeline Settings
 PIPELINE_COMPILERS = (
     'pipeline.compilers.less.LessCompiler',
 )

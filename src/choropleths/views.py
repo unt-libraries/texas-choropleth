@@ -1,7 +1,7 @@
 import os
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
-from choropleth.settings import IMAGE_EXPORT_TMP_DIR
+from django.conf import settings
 from rest_framework import generics
 from rest_framework import viewsets
 from django.views import generic
@@ -116,7 +116,7 @@ class ChoroplethAPI(viewsets.ModelViewSet):
             options = {
                 'url': url,
                 'filename': filename,
-                'path': IMAGE_EXPORT_TMP_DIR,
+                'path': settings.IMAGE_EXPORT_TMP_DIR,
                 'crop': True,
                 'crop_replace': False,
                 'thumbnail': True,

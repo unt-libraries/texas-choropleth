@@ -5,7 +5,7 @@ db:
         - MYSQL_DATABASE=choropleth
 web:
     build: .
-    command: python src/manage.py runserver 0.0.0.0:8000
+    command: python src/manage.py runserver 0.0.0.0:8000 --settings=choropleth.settings.local
     volumes:
         - .:/app/
     ports:
