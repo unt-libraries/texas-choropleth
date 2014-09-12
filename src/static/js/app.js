@@ -1,4 +1,4 @@
-var App = angular.module('App', ['ngResource']);
+App = angular.module('App', ['ngResource']);
 
 App.config(function($interpolateProvider, $httpProvider) {
   // New symbols to prevent interference with Django templating language
