@@ -135,13 +135,11 @@
 #choropleth-grid {
     .choropleth-grid-item:hover {
         .thumbnail:hover {
-            border-color: @brand-primary;
+            border-color: @gray-light;
 
         }
     }
 }
-
-
 
 .list {
     .item-description {
@@ -160,11 +158,13 @@
 
         .notification {
             &.data {
-                color: @brand-warning;
+                .label;
+                .label-danger;
             }
 
             &.choro {
-                color: @brand-info;
+                .label;
+                .label-warning;
             }
         }
 
@@ -197,27 +197,14 @@
         margin-left: 1em;
     }
 
-
-    .success {
-        .icon-styling(@brand-success);
-    }
-
-    .success.choro {
-        .icon-styling(@brand-success);
-    }
-
-    .success.choro-detail {
-        .icon-styling(@brand-primary);
-    }
-
     .add-choro {
-        .icon-styling(@brand-info);
+        .icon-styling(@brand-warning);
     }
 
     .data-detail {
         .icon-styling(@gray-light);
         &.no-records {
-            .icon-styling(@brand-warning);
+            .icon-styling(@brand-danger);
         }
     }
 
