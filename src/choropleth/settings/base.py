@@ -157,7 +157,6 @@ PIPELINE_JS = {
     },
     'map-vendor': {
         'source_filenames': (
-            'vendor/queue-async/queue.min.js',
             'vendor/d3/d3.min.js',
             'vendor/topojson/topojson.js',
             'vendor/showdown/src/showdown.js'
