@@ -14,6 +14,7 @@ SCALE_CHOICES = (
     # (3, "Exponential"), # Scheduled for v.2
 )
 
+
 class AbstractModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
@@ -40,6 +41,7 @@ class PublishedMixin(models.Model):
         choices=PUBLISH_CHOICES,
         default=0
     )
+
     class Meta:
         abstract = True
 
@@ -61,7 +63,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
         choices=LICENSE_CHOICES,
         blank=True,
         null=True
-    ) 
+    )
     cartogram = models.ForeignKey(
         Cartogram,
         on_delete=models.PROTECT
@@ -75,7 +77,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
 
     def get_dataset_id(self):
         """
-        Double dispatch method for getting the Dataset id from the generic 
+        Double dispatch method for getting the Dataset id from the generic
         context object.
         """
         return self.id
@@ -94,7 +96,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
 
     def get_choropleth_id(self):
         """
-        Double dispatch method for getting the Choropleth id from the generic 
+        Double dispatch method for getting the Choropleth id from the generic
         context object.
         """
         if self.has_choropleth():
@@ -103,7 +105,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
     def get_max_record(self):
         """
         Maximum Record:
-        
+
         Used to determine the domain of the dataset
         """
         if self.records.exists():
@@ -117,14 +119,17 @@ class Dataset(PublishedMixin, AbstractNameModel):
         Value is used when the maximum value must not be zero
         """
         if self.records.exists() and self.domain_contains_zero():
-            max_value = self.records.exclude(value=0).exclude(value=None).aggregate(models.Max('value'))
+            max_value = self.records \
+                            .exclude(value=0) \
+                            .exclude(value=None) \
+                            .aggregate(models.Max('value'))
             return max_value['value__max']
         return self.get_max_record()
 
     def get_min_record(self):
         """
         Minimum Record:
-        
+
         Used to determine the domain of the dataset
         """
         if self.records.exists():
@@ -138,17 +143,19 @@ class Dataset(PublishedMixin, AbstractNameModel):
         Value is used when the minimum value must not be zero
         """
         if self.records.exists() and self.domain_contains_zero():
-            min_value = self.records.exclude(value=0).exclude(value=None).aggregate(models.Min('value'))
+            min_value = self.records \
+                            .exclude(value=0) \
+                            .exclude(value=None) \
+                            .aggregate(models.Min('value'))
             return min_value['value__min']
         return self.get_min_record()
 
-
     def domain_contains_zero(self):
         """
-        Determines if the Zero is contained in the interval created by the 
+        Determines if the Zero is contained in the interval created by the
         minimum record value and maximum record value
 
-        The domain is the interval created by the the Min record value and the 
+        The domain is the interval created by the the Min record value and the
         Max record value
         """
         min_value = self.get_min_record()
@@ -163,9 +170,9 @@ class Dataset(PublishedMixin, AbstractNameModel):
         Quantized is always added to the list of eligible scales becuase the
         scale is not effected by have 0 in the domain.
 
-        Logarithmic is added to the list of eligible scales if the the Min and Max
-        records are both not zero, or if the domain does not contain both positive
-        and negative numbers
+        Logarithmic is added to the list of eligible scales if the the Min and
+        Max records are both not zero, or if the domain does not contain both
+        positive and negative numbers
 
         Scales are stored with the Choropleth
         However, the elible options are determined based on
@@ -179,11 +186,11 @@ class Dataset(PublishedMixin, AbstractNameModel):
             # Don't include Logarithmic scale if both values are zero
             if min_value == 0 and max_value == 0:
                 return scales
-            # Don't include Logaritmic scale if the domain reaches into both the 
+            # Don't include Logaritmic scale if the domain reaches into both the
             # positive and negative spectrum
             if min_value < 0 < max_value:
                 return scales
-            
+
         scales.append(SCALE_CHOICES[1])
         return scales
 
@@ -195,7 +202,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
 
         imported_records = dict([('created', 0), ('updated', 0)])
         for row_num, row in enumerate(document):
-            #skip over the headers
+            # Skip over the headers
             if row_num == 0:
                 continue
             elif len(row) == 0:
@@ -206,15 +213,17 @@ class Dataset(PublishedMixin, AbstractNameModel):
                     row[2] = None
 
                 entity = self.cartogram.entities.get(entity_id=row[0])
-                record, created =  self.records.get_or_create(
+                record, created = self.records.get_or_create(
                     cartogram_entity=entity,
-                    defaults = {'value': row[2]}
+                    defaults={'value': row[2]}
                 )
 
                 # Update the value only if it has changed
                 if not created:
-                    # Explicitly check if the record is null. Cannot create Decimal with ''
-                    if (is_null and record.value != row[2]) or (not is_null and record.value != Decimal(row[2])):
+                    # Explicitly check if the record is null. Cannot
+                    # create Decimal with ''
+                    if (is_null and record.value != row[2]) \
+                       or (not is_null and record.value != Decimal(row[2])):
                         record.value = row[2]
                         record.save()
                         imported_records['updated'] += 1
@@ -289,4 +298,3 @@ class DatasetRecord(AbstractModel):
 
     class Meta:
         db_table = "datasets_dataset_record"
-
