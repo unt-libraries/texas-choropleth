@@ -1,14 +1,16 @@
-App.directive('choropleth', function($http, $window) {
+App.directive('choropleth', function($http) {
 
+  // Clone the loader
   var loader = $("#loader").clone();
   var hasLoader = loader.length > 0;
 
-
+  // If loader is not present, do not hide the choropleth
   if (hasLoader) {
       var choropleth = $("#choropleth");
           choropleth.append(loader.show());
   }
 
+  // Width and height of the SVG
   var width = 600,
       height = 600;
 
@@ -31,35 +33,36 @@ App.directive('choropleth', function($http, $window) {
     link: function (scope, element, attrs) {
       var scale, svg, $svg, g;
 
+      // D3 SVG Element added to the DOM
       svg = d3.select(element[0]).append("svg")
         .attr("width", width)
         .attr("height", height);
 
+      // JQuery Object for manipulating the SVG's behavior
       $svg = $('svg');
 
+      // Hide the loader only if the loader object exists
       hasLoader ? $svg.hide() : false;
 
-      // Watch for changes in the dataset
-      scope.$watch('dataset.records', function(newVals, oldVals) {
-        updateData(newVals);
-      }, true);
-
+      // Watch for change in the Entity selection
       scope.$watch('choropleth.selection.cartogram_entity', function(newVals, oldVals) {
           if (newVals !== oldVals) {
-              var records = scope.dataset.records
+              var records = scope.dataset.records;
               records.forEach(function(record) {
                   if (newVals === record.cartogram_entity) {
-                      scope.choropleth.selection = JSON.parse(JSON.stringify(record))
+                      scope.choropleth.selection = JSON.parse(JSON.stringify(record));
                   }
-              })
+              });
           }
       });
 
+      // Watch for changes in the Choropleth members items and in the selected Palette
       scope.$watchCollection('[choropleth.scale, choropleth.data_classes, palette.class_name]', function(newVals, oldVals) {
         setScale(newVals[0]);
-        updateData(scope.dataset.records);
+        update(scope.dataset.records);
       });
 
+      // Determines correct scale for the current ScaleID
       function setScale(scaleId) {
         var range = scope.choropleth.data_classes;
 
@@ -105,15 +108,15 @@ App.directive('choropleth', function($http, $window) {
         return scale;
       }
 
-      function updateData(data) {
+      //Updates the SVG/Path elements accordingly
+      function update(data) {
         svg.select("#entities").selectAll("path")
           .attr('fill', function(d) {
-            // Updates changes in the dataset
-            // data.forEach(function(d) { rateById.set(d.cartogram_entity, d.value); });
             return fill(d);
           });
       }
 
+      // Helper function to determine the fill color base on the dataset record value
       function fill(d) {
          value = rateById.get(d.properties.fips);
          if (value === null) {
@@ -122,6 +125,7 @@ App.directive('choropleth', function($http, $window) {
          return scale(rateById.get(d.properties.fips));
       }
 
+      // Performs the initial drawing operation for the Choropleth
       function ready(texas) {
         svg.append("g")
           .attr("id", "entities")
@@ -136,6 +140,7 @@ App.directive('choropleth', function($http, $window) {
           })
           .attr("d", path);
 
+        // Show the loader if it exists
         if (hasLoader) {
             choropleth.find('#loader').fadeOut('slow', function() {
               this.remove();
@@ -144,6 +149,9 @@ App.directive('choropleth', function($http, $window) {
         }
       }
 
+      // Wrapper function for ready()
+      // Grabs the TopoJson file and draws the Choropleth if the
+      // call is successful
       function render(data) {
         data.forEach(function(d) {rateById.set(d.cartogram_entity, d.value); });
         $http.get('/static/JSON/texas.json')
@@ -152,6 +160,7 @@ App.directive('choropleth', function($http, $window) {
         });
       }
 
+      // Begin execution
       render(scope.dataset.records);
     }
   };
@@ -186,12 +195,12 @@ App.directive('markdown', function($window) {
   };
 });
 
-App.controller('AbstractController', function AbstractController ($scope, $http, Palettes) {
+App.controller('AbstractController', function AbstractController ($scope, $window, $http, Palettes) {
 
   $scope.tab = 1;
 
   $scope._success = function() {
-    window.location = "/choropleths/";
+    $window.location = "/choropleths/";
   };
 
   $scope.schemes = [
