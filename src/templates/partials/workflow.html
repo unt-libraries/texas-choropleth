@@ -6,6 +6,8 @@
         <h4>Progress</h4>
 
         {% url 'choropleths:choropleth-create' object.id as choropleth_create %}
+        {% url 'datasets:dataset-create' as dataset_create %}
+
         {% if choropleth_create == request.path  and object.has_records %}
 
             <div class="progress">
@@ -14,14 +16,14 @@
             <p><strong>Next Step:</strong><p>
             <p>Complete the form and click Save when finished.</p>
 
-        {% elif choropleth_create == request.path and not object.has_records %}
+        {% elif dataset_create == request.path %}
 
             <div class="progress">
-                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="40%"></div>
+                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="9%"></div>
             </div>
-            <p><strong>Warning:</strong><p>
-            <p>You your dataset does not have any data yet. <a href="{% url 'datasets:dataset-detail' object.get_dataset_id %}">Go here</a> to do so.</p>
-            
+            <p><strong>Next Step:</strong><p>
+            <p>Complete the form and click Save when finished.</p>
+
 
         {% elif not object.has_records and not object.has_choropleth %}
 
@@ -32,6 +34,22 @@
             <p><strong>Next Step:</strong><p>
             <p>Use the form below to upload a dataset. If you need a CSV template, download one by clicking the 'Get CSV Template' button.</p>
 
+        {% elif not object.has_records and object.has_choropleth %} 
+
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="30%"></div>
+            </div>
+            <p><strong>Next Step:</strong><p>
+            <p>Use the form below to upload a dataset. If you need a CSV template, download one by clicking the 'Get CSV Template' button.</p>
+
+        {% elif choropleth_create == request.path and not object.has_records %}
+
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="40%"></div>
+            </div>
+            <p><strong>Warning:</strong><p>
+            <p>You your dataset does not have any data yet. <a href="{% url 'datasets:dataset-detail' object.get_dataset_id %}">Go here</a> to do so.</p>
+            
         {% elif object.has_records and not object.has_choropleth %} 
 
             <div class="progress">
@@ -39,7 +57,6 @@
             </div>
             <p><strong>Next Step:</strong><p>
             <a href="{% url 'choropleths:choropleth-create' object.id %}"<button class="btn btn-danger btn-sm">Create a Choropleth</button></a>
-
 
         {% endif %}
 
