@@ -1,16 +1,13 @@
 <div id="choropleth" class="row text-center">
-    <div ng-if="hasData">
-        <div ng-class="palette.class_name">
+    <div class="wrapper" ng-if="hasData">
 
+        {# Choropleth Directive | See static/js/map.js #}
+        <choropleth></choropleth>
 
-            {# Choropleth Directive | See static/js/map.js #}
-            <choropleth></choropleth>
-
+        <div id="choropleth-selection" ng-if="choropleth.selection.id">
+            <p><strong>{$ dataset.cartogram.subregion_label $} Name:</strong> {$ choropleth.selection.name $}</p>
+            <p><strong>{$ dataset.label $}</strong> {$ choropleth.selection.value $}</p>
         </div>
-    </div>
-    <div ng-if="choropleth.selection.id">
-        <p><strong>Name:</strong> {$ choropleth.selection.name $}</p>
-        <p><strong>{$ dataset.label $}:</strong> {$ choropleth.selection.value $}</p>
     </div>
             
 </div>
