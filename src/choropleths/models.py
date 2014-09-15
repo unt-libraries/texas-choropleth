@@ -8,12 +8,13 @@ SCHEME_CHOICES = (
     (3, 'Qualitative'),
 )
 
+
 class AbstractModel(models.Model):
     status = models.BooleanField(default=False)
     name = models.CharField(max_length=96)
 
     class Meta:
-        abstract= True
+        abstract = True
 
 
 class SchemeMixin(models.Model):
@@ -43,26 +44,26 @@ class Choropleth(PublishedMixin, SchemeMixin, AbstractModel):
     description = models.TextField(blank=True)
     data_classes = models.SmallIntegerField(null=True)
     scale = models.IntegerField(
-        choices=SCALE_CHOICES, 
+        choices=SCALE_CHOICES,
         default=0
     )
     palette = models.ForeignKey(
         Palette,
         null=True,
-    ) 
+    )
     thumbnail = models.ImageField(upload_to="thumbnails", null=True)
     owner = models.ForeignKey(User, related_name="choropleths")
 
     def get_dataset_id(self):
         """
-        Double dispatch method for getting the Dataset id from the generic 
+        Double dispatch method for getting the Dataset id from the generic
         context object.
         """
         return self.dataset.id
 
     def get_choropleth_id(self):
         """
-        Double dispatch method for getting the Choropleth id from the generic 
+        Double dispatch method for getting the Choropleth id from the generic
         context object.
         """
         return self.id
