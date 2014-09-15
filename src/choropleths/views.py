@@ -107,33 +107,32 @@ class ChoroplethAPI(viewsets.ModelViewSet):
         obj.owner = self.request.user
 
     def post_save(self, obj, **kwargs):
-        if obj.published:
-            export = reverse('choropleths:choropleth-export', kwargs={'pk': obj.id})
-            url = self.request.build_absolute_uri(export)
+        export = reverse('choropleths:choropleth-export', kwargs={'pk': obj.id})
+        url = self.request.build_absolute_uri(export)
 
-            filename = "{0}.png".format(obj.id)
+        filename = "{0}.png".format(obj.id)
 
-            options = {
-                'url': url,
-                'filename': filename,
-                'path': settings.IMAGE_EXPORT_TMP_DIR,
-                'crop': True,
-                'crop_replace': False,
-                'thumbnail': True,
-                'thumbnail_replace': False,
-                'thumbnail_width': 200,
-                'thumbnail_height': 150
-            }
+        options = {
+            'url': url,
+            'filename': filename,
+            'path': settings.IMAGE_EXPORT_TMP_DIR,
+            'crop': True,
+            'crop_replace': False,
+            'thumbnail': True,
+            'thumbnail_replace': False,
+            'thumbnail_width': 200,
+            'thumbnail_height': 150
+        }
 
-            screen_path, crop_path, thumbnail_path = get_screen_shot(**options)
+        screen_path, crop_path, thumbnail_path = get_screen_shot(**options)
 
-            f = File(open(thumbnail_path))
-            obj.thumbnail = f
-            obj.save()
+        f = File(open(thumbnail_path))
+        obj.thumbnail = f
+        obj.save()
 
-            os.remove(screen_path)
-            os.remove(crop_path)
-            os.remove(thumbnail_path)
+        os.remove(screen_path)
+        os.remove(crop_path)
+        os.remove(thumbnail_path)
 
 
 
