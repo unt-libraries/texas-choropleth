@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.db.models import Min, Max
 from .models import Dataset, DatasetRecord
+from cartograms.models import Cartogram
 
 class DatasetRecordNameField(serializers.Field):
     def field_to_native(self, obj, field_name):
@@ -15,10 +16,16 @@ class DatasetRecordSerializer(serializers.ModelSerializer):
         model = DatasetRecord
         fields = ('id', 'name', 'cartogram_entity', 'value')
 
+class CartogramSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Cartogram
+        fields = ('id', 'name', 'region_label', 'subregion_label', 'json_filename',)
+
 
 class DatasetSerializer(serializers.ModelSerializer):
     records = DatasetRecordSerializer(many=True)
-    cartogram = serializers.PrimaryKeyRelatedField()
+    cartogram = CartogramSerializer()
     domain = serializers.SerializerMethodField('get_domain')
     scale_options = serializers.SerializerMethodField('get_scales_options')
 
