@@ -79,10 +79,21 @@
         min-width: 600px;
         min-height: 600px;
         margin-bottom: .5em;
+        position: relative;
         clear: both;
 
         path:hover {
             fill: @gray-lighter;
+        }
+
+        .wrapper {
+            #choropleth-selection {
+                top: 0px;
+                right: 0px;
+                padding:  1em 1em;
+                position: absolute;
+                z-index: 500;
+            }
         }
 
         #loader {
