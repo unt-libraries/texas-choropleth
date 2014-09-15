@@ -65,19 +65,17 @@
 
     {% if object.choropleth %}
 
-        <a class="success choro"
-           href="{% url 'choropleths:choropleth-view' object.choropleth.id %}"
+        <a href="{% url 'choropleths:choropleth-view' object.choropleth.id %}"
            data-toggle="tooltip"
            title="View Choropleth"
            tooltip>
-            <span class="glyphicon glyphicon-globe"></span>
+           <span class="glyphicon glyphicon-globe"></span>
         </a>
-        <a class="success choro-detail"
-           href="{% url 'choropleths:choropleth-detail' object.choropleth.id %}"
+        <a href="{% url 'choropleths:choropleth-detail' object.choropleth.id %}"
            data-toggle="tooltip"
            title="Choropleth Detail"
            tooltip>
-            <span class="glyphicon glyphicon-file"></span>
+           <span class="glyphicon glyphicon-file"></span>
         </a>
 
     {% else %}
@@ -85,9 +83,9 @@
     <a class="add-choro"
            href="{% url 'choropleths:choropleth-create' object.id %}"
            data-toggle="tooltip"
-           title="New Choropleth"
+           title="Create a choropleth from this dataset"
            tooltip>
-            <span class="glyphicon glyphicon-plus"></span>
+           <span class="glyphicon glyphicon-plus"></span>
         </a>
 
     {% endif %}
@@ -95,12 +93,12 @@
     <a class="data-detail"
        href="{% url 'datasets:dataset-detail' object.id %}"
        data-toggle="tooltip"
-       title="Dataset Detail"
+       title="Inspect Dataset"
        data-placement="left"
        data-records={{ object.has_records }}
        has-records
        tooltip>
-        <span class="glyphicon glyphicon-book"></span>
+       <span class="glyphicon glyphicon-list-alt"></span>
     </a>
 
 {% endblock list_item_icons %}
