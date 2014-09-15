@@ -4,6 +4,16 @@
 
 {% block header %}My Choropleths{% endblock header %}
 
+
+{% block control-btns %}
+
+    <a  href="{% url 'datasets:dataset-create' %}">
+        <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span>&nbsp;New</button>
+    </a>
+
+{% endblock control-btns %}
+
+
 {% block content %}
 {{block.super}}
 
