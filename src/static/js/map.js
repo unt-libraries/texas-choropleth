@@ -1,4 +1,4 @@
-App.directive('choropleth', function($window) {
+App.directive('choropleth', function($http, $window) {
 
   var loader = $("#loader").clone();
   var hasLoader = loader.length > 0;
@@ -107,7 +107,6 @@ App.directive('choropleth', function($window) {
 
       function updateData(data) {
         svg.select("#entities").selectAll("path")
-          .attr('class', null)
           .attr('fill', function(d) {
             // Updates changes in the dataset
             // data.forEach(function(d) { rateById.set(d.cartogram_entity, d.value); });
@@ -123,7 +122,7 @@ App.directive('choropleth', function($window) {
          return scale(rateById.get(d.properties.fips));
       }
 
-      function ready(error, texas) {
+      function ready(texas) {
         svg.append("g")
           .attr("id", "entities")
         .selectAll("path")
@@ -147,9 +146,10 @@ App.directive('choropleth', function($window) {
 
       function render(data) {
         data.forEach(function(d) {rateById.set(d.cartogram_entity, d.value); });
-        queue()
-          .defer(d3.json, "/static/JSON/texas.json")
-          .await(ready);
+        $http.get('/static/JSON/texas.json')
+        .success(function(data, status) {
+            ready(data);
+        });
       }
 
       render(scope.dataset.records);
