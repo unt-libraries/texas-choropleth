@@ -15,13 +15,13 @@ class ImportDatasetTestCase(TestCase):
         DatasetDocument.objects.create(
             owner = user,
             dataset = dataset,
-            datafile = File(open('tmp/unemployment2.csv'))
+            datafile = File(open('tmp/import_dataset1.csv'))
         )
         
     def test_import_dataset(self):
         dataset = Dataset.objects.get(name="Test")
         imported_records = dataset.import_dataset()
-        self.assertEqual(imported_records, 254)
+        self.assertEqual(imported_records['created'], 254)
 
     def test_no_records_updated(self):
         dataset =  Dataset.objects.get(name="Test")
@@ -29,7 +29,8 @@ class ImportDatasetTestCase(TestCase):
 
         # Import again to verify it can handle existant data
         imported_records = dataset.import_dataset()
-        self.assertEqual(imported_records, 0)
+        self.assertEqual(imported_records['updated'], 0)
+        self.assertEqual(imported_records['created'], 0)
 
     def test_two_records_updated(self):
         dataset =  Dataset.objects.get(name="Test")
@@ -38,11 +39,11 @@ class ImportDatasetTestCase(TestCase):
         dataset.import_dataset()
 
         # Attach a slightly different datafile and reimport
-        dataset.document.datafile = File(open('tmp/unemployment3.csv'))
+        dataset.document.datafile = File(open('tmp/import_dataset2.csv'))
         dataset.save()
         imported_records = dataset.import_dataset()
 
-        self.assertEqual(imported_records, 2)
+        self.assertEqual(imported_records['updated'], 2)
 
 
 class DatasetValidatorTestCase(TestCase):
@@ -77,13 +78,12 @@ class DatasetValidatorTestCase(TestCase):
         self.assertTrue(MESSAGES[2][0:9] in cm.exception.message)
 
     def test_validator_fails_without_required_fields(self):
-        doc = File(open('tmp/missing_rows2.csv'))
+        doc = File(open('tmp/missing_value.csv'))
         with self.assertRaises(ValidationError) as cm:
             import_validator(doc)
 
         self.assertTrue(MESSAGES[4][0:20] in cm.exception.message)
 
-    
     def test_validator_with_empty_rows(self):
         doc = File(open('tmp/missing_rows.csv'))
         self.assertTrue(import_validator(doc))

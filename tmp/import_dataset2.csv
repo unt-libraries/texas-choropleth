@@ -1,3 +1,4 @@
+fips,name,value
 48001,Anderson,48024
 48003,Andrews,14338
 48005,Angelina,69884
@@ -15,7 +16,7 @@
 48029,Bexar,1185394
 48031,Blanco,5972
 48033,Borden,799
-48035,Bosque,15125
+48035,Bosque,15135
 48037,Bowie,81665
 48039,Brazoria,191707
 48041,Brazos,121862
@@ -99,7 +100,7 @@
 48197,Hardeman,5283
 48199,Hardin,4.132E+4
 48201,Harris,2818199
-48203,Harrison,57483
+48203,Harrison,57449
 48205,Hartley,3634
 48207,Haskell,6.82E+3
 48209,Hays,65614
