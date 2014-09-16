@@ -1,0 +1,18 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+        Sort By <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a href="{{ request.path }}?by=name&order=1">Title Ascending</a></li>
+        <li><a href="{{ request.path }}?by=name&order=-1">Title Descending</a></li>
+        <li><a href="{{ request.path }}?by=modified_at&order=-1">Last Modified</a></li>
+        <li><a href="{{ request.path }}?by=created_at&order=-1">Created At Ascending</a></li>
+        <li><a href="{{ request.path }}?by=created_at&order=1">Created At Descending</a></li>
+
+        {% if owner %}
+            <li><a href="{{ request.path }}?by=owner&order=1">Owner Ascending</a></li>
+            <li><a href="{{ request.path }}?by=owner&order=-1">Owner Descending</a></li>
+        {% endif %}
+
+    </ul>
+</div>
