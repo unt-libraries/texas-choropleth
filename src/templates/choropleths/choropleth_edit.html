@@ -9,7 +9,9 @@
 {% endblock head %}
 
 {% block workflow %}
-    {% include 'partials/workflow.html' %}
+    {% if not choropleth.has_records %}
+        {% include 'partials/workflow.html' %}
+    {% endif %}
 {% endblock workflow %}
 
 
