@@ -4,6 +4,10 @@
 
 {% block header %}Gallery{% endblock header %}
 
+{% block control-btns %}
+    {% include 'choropleths/_sorting-dropdown.html' with owner=True %}
+{% endblock control-btns %}
+
 {% block content %}
 {{block.super}}
 

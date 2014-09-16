@@ -7,6 +7,8 @@
 
 {% block control-btns %}
 
+    {% include 'choropleths/_sorting-dropdown.html' %}
+
     <a  href="{% url 'datasets:dataset-create' %}">
         <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span>&nbsp;New</button>
     </a>
