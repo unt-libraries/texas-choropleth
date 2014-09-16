@@ -29,12 +29,24 @@ class GetPublishedObjectMixin(object):
                 raise PermissionDenied()
         return gotten_object
 
+class ChoroplethListSortMixin(object):
 
-class GalleryView(generic.ListView):
+    def get_queryset(self):
+        sort_options = ['created_at', 'modified_at', 'name', 'owner']
+        sort_by = self.request.GET.get('by', False)
+        sort_order = int(self.request.GET.get('order', False))
+
+        if not sort_order or sort_by not in sort_options:
+            return Choropleth.objects.filter(published=1).order_by('-modified_at', 'name').select_related('dataset')
+
+        sort_order = "{0}" if sort_order > 0 else "-{0}"
+        sort = sort_order.format(sort_by)
+        return Choropleth.objects.filter(published=1).order_by(sort).select_related('dataset')
+
+class GalleryView(ChoroplethListSortMixin, generic.ListView):
     model = Choropleth
     template_name = "choropleths/gallery.html"
     paginate_by = 12
-    queryset = Choropleth.objects.filter(published=1).order_by('-created_at', 'name').select_related('dataset')
 
 
 class ChoroplethExport(generic.DetailView):
@@ -42,14 +54,15 @@ class ChoroplethExport(generic.DetailView):
     template_name = "choropleths/choropleth_export.html"
 
 
-class ChoroplethList(generic.ListView):
+class ChoroplethList(ChoroplethListSortMixin, generic.ListView):
     model = Choropleth
     template_name = 'choropleths/choropleth_list.html'
     paginate_by = 10
 
     def get_queryset(self):
+        queryset = super(ChoroplethList, self).get_queryset()
         user = get_object_or_404(User, pk=self.request.user.id)
-        return Choropleth.objects.filter(owner=user).order_by('-modified_at').select_related('dataset')
+        return queryset.filter(owner=user)
 
 
 class ChoroplethDetail(GetPublishedObjectMixin, generic.DetailView):
