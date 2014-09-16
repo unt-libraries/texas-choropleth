@@ -68,5 +68,12 @@ class Choropleth(PublishedMixin, SchemeMixin, AbstractModel):
         """
         return self.id
 
+    def has_records(self):
+        """
+        Double dispatch method for checking if the generic context object
+        has records associated with it.
+        """
+        return self.dataset.records.exists()
+
     def __unicode__(self):
         return self.name
