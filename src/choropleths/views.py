@@ -140,6 +140,8 @@ class ChoroplethAPI(viewsets.ModelViewSet):
         screen_path, crop_path, thumbnail_path = get_screen_shot(**options)
 
         f = File(open(thumbnail_path))
+        if obj.thumbnail:
+            obj.thumbnail.delete()
         obj.thumbnail = f
         obj.save()
 
