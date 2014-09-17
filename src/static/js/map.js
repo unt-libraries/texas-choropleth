@@ -135,8 +135,12 @@ App.directive('choropleth', function($http) {
           .attr("id", function(d) { return d.properties.fips; })
           .attr("fill", function(d) { return fill(d); })
           .style('cursor', 'pointer')
-          .on("click", function(d) {
+          .on("mouseenter", function(d) {
             scope.choropleth.selection.cartogram_entity = d.properties.fips;
+            scope.$apply();
+          })
+          .on("mouseleave", function(d) {
+            scope.choropleth.selection = {};
             scope.$apply();
           })
           .attr("d", path);
