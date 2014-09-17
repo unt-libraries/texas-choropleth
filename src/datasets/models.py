@@ -56,7 +56,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
     description = models.TextField(blank=True)
     label = models.CharField(
         max_length=48,
-        default="Value"
+        blank=True
     )
     license = models.CharField(
         max_length=8,
