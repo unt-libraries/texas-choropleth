@@ -5,8 +5,8 @@
         <choropleth></choropleth>
 
         <div id="choropleth-selection" ng-if="choropleth.selection.id">
-            <p><strong>{$ dataset.cartogram.subregion_label $} Name:</strong> {$ choropleth.selection.name $}</p>
-            <p><strong>{$ dataset.label $}</strong> {$ choropleth.selection.value $}</p>
+            <p><strong>{$ choropleth.selection.name $}</strong></p>
+            <p>{$ choropleth.selection.value | number $} {$ dataset.label $}</p>
         </div>
     </div>
             
