@@ -83,14 +83,14 @@ App.directive('choropleth', function($http) {
             .attr("width", 10)
             .attr('height', dy)
             .attr("fill", function(d) {return d; })
-            .attr('transform', 'translate(3,350)');
+            .attr('transform', 'translate(3,345)');
 
         legend.append('text')
             .attr("x", w + 5 )
             .attr("y", function(d, i) {return (h - dy) - i * dy;} )
             .attr('dy', dy/2 + 5)
             .style("font-size", "10px")
-            .attr('transform', 'translate(3,350)')
+            .attr('transform', 'translate(3,345)')
             .text(function(d,i) {
                 var extent = scale.invertExtent(d);
                 var format = d3.format("0.2f");
@@ -118,7 +118,7 @@ App.directive('choropleth', function($http) {
           .attr("width", w) 
           .attr("height", h)
           .style("fill", "url(#gradient)")
-          .attr("transform", "translate(3,350)");
+          .attr("transform", "translate(3,345)");
 
         var legend = key.append("defs")
             .append("svg:linearGradient")
@@ -147,7 +147,7 @@ App.directive('choropleth', function($http) {
 
         key.append("g")
           .attr("class", "y axis")
-          .attr("transform", "translate(15, 350)")
+          .attr("transform", "translate(15, 345)")
           .call(yAxis)
         .selectAll('text')
           .attr('y', 0)
@@ -181,6 +181,8 @@ App.directive('choropleth', function($http) {
                 .range(d3.range(range).map(function(i) {
                   return colorbrewer[scope.palette.class_name][range][i];
                 }));
+
+              legend(scaleId);
             }
             break;
 
