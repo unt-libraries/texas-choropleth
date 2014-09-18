@@ -1,0 +1,33 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+
+<div class="row">
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <p class="col-sm-6 col-sm-offset-3 alert alert-danger">{{ error }}</p>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<form method="post" action="{% url 'register' %}" name="register">
+    {% csrf_token %}
+    <div class="col-sm-6 col-sm-offset-3">
+        <h3>Register</h3>
+        <div class="form-group" has-error>
+        <div class="label label-danger">{{ form.username.errors.as_text }}</div>
+        <input type="text" name="username" class="form-control" placeholder="Username">
+        </div>
+        <div class="form-group" has-error>
+            <div class="label label-danger">{{ form.password1.errors.as_text }}</div>
+            <input type="password" name="password1" class="form-control" placeholder="Password">
+        </div>
+        <div class="form-group" has-error>
+            <div class="label label-danger">{{ form.password2.errors.as_text }}</div>
+            <input type="password" name="password2" class="form-control" placeholder="Confirm Password">
+        </div>
+        <input type="submit" class="btn btn-default" value="Submit" />
+    </div>
+</form>
+
+{% endblock %}
