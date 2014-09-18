@@ -332,7 +332,13 @@ App.controller('AbstractController', function AbstractController ($scope, $windo
       for (var index in colorbrewer[palette.class_name]) keys.push(index);
       min = Math.min.apply(null, keys);
       max = Math.max.apply(null, keys);
+
+      if (max < $scope.choropleth.data_classes) {
+        $scope.choropleth.data_classes = max;
+      }
     }
+
+
     $scope.range = {
       options: keys,
       min: min,
