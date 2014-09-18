@@ -10,7 +10,9 @@
     </head>
     <body ng-app="App">
         <div id="export" ng-controller="ViewController" ng-init="init({{ choropleth.id }})">
-            {% include  'partials/choropleth.html' %}
+          <div ng-if="hasData">
+            <choropleth hide-legend="true"></choropleth>
+          </div>
         </div>
     </body>
 </html>
