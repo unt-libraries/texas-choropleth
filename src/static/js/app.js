@@ -40,7 +40,8 @@ App.directive('hasError', function() {
     restrict: 'A',
     link: function(scope, element, attrs) {
       var formGroup = $(element);
-      if (formGroup.find('.label.label-danger').length > 0) {
+      var error = formGroup.find('.label.label-danger');
+      if (error.length > 0 && !error.is(':empty')) {
         formGroup.addClass('has-error');
       }
     }
