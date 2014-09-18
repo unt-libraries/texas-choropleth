@@ -115,7 +115,7 @@ App.directive('choropleth', function($http) {
           .domain(scale.domain());
 
         key.append("rect")
-          .attr("width", w) 
+          .attr("width", w)
           .attr("height", h)
           .style("fill", "url(#gradient)")
           .attr("transform", "translate(3,345)");
@@ -227,7 +227,9 @@ App.directive('choropleth', function($http) {
       function fill(d) {
          value = rateById.get(d.properties.fips);
          if (value === null) {
-           return 'none';
+           // Fill with white instead of none.
+           // Helps with hover events where the value is null
+           return '#FFF';
          }
          return scale(rateById.get(d.properties.fips));
       }
