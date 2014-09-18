@@ -11,7 +11,7 @@ App.directive('choropleth', function($http) {
   }
 
   // Width and height of the SVG
-  var width = 600,
+  var width = 650,
       height = 600;
 
   // D3 Array Object where the data is stored as key : value
@@ -21,7 +21,7 @@ App.directive('choropleth', function($http) {
   var projection = d3.geo.transverseMercator()
       .rotate([100 + 20 / 60, -29 - 40 / 60])
       .scale(3000)
-      .translate([285, 380]);
+      .translate([305, 380]);
 
   // Declare the path object
   var path = d3.geo.path()
@@ -62,8 +62,44 @@ App.directive('choropleth', function($http) {
         update(scope.dataset.records);
       });
 
-      function legend(color1, color2) {
-        var w =10, h = 400;
+      function quantizeLegend() {
+        var w = 10, h = 250;
+        var dy = h / scale.range().length;
+
+        svg.selectAll('g#legend').remove();
+        var key = d3.select("svg")
+            .append("g")
+            .attr('id', 'legend')
+            .attr("width", w)
+            .attr("height", h);
+
+        var legend = key.selectAll('g#legend')
+            .data(scale.range())
+            .enter()
+            .append('g').attr('class', 'quantity');
+
+        legend.append('rect')
+            .attr("y", function(d, i) {return (h - dy) - i * dy;})
+            .attr("width", 10)
+            .attr('height', dy)
+            .attr("fill", function(d) {return d; })
+            .attr('transform', 'translate(3,350)');
+
+        legend.append('text')
+            .attr("x", w + 5 )
+            .attr("y", function(d, i) {return (h - dy) - i * dy;} )
+            .attr('dy', dy/2 + 5)
+            .style("font-size", "10px")
+            .attr('transform', 'translate(3,350)')
+            .text(function(d,i) {
+                var extent = scale.invertExtent(d);
+                var format = d3.format("0.2f");
+                return format(+extent[0])+ " - " + format(+extent[1]);
+            });
+      }
+
+      function logarithmicLegend() {
+        var w = 10, h = 250;
 
         d3.select('g#legend').remove();
 
@@ -72,6 +108,17 @@ App.directive('choropleth', function($http) {
             .attr('id', 'legend')
             .attr("width", w)
             .attr("height", h);
+
+        var scaleId = scope.choropleth.scale;
+        var y = d3.scale.log()
+          .range([h, 0])
+          .domain(scale.domain());
+
+        key.append("rect")
+          .attr("width", w) 
+          .attr("height", h)
+          .style("fill", "url(#gradient)")
+          .attr("transform", "translate(3,350)");
 
         var legend = key.append("defs")
             .append("svg:linearGradient")
@@ -84,39 +131,38 @@ App.directive('choropleth', function($http) {
 
         legend.append("stop")
           .attr("offset", "0%")
-          .attr("stop-color", color2)
+          .attr("stop-color", scale.range()[scale.range().length -1])
           .attr("stop-opacity", 1);
 
         legend.append("stop")
         .attr("offset", "100%")
-          .attr("stop-color", color1)
+          .attr("stop-color", scale.range()[0])
           .attr("stop-opacity", 1);
 
-        key.append("rect")
-          .attr("width", w) 
-          .attr("height", h - 100)
-          .style("fill", "url(#gradient)")
-          .attr("transform", "translate(25,10)");
-
-        var y = d3.scale.linear()
-          .range([300, 0])
-          .domain([1, 100]);
-
         var yAxis = d3.svg.axis()
-          .scale(y)
-          .orient("right");
+         .scale(y)
+         .ticks(10, ",4s")
+         .tickSize(5, 0)
+         .orient("right");
 
         key.append("g")
           .attr("class", "y axis")
-          .attr("transform", "translate(41,10)")
+          .attr("transform", "translate(15, 350)")
           .call(yAxis)
-          .append("text")
-          .attr("transform", "rotate(-90)")
-          .attr("y", 30)
-          .attr("dy", ".80em")
-          .style("text-anchor", "end")
-          .text(scope.dataset.label);
+        .selectAll('text')
+          .attr('y', 0)
+          .attr('x', 9)
+          .attr('dy', '.35em')
+          .style('text-anchor', 'start');
+      }
 
+      function legend(scaleId) {
+        if (0 === scaleId) {
+          quantizeLegend();
+        } else if (1 === scaleId) {
+          logarithmicLegend();
+        }
+        return true;
       }
 
       // Determines correct scale for the current ScaleID
@@ -154,7 +200,7 @@ App.directive('choropleth', function($http) {
                 .range([color1, color2])
                 .clamp(true);
 
-              legend(color1, color2)
+              legend(scaleId);
             }
             break;
 
