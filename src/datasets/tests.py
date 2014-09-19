@@ -1,14 +1,18 @@
-import unittest
 from django.test import TestCase
 from django.contrib.auth.models import User
-from .models import Dataset, DatasetRecord, DatasetDocument
+from .models import Dataset, DatasetRecord, DatasetDocument, SCALE_CHOICES
 from .validators import import_validator, MESSAGES
-from cartograms.models import Cartogram
 from django.core.files.base import File
 from django.core.exceptions import ValidationError
 
+from model_mommy import mommy
+from model_mommy.recipe import seq
+
 
 class ImportDatasetTestCase(TestCase):
+    """
+    Test Case for import_dataset method
+    """
     fixtures = ['texas.json']
 
     def setUp(self):
@@ -49,6 +53,9 @@ class ImportDatasetTestCase(TestCase):
 
 
 class DatasetValidatorTestCase(TestCase):
+    """
+     Test Case for update validator
+    """
     fixtures = ['texas.json']
 
     def test_validator_fails_incorrect_delimiter(self):
@@ -92,50 +99,70 @@ class DatasetValidatorTestCase(TestCase):
 
 
 class DatasetTestCase(TestCase):
-    fixtures = ['texas.json']
-
     def setUp(self):
-        user = User.objects.create(username="test")
-        dataset = Dataset.objects.create(name="Test", cartogram_id=1)
-        DatasetDocument.objects.create(
-            owner=user,
-            dataset=dataset,
-            datafile=File(open('tmp/import_dataset1.csv'))
-        )
+        self.dataset = mommy.make(Dataset)
+        records = mommy.make(DatasetRecord, _quantity=10, value=seq(0))
+        for record in records:
+            self.dataset.records.add(record)
 
-    def test_has_choropleth(self):
-        dataset = Dataset.objects.get(name="Test")
-        self.assertFalse(dataset.has_choropleth())
+    def test_has_choropleth_is_false(self):
+        # dataset = Dataset.objects.get(name="Test")
+        self.assertFalse(self.dataset.has_choropleth())
+
+    def test_has_choropleth_is_true(self):
+        mommy.make('choropleths.Choropleth', dataset=self.dataset)
+        self.assertTrue(self.dataset.has_choropleth())
 
     def test_has_records_is_false(self):
-        dataset = Dataset.objects.get(name="Test")
+        dataset = mommy.make(Dataset)
         self.assertFalse(dataset.has_records())
 
     def test_has_records_is_true(self):
-        dataset = Dataset.objects.get(name="Test")
-        dataset.import_dataset()
-        self.assertTrue(dataset.has_records())
+        self.assertTrue(self.dataset.has_records())
 
-    @unittest.skip('Create a fixture before writting this test.')
-    def test_get_max_record(self):
-        pass
-
-    @unittest.skip('Create a fixture before writting this test.')
     def test_get_min_record(self):
-        pass
+        min_record = self.dataset.get_min_record()
+        self.assertEqual(int(min_record), 1)
 
-    @unittest.skip('Create a fixture before writting this test.')
-    def test_get_non_zero_max_record(self):
-        pass
+    def test_get_max_record(self):
+        max_record = self.dataset.get_max_record()
+        self.assertEqual(int(max_record), 10)
 
-    @unittest.skip('Create a fixture before writting this test.')
     def test_get_non_zero_min_record(self):
-        pass
+        self.dataset.records.add(mommy.make(DatasetRecord, value=0))
+        min_record = self.dataset.get_min_record()
+        non_zero_min_record = self.dataset.get_non_zero_min_record()
+        self.assertEqual(int(min_record), 0)
+        self.assertEqual(int(non_zero_min_record), 1)
 
-    @unittest.skip('Create a fixture before writting this test.')
+    def test_get_non_zero_max_record(self):
+        self.dataset = mommy.make(Dataset)
+        value_seq = seq(1, increment_by=-1)
+        records = mommy.make(DatasetRecord, _quantity=10, value=value_seq)
+        for record in records:
+            self.dataset.records.add(record)
+        max_record = self.dataset.get_max_record()
+        non_zero_max_record = self.dataset.get_non_zero_max_record()
+        self.assertEqual(int(max_record), 0)
+        self.assertEqual(int(non_zero_max_record), -1)
+
     def test_domain_contains_zero(self):
-        pass
+        self.dataset.records.add(mommy.make(DatasetRecord, value=0))
+        self.assertTrue(self.dataset.domain_contains_zero())
 
-    @unittest.skip('Create a fixture before writting this test.')
-    def test_get_scale_options(self):
-        pass
+    def test_domain_does_not_contains_zero(self):
+        self.assertFalse(self.dataset.domain_contains_zero())
+
+    def test_logarithmic_in_get_scale_options(self):
+        scales = self.dataset.get_scale_options()
+        self.assertIn(SCALE_CHOICES[0], scales)
+        self.assertIn(SCALE_CHOICES[1], scales)
+
+    def test_logarithmic_not_in_get_scale_options(self):
+        self.dataset = mommy.make(Dataset)
+        records = mommy.make(DatasetRecord, _quantity=10, value=seq(-5))
+        for record in records:
+            self.dataset.records.add(record)
+        scales = self.dataset.get_scale_options()
+        self.assertIn(SCALE_CHOICES[0], scales)
+        self.assertNotIn(SCALE_CHOICES[1], scales)
