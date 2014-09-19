@@ -1,3 +1,4 @@
+import unittest
 from django.test import TestCase
 from django.contrib.auth.models import User
 from .models import Dataset, DatasetRecord, DatasetDocument
@@ -6,6 +7,7 @@ from cartograms.models import Cartogram
 from django.core.files.base import File
 from django.core.exceptions import ValidationError
 
+
 class ImportDatasetTestCase(TestCase):
     fixtures = ['texas.json']
 
@@ -13,19 +15,19 @@ class ImportDatasetTestCase(TestCase):
         user = User.objects.create(username="test")
         dataset = Dataset.objects.create(name="Test", cartogram_id=1)
         DatasetDocument.objects.create(
-            owner = user,
-            dataset = dataset,
-            datafile = File(open('tmp/import_dataset1.csv'))
+            owner=user,
+            dataset=dataset,
+            datafile=File(open('tmp/import_dataset1.csv'))
         )
-        
+
     def test_import_dataset(self):
         dataset = Dataset.objects.get(name="Test")
         imported_records = dataset.import_dataset()
         self.assertEqual(imported_records['created'], 254)
 
     def test_no_records_updated(self):
-        dataset =  Dataset.objects.get(name="Test")
-        dataset.import_dataset() # Initial import
+        dataset = Dataset.objects.get(name="Test")
+        dataset.import_dataset()  # Initial import
 
         # Import again to verify it can handle existant data
         imported_records = dataset.import_dataset()
@@ -33,7 +35,7 @@ class ImportDatasetTestCase(TestCase):
         self.assertEqual(imported_records['created'], 0)
 
     def test_two_records_updated(self):
-        dataset =  Dataset.objects.get(name="Test")
+        dataset = Dataset.objects.get(name="Test")
 
         # import the initial datafile
         dataset.import_dataset()
@@ -87,3 +89,53 @@ class DatasetValidatorTestCase(TestCase):
     def test_validator_with_empty_rows(self):
         doc = File(open('tmp/missing_rows.csv'))
         self.assertTrue(import_validator(doc))
+
+
+class DatasetTestCase(TestCase):
+    fixtures = ['texas.json']
+
+    def setUp(self):
+        user = User.objects.create(username="test")
+        dataset = Dataset.objects.create(name="Test", cartogram_id=1)
+        DatasetDocument.objects.create(
+            owner=user,
+            dataset=dataset,
+            datafile=File(open('tmp/import_dataset1.csv'))
+        )
+
+    def test_has_choropleth(self):
+        dataset = Dataset.objects.get(name="Test")
+        self.assertFalse(dataset.has_choropleth())
+
+    def test_has_records_is_false(self):
+        dataset = Dataset.objects.get(name="Test")
+        self.assertFalse(dataset.has_records())
+
+    def test_has_records_is_true(self):
+        dataset = Dataset.objects.get(name="Test")
+        dataset.import_dataset()
+        self.assertTrue(dataset.has_records())
+
+    @unittest.skip('Create a fixture before writting this test.')
+    def test_get_max_record(self):
+        pass
+
+    @unittest.skip('Create a fixture before writting this test.')
+    def test_get_min_record(self):
+        pass
+
+    @unittest.skip('Create a fixture before writting this test.')
+    def test_get_non_zero_max_record(self):
+        pass
+
+    @unittest.skip('Create a fixture before writting this test.')
+    def test_get_non_zero_min_record(self):
+        pass
+
+    @unittest.skip('Create a fixture before writting this test.')
+    def test_domain_contains_zero(self):
+        pass
+
+    @unittest.skip('Create a fixture before writting this test.')
+    def test_get_scale_options(self):
+        pass
