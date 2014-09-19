@@ -12,6 +12,7 @@ futures==2.1.6
 gyp==0.1
 html5lib==0.999
 ipython==2.2.0
+model-mommy==1.2.2
 requests==2.2.1
 selenium==2.43.0
 six==1.5.2
