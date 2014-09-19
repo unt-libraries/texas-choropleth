@@ -22,7 +22,7 @@ class Cartogram(AbstractCartogram): # Initially named Map, but changed to avoid 
 
 
 class CartogramEntity(AbstractCartogram):
-    entity_id = models.CharField(max_length="16") 
+    entity_id = models.CharField(max_length=16) 
     cartogram = models.ForeignKey(
         Cartogram,
         related_name="entities",
