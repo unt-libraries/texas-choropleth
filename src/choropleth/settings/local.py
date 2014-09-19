@@ -3,13 +3,12 @@ from .base import *
 DEBUG = True
 TEMPLATE_DEBUG = True
 
-THIRD_PARTY_APPS += (
+INSTALLED_APPS += (
     'debug_toolbar',
 )
 
 INTERNAL_IPS = (
-    # Docker Gateway
-    '172.17.42.1',        
+    '172.17.42.1',
 )
 
 DATABASES = {
@@ -24,4 +23,3 @@ DATABASES = {
 }
 
 IMAGE_EXPORT_TMP_DIR = os.path.join('/', 'tmp')
-
