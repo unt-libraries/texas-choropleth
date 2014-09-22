@@ -157,6 +157,10 @@ App.directive('choropleth', function($http) {
       }
 
       function legend(scaleId) {
+        if (attrs.hideLegend) {
+          return false;
+        }
+
         if (0 === scaleId) {
           quantizeLegend();
         } else if (1 === scaleId) {
