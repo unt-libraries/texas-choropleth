@@ -1,5 +1,7 @@
 from django.test import TestCase
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from .models import Dataset, DatasetRecord, DatasetDocument, SCALE_CHOICES
 from .validators import import_validator, MESSAGES
 from django.core.files.base import File
@@ -166,3 +168,88 @@ class DatasetTestCase(TestCase):
         scales = self.dataset.get_scale_options()
         self.assertIn(SCALE_CHOICES[0], scales)
         self.assertNotIn(SCALE_CHOICES[1], scales)
+
+
+class DatasetViewsTestCase(TestCase):
+    def setUp(self):
+        self.user1 = mommy.make(User, password=make_password('password'))
+        self.user2 = mommy.make(User, password=make_password('password'))
+        self.dataset = mommy.make(Dataset, owner=self.user1)
+
+    def test_anon_user_cannot_view_dataset_management(self):
+        response = self.client.get(reverse('datasets:dataset-management'))
+        self.assertEqual(response.status_code, 302)
+
+    def test_user_can_view_dataset_management(self):
+        self.client.login(username=self.user1.username, password='password')
+        response = self.client.get(reverse('datasets:dataset-management'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_anon_user_cannot_view_dataset_detail(self):
+        response = self.client.get(reverse(
+            'datasets:dataset-detail',
+            args=[self.dataset.id]))
+        self.assertEqual(response.status_code, 403)
+
+    def test_non_owner_cannot_view_dataset_detail(self):
+        self.client.login(username=self.user2.username, password='password')
+        response = self.client.get(reverse(
+            'datasets:dataset-detail',
+            args=[self.dataset.id]))
+        self.assertEqual(response.status_code, 403)
+
+    def test_owner_can_view_dataset_detail(self):
+        self.client.login(username=self.user1.username, password='password')
+        response = self.client.get(reverse(
+            'datasets:dataset-detail',
+            args=[self.dataset.id]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_anon_user_cannot_view_dataset_create(self):
+        response = self.client.get(reverse('datasets:dataset-create'))
+        self.assertEqual(response.status_code, 302)
+
+    def test_view_dataset_create(self):
+        self.client.login(username=self.user1.username, password='password')
+        response = self.client.get(reverse('datasets:dataset-create'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_non_owner_cannot_view_dataset_update(self):
+        self.client.login(username=self.user2.username, password='password')
+        response = self.client.get(reverse(
+            'datasets:dataset-update',
+            args=[self.dataset.id]))
+        self.assertEqual(response.status_code, 403)
+
+    def test_owner_can_view_dataset_update(self):
+        self.client.login(username=self.user1.username, password='password')
+        response = self.client.get(reverse(
+            'datasets:dataset-update',
+            args=[self.dataset.id]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_anon_user_cannot_view_dataset_update(self):
+        response = self.client.get(reverse(
+            'datasets:dataset-update',
+            args=[self.dataset.id]))
+        self.assertEqual(response.status_code, 302)
+
+    def test_non_owner_cannot_view_dataset_export(self):
+        self.client.login(username=self.user2.username, password='password')
+        response = self.client.get(reverse(
+            'datasets:dataset-export',
+            args=[self.dataset.id]))
+        self.assertEqual(response.status_code, 403)
+
+    def test_owner_can_view_dataset_export(self):
+        self.client.login(username=self.user1.username, password='password')
+        response = self.client.get(reverse(
+            'datasets:dataset-export',
+            args=[self.dataset.id]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_anon_user_cannot_view_dataset_export(self):
+        response = self.client.get(reverse(
+            'datasets:dataset-export',
+            args=[self.dataset.id]))
+        self.assertEqual(response.status_code, 302)
