@@ -1,6 +1,5 @@
 {% extends "_layout.html" %}
-{% load compressed %}
-{% block page_title %}{{ choropleth.name }}{% endblock page_title %}
+{% load compressed %} {% block page_title %}{{ choropleth.name }}{% endblock page_title %}
 
 {% block head %}
     {% compressed_js 'map-vendor' %}
@@ -10,7 +9,6 @@
 
 {% block header %}{{ choropleth.name }}{% endblock header %}
 
-
 {% block control-btns %}
 
     <a href="{% url 'choropleths:choropleth-edit' choropleth.pk %}">
@@ -18,11 +16,9 @@
     </a>
 
     {% ifequal user choropleth.owner %}
-
         <a href="{% url 'choropleths:choropleth-view' choropleth.pk %}">
-            <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;View</button>
+            <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-globe"></span>&nbsp;View</button>
         </a>
-
     {% endifequal %}
 
 {% endblock control-btns %}
@@ -46,7 +42,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><strong>Dataset Description</strong></div>
                 <div class="panel-body">
-                    {{ choropleth.dataset.description }}
+                    {% if choropleth.dataset.description %}
+                        {{ choropleth.dataset.description }}
+                    {% else %}
+                        <h4 class="text-center text-muted"><em>The associated dataset does not have a description</em></h4>
+                    {% endif %}
+
                 </div>
             </div>
         </div>
@@ -56,7 +57,11 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><strong>Description</strong></div>
                 <div class="panel-body">
-                    <markdown>{{ choropleth.description }}</markdown>
+                    {% if choropleth.description %}
+                        <markdown>{{ choropleth.description }}</markdown>
+                    {% else %}
+                        <h4 class="text-center text-muted"><em>This choropleth does not have a description</em></h4>
+                    {% endif %}
                 </div>
             </div>
         </div>
