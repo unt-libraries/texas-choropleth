@@ -1,11 +1,13 @@
 from .base import *
 
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG = True
+TEMPLATE_DEBUG = True
 
 INSTALLED_APPS += (
     'model_mommy',
 )
+
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
 DATABASES = {
     'default': {
