@@ -59,7 +59,9 @@ class Choropleth(PublishedMixin, SchemeMixin, AbstractModel):
         Double dispatch method for getting the Dataset id from the generic
         context object.
         """
-        return self.dataset.id
+        if hasattr(self.dataset, 'id'):
+            return self.dataset.id
+        return
 
     def get_choropleth_id(self):
         """
@@ -73,7 +75,9 @@ class Choropleth(PublishedMixin, SchemeMixin, AbstractModel):
         Double dispatch method for checking if the generic context object
         has records associated with it.
         """
-        return self.dataset.records.exists()
+        if hasattr(self.dataset, 'records'):
+            return self.dataset.records.exists()
+        return False
 
     def __unicode__(self):
         return self.name
