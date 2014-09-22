@@ -2,18 +2,15 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.conf.urls.static import static
 
-from django.contrib import admin
-admin.autodiscover()
-
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
-from choropleths.views import GalleryView
+from choropleths.views import GalleryView, HelpView
 from choropleths.feeds import ChoroplethFeed
 from cartograms.views import cartogram_csv_template
 
 urlpatterns = patterns('',
-    url(r'^$', GalleryView.as_view(), name="gallery"),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', HelpView.as_view(), name="help"),
+    url(r'^help/$', GalleryView.as_view(), name="gallery"),
     url(r'^datasets/', include('datasets.urls', namespace="datasets")),
     url(r'^choropleths/', include('choropleths.urls', namespace="choropleths")),
     url(r'^cartogram-template/(?P<pk>[0-9]+)/$', cartogram_csv_template, name="csv-template"),

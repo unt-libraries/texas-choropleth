@@ -49,6 +49,9 @@ class GalleryView(ChoroplethListSortMixin, generic.ListView):
     paginate_by = 12
 
 
+class HelpView(generic.TemplateView):
+    template_name = "site/help.html"
+
 class ChoroplethExport(generic.DetailView):
     model = Choropleth
     template_name = "choropleths/choropleth_export.html"
