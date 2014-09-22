@@ -64,7 +64,7 @@ def do_thumbnail(params):
 
 def get_screen_shot(**kwargs):
     url = kwargs['url']
-    width = int(kwargs.get('width', 800)) # screen width to capture
+    width = int(kwargs.get('width', 650)) # screen width to capture
     height = int(kwargs.get('height', 600)) # screen height to capture
     filename = kwargs.get('filename', 'screen.png') # file name e.g. screen.png
     path = kwargs.get('path', ROOT) # directory path to store screen
