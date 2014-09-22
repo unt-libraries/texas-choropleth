@@ -7,6 +7,7 @@
 
             {% url 'choropleths:choropleth-create' object.id as choropleth_create %}
             {% url 'choropleths:choropleth-edit' object.id as choropleth_edit %}
+            {% url 'datasets:dataset-detail' object.id as dataset_detail %}
             {% url 'datasets:dataset-create' as dataset_create %}
 
             {% if choropleth_create == request.path  and object.has_records %}
@@ -26,7 +27,7 @@
                 <p>Complete the form and click Save when finished.</p>
 
 
-            {% elif not object.has_records %}
+            {% elif not object.has_records and request.path != dataset_detail %}
 
                 {% if choropleth_create == request.path %}
                     <div class="progress">
@@ -38,7 +39,7 @@
 
                 {% if choropleth_edit == request.path %}
                     <div class="progress">
-                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="33%"></div>
+                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="25%"></div>
                     </div>
                     <p><strong>Warning:</strong><p>
                     <p>The dataset does not have any data yet. <a href="{% url 'datasets:dataset-detail' object.get_dataset_id %}">Click here</a> to add records.</p>
@@ -49,7 +50,7 @@
 
                 <div class="progress">
 
-                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="25%"></div>
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="33%"></div>
                 </div>
                 <p><strong>Next Step:</strong><p>
                 <p>Use the form below to upload a dataset. If you need a CSV template, download one by clicking the 'Get CSV Template' button.</p>
@@ -57,7 +58,7 @@
             {% elif not object.has_records and object.has_choropleth %} 
 
                 <div class="progress">
-                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="30%"></div>
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="40%"></div>
                 </div>
                 <p><strong>Next Step:</strong><p>
                 <p>Use the form below to upload a dataset. If you need a CSV template, download one by clicking the 'Get CSV Template' button.</p>
@@ -68,7 +69,7 @@
                     <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="63%"></div>
                 </div>
                 <p><strong>Next Step:</strong><p>
-                <a href="{% url 'choropleths:choropleth-create' object.id %}"<button class="btn btn-danger btn-sm">Create a Choropleth</button></a>
+                <a href="{% url 'choropleths:choropleth-create' object.id %}"<button class="btn btn-default btn-sm">Create a Choropleth</button></a>
 
             {% endif %}
 
