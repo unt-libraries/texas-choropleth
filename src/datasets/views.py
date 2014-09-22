@@ -1,6 +1,5 @@
 import csv
 
-from django.shortcuts import render
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.views import generic
@@ -14,12 +13,15 @@ from choropleths.views import GetPublishedObjectMixin
 
 
 class DatasetManagement(generic.ListView):
-    template_name="datasets/dataset_management.html"
+    template_name = "datasets/dataset_management.html"
     model = Dataset
     paginate_by = 10
 
     def get_queryset(self):
-        return Dataset.objects.filter(owner_id=self.request.user.pk).order_by('-modified_at').select_related('choropleth')
+        return Dataset.objects \
+                .filter(owner_id=self.request.user.pk) \
+                .order_by('-modified_at') \
+                .select_related('choropleth')
 
 
 class DatasetDisplay(GetPublishedObjectMixin, generic.DetailView):
@@ -44,7 +46,9 @@ class DatasetUpload(generic.detail.SingleObjectMixin, generic.FormView):
     def get_form(self, form_class):
         if 0 != len(self.request.FILES):
             try:
-                document = DatasetDocument.objects.get(dataset_id=self.object.pk)
+                document = DatasetDocument.objects \
+                        .get(dataset_id=self.object.pk)
+
                 return form_class(instance=document, **self.get_form_kwargs())
             except DatasetDocument.DoesNotExist:
                 return form_class(**self.get_form_kwargs())
@@ -54,7 +58,7 @@ class DatasetUpload(generic.detail.SingleObjectMixin, generic.FormView):
     def form_valid(self, form):
         document = form.save(commit=False)
         document.dataset = self.object
-        document.owner = self.request.user 
+        document.owner = self.request.user
         document.save()
         self.object.import_dataset()
         return super(DatasetUpload, self).form_valid(form)
@@ -80,9 +84,9 @@ class DatasetCreate(generic.edit.CreateView):
 
     def form_valid(self, form):
         dataset = form.save(commit=False)
-        dataset.cartogram_id = 1 
+        dataset.cartogram_id = 1
 
-        dataset.owner = self.request.user# change this once auth is in place
+        dataset.owner = self.request.user
         dataset.save()
         return super(DatasetCreate, self).form_valid(form)
 
@@ -91,13 +95,13 @@ class DatasetCreate(generic.edit.CreateView):
 
 
 class DatasetDelete(generic.edit.DeleteView):
-   model = Dataset
-   success_url = reverse_lazy('datasets:dataset-management')
+    model = Dataset
+    success_url = reverse_lazy('datasets:dataset-management')
 
-   def delete(self, request, *args, **kwargs):
-       if self.get_object().owner != request.user:
-           raise PermissionDenied
-       return super(DatasetDelete, self).delete(request, *args, **kwargs)
+    def delete(self, request, *args, **kwargs):
+        if self.get_object().owner != request.user:
+            raise PermissionDenied
+        return super(DatasetDelete, self).delete(request, *args, **kwargs)
 
 
 class DatasetUpdate(generic.edit.UpdateView):
@@ -116,27 +120,31 @@ class DatasetUpdate(generic.edit.UpdateView):
 
 
 class DatasetAPIView(RetrieveAPIView):
-    model = Dataset 
+    model = Dataset
     serializer_class = DatasetSerializer
     queryset = Dataset.objects.prefetch_related('records__cartogram_entity')
+
 
 def export_dataset(request, pk):
     dataset = Dataset.objects.get(id=pk)
     if dataset.owner != request.user:
         raise PermissionDenied()
 
-    valid_filename = slugify(dataset.name.lower)
-    content_disposition = 'attachment; filename="{}.csv"'.format(valid_filename)
+    fn = dataset.name.lower()
+    content_disposition = 'attachment; filename="{}.csv"'.format(fn)
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = content_disposition
 
-
     writer = csv.writer(response)
     writer.writerow(['fips', 'name', 'value'])
     for record in dataset.records.all().order_by('cartogram_entity__entity_id'):
-        if record.value != None:
-            writer.writerow([record.get_entity_id(), record.get_entity_name(), record.value.normalize()])
+        if record.value is not None:
+            writer.writerow([
+                record.get_entity_id(),
+                record.get_entity_name(),
+                record.value.normalize()
+                ])
         else:
             writer.writerow([record.get_entity_id(), record.get_entity_name(), ])
 
