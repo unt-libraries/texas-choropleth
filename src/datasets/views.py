@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.views import generic
+from django.utils.text import slugify
 from rest_framework.generics import RetrieveAPIView
 from .models import Dataset, DatasetDocument
 from .serializers import DatasetSerializer
@@ -124,7 +125,8 @@ def export_dataset(request, pk):
     if dataset.owner != request.user:
         raise PermissionDenied()
 
-    content_disposition = 'attachment; filename="{}.csv"'.format(dataset.name.lower())
+    valid_filename = slugify(dataset.name.lower)
+    content_disposition = 'attachment; filename="{}.csv"'.format(valid_filename)
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = content_disposition
