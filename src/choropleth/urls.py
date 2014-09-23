@@ -9,8 +9,8 @@ from choropleths.feeds import ChoroplethFeed
 from cartograms.views import cartogram_csv_template
 
 urlpatterns = patterns('',
-    url(r'^$', HelpView.as_view(), name="help"),
-    url(r'^help/$', GalleryView.as_view(), name="gallery"),
+    url(r'^$', GalleryView.as_view(), name="gallery"),
+    url(r'^help/$', HelpView.as_view(), name="help"),
     url(r'^datasets/', include('datasets.urls', namespace="datasets")),
     url(r'^choropleths/', include('choropleths.urls', namespace="choropleths")),
     url(r'^cartogram-template/(?P<pk>[0-9]+)/$', cartogram_csv_template, name="csv-template"),
