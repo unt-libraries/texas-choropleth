@@ -1,16 +1,13 @@
 import os
-from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from rest_framework import generics
 from rest_framework import viewsets
 from django.views import generic
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.models import User
 from django.core.files.base import File
 from .models import Choropleth, Palette
 from .serializers import ChoroplethSerializer, PaletteSerializer
-from datasets.serializers import DatasetSerializer
 from datasets.models import Dataset
 from .screenshot import get_screen_shot
 
@@ -23,59 +20,68 @@ class GetPublishedObjectMixin(object):
     the object is published. Otherwise returns status 403
     """
     def get_object(self, **kwargs):
-        gotten_object = super(GetPublishedObjectMixin, self).get_object(**kwargs)
+        gotten_object = super(GetPublishedObjectMixin, self) \
+            .get_object(**kwargs)
         if gotten_object.owner != self.request.user:
             if gotten_object.published == 0:
                 raise PermissionDenied()
         return gotten_object
 
-class ChoroplethListSortMixin(object):
 
-    def get_queryset(self):
+class ListSortMixin(object):
+
+    def get_sorted_queryset(self, default_sort='-modified_at'):
         sort_options = ['created_at', 'modified_at', 'name', 'owner']
         sort_by = self.request.GET.get('by', False)
         sort_order = int(self.request.GET.get('order', False))
 
         if not sort_order or sort_by not in sort_options:
-            return Choropleth.objects.filter(published=1).order_by('-modified_at', 'name').select_related('dataset')
+            return self.model.objects.order_by(default_sort)
 
         sort_order = "{0}" if sort_order > 0 else "-{0}"
         sort = sort_order.format(sort_by)
-        return Choropleth.objects.filter(published=1).order_by(sort).select_related('dataset')
+        return self.model.objects.order_by(sort)
 
-class GalleryView(ChoroplethListSortMixin, generic.ListView):
+
+class GalleryView(ListSortMixin, generic.ListView):
     model = Choropleth
     template_name = "choropleths/gallery.html"
     paginate_by = 12
 
+    def get_queryset(self):
+        return self.get_sorted_queryset() \
+            .filter(published=1) \
+            .select_related('dataset')
+
 
 class HelpView(generic.TemplateView):
     template_name = "site/help.html"
+
 
 class ChoroplethExport(generic.DetailView):
     model = Choropleth
     template_name = "choropleths/choropleth_export.html"
 
 
-class ChoroplethList(ChoroplethListSortMixin, generic.ListView):
+class ChoroplethList(ListSortMixin, generic.ListView):
     model = Choropleth
     template_name = 'choropleths/choropleth_list.html'
     paginate_by = 10
 
     def get_queryset(self):
-        queryset = super(ChoroplethList, self).get_queryset()
-        user = get_object_or_404(User, pk=self.request.user.id)
-        return queryset.filter(owner=user)
+        return self.get_sorted_queryset() \
+            .filter(owner=self.request.user) \
+            .select_related('dataset')
 
 
 class ChoroplethDetail(GetPublishedObjectMixin, generic.DetailView):
     model = Choropleth
     template_name = 'choropleths/choropleth_detail.html'
-    
+
 
 class ChoroplethView(GetPublishedObjectMixin, generic.DetailView):
     template_name = 'choropleths/choropleth_view.html'
-    model = Choropleth 
+    model = Choropleth
 
 
 class ChoroplethEdit(GetPublishedObjectMixin, generic.DetailView):
