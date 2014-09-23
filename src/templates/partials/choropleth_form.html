@@ -68,7 +68,7 @@
                 <div id="quantize-options" ng-show="choropleth.scale < 1">
                     {# Range Select #}
                     <div class="form-group col-xs-3" ng-class="{'has-error': form.range.$invalid && !form.range.$pristine}">
-                        <label for="range" class="control-label">Range</label>
+                        <label for="range" class="control-label"># of Classes</label>
                         <select class="form-control" name="range" ng-model="choropleth.data_classes" ng-options="n for n in range.options" required>
                         </select>
                     </div>
@@ -78,7 +78,7 @@
                 <div id="non-quantize-options" ng-show="choropleth.scale > 0">
                 {# Tune Slider #}
                     <div class="form-group col-xs-3" ng-class="{'has-error': form.range.$invalid && !form.range.$pristine}">
-                        <label for="range" class="control-label">Tune</label>
+                        <label for="range" class="control-label">Color Adjustment</label>
                         <input  name="range" type="range" ng-model="choropleth.data_classes" min="3" max="8" required>
                         </select>
                     </div>
