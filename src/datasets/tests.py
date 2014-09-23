@@ -23,7 +23,7 @@ class ImportDatasetTestCase(TestCase):
         DatasetDocument.objects.create(
             owner=user,
             dataset=dataset,
-            datafile=File(open('tmp/import_dataset1.csv'))
+            datafile=File(open('src/datasets/test_data/import_dataset1.csv'))
         )
 
     def test_import_dataset(self):
@@ -47,7 +47,7 @@ class ImportDatasetTestCase(TestCase):
         dataset.import_dataset()
 
         # Attach a slightly different datafile and reimport
-        dataset.document.datafile = File(open('tmp/import_dataset2.csv'))
+        dataset.document.datafile = File(open('src/datasets/test_data/import_dataset2.csv'))
         dataset.save()
         imported_records = dataset.import_dataset()
 
@@ -61,42 +61,42 @@ class DatasetValidatorTestCase(TestCase):
     fixtures = ['texas.json']
 
     def test_validator_fails_incorrect_delimiter(self):
-        doc = File(open('tmp/unemployment.tsv'))
+        doc = File(open('src/datasets/test_data/unemployment.tsv'))
         with self.assertRaises(ValidationError) as cm:
             import_validator(doc)
 
         self.assertEqual(cm.exception.message, MESSAGES[0])
 
     def test_validator_fails_without_csv(self):
-        doc = File(open('tmp/data.zip'))
+        doc = File(open('src/datasets/test_data/data.zip'))
         with self.assertRaises(ValidationError) as cm:
             import_validator(doc)
 
         self.assertEqual(cm.exception.message, MESSAGES[1])
 
     def test_validator_fails_without_headers(self):
-        doc = File(open('tmp/unemployment.csv'))
+        doc = File(open('src/datasets/test_data/unemployment.csv'))
         with self.assertRaises(ValidationError) as cm:
             import_validator(doc)
 
         self.assertTrue(MESSAGES[3][0:17] in cm.exception.message)
 
     def test_validator_fails_with_incorrect_entity_ids(self):
-        doc = File(open('tmp/incorrect_entity_id.csv'))
+        doc = File(open('src/datasets/test_data/incorrect_entity_id.csv'))
         with self.assertRaises(ValidationError) as cm:
             import_validator(doc)
 
         self.assertTrue(MESSAGES[2][0:9] in cm.exception.message)
 
     def test_validator_fails_without_required_fields(self):
-        doc = File(open('tmp/missing_value.csv'))
+        doc = File(open('src/datasets/test_data/missing_value.csv'))
         with self.assertRaises(ValidationError) as cm:
             import_validator(doc)
 
         self.assertTrue(MESSAGES[4][0:20] in cm.exception.message)
 
     def test_validator_with_empty_rows(self):
-        doc = File(open('tmp/missing_rows.csv'))
+        doc = File(open('src/datasets/test_data/missing_rows.csv'))
         self.assertTrue(import_validator(doc))
 
 
