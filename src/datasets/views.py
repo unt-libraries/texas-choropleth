@@ -3,25 +3,23 @@ import csv
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.views import generic
-from django.utils.text import slugify
 from rest_framework.generics import RetrieveAPIView
 from .models import Dataset, DatasetDocument
 from .serializers import DatasetSerializer
 from .forms import DatasetUploadForm, DatasetForm
 from django.http import HttpResponse
-from choropleths.views import GetPublishedObjectMixin
+from choropleths.views import GetPublishedObjectMixin, ListSortMixin
 
 
-class DatasetManagement(generic.ListView):
+class DatasetManagement(ListSortMixin, generic.ListView):
     template_name = "datasets/dataset_management.html"
     model = Dataset
     paginate_by = 10
 
     def get_queryset(self):
-        return Dataset.objects \
-                .filter(owner_id=self.request.user.pk) \
-                .order_by('-modified_at') \
-                .select_related('choropleth')
+        return self.get_sorted_queryset() \
+            .filter(owner=self.request.user) \
+            .select_related('choropleth')
 
 
 class DatasetDisplay(GetPublishedObjectMixin, generic.DetailView):
@@ -47,7 +45,7 @@ class DatasetUpload(generic.detail.SingleObjectMixin, generic.FormView):
         if 0 != len(self.request.FILES):
             try:
                 document = DatasetDocument.objects \
-                        .get(dataset_id=self.object.pk)
+                    .get(dataset_id=self.object.pk)
 
                 return form_class(instance=document, **self.get_form_kwargs())
             except DatasetDocument.DoesNotExist:
@@ -64,7 +62,9 @@ class DatasetUpload(generic.detail.SingleObjectMixin, generic.FormView):
         return super(DatasetUpload, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('datasets:dataset-detail', kwargs={'pk': self.object.pk})
+        return reverse(
+            'datasets:dataset-detail',
+            kwargs={'pk': self.object.pk})
 
 
 class DatasetDetail(generic.View):
@@ -91,7 +91,9 @@ class DatasetCreate(generic.edit.CreateView):
         return super(DatasetCreate, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('datasets:dataset-detail', kwargs={'pk': self.object.pk})
+        return reverse(
+            'datasets:dataset-detail',
+            kwargs={'pk': self.object.pk})
 
 
 class DatasetDelete(generic.edit.DeleteView):
@@ -110,7 +112,9 @@ class DatasetUpdate(generic.edit.UpdateView):
     form_class = DatasetForm
 
     def get_success_url(self):
-        return reverse('datasets:dataset-detail', kwargs={'pk': self.object.pk})
+        return reverse(
+            'datasets:dataset-detail',
+            kwargs={'pk': self.object.pk})
 
     def get_object(self, **kwargs):
         dataset = super(DatasetUpdate, self).get_object(**kwargs)
