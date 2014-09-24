@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from .pipeline import *
 
 # Project Directory Definitions
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -63,6 +64,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'pipeline.middleware.MinifyHTMLMiddleware'
 )
 
 ROOT_URLCONF = 'choropleth.urls'
@@ -116,61 +118,13 @@ IMAGE_EXPORT_TMP_DIR = os.path.join('/', 'tmp')
 
 
 # Static Files Settings
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
 STATIC_URL = '/static/'
-
-
-# Pipeline Settings
-PIPELINE_COMPILERS = (
-    'pipeline.compilers.less.LessCompiler',
-)
-
-PIPELINE_CSS = {
-    'main': {
-        'source_filenames': (
-            'css/main.less',
-        ),
-        'output_filename': 'css/main.css',
-    }
-}
-
-PIPELINE_JS = {
-    'map': {
-        'source_filenames': (
-            'js/colorbrewer.js',
-            'js/map.js',
-        ),
-        'output_filename': 'js/map.js',
-    },
-    'app': {
-        'source_filenames': (
-            'js/app.js',
-        ),
-        'output_filename': 'js/app.js',
-    },
-    'map-vendor': {
-        'source_filenames': (
-            'vendor/d3/d3.min.js',
-            'vendor/topojson/topojson.js',
-            'vendor/showdown/src/showdown.js'
-        ),
-        'output_filename': 'js/map-vendor.js',
-    },
-    'vendor': {
-        'source_filenames': (
-            'vendor/angular/angular.min.js',
-            'vendor/angular-resource/angular-resource.min.js',
-            'vendor/jquery/dist/jquery.min.js',
-            'vendor/bootstrap/dist/js/bootstrap.min.js',
-        ),
-        'output_filename': 'js/vendor.js',
-    }
-
-}

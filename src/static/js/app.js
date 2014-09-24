@@ -1,13 +1,13 @@
-App = angular.module('App', ['ngResource']);
+var App = angular.module('App', ['ngResource']);
 
-App.config(function($interpolateProvider, $httpProvider) {
+App.config(['$interpolateProvider', '$httpProvider', function($interpolateProvider, $httpProvider) {
   // New symbols to prevent interference with Django templating language
   $interpolateProvider.startSymbol('{$');
   $interpolateProvider.endSymbol('$}');
 
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-});
+}]);
 
 // Bootstrap active tab helper
 App.directive('isActive', function() {
@@ -92,26 +92,26 @@ App.directive('loading', function($http) {
   };
 });
 
-App.factory('Choropleth', function($resource) {
+App.factory('Choropleth', ['$resource', function($resource) {
   return $resource('/choropleths/api/:id/ ', { id: '@id' }, {
     update: {
       method: 'PUT'
     }
   });
-});
+}]);
 
 // Resource for Dataset
-App.factory('Dataset', function($resource) {
+App.factory('Dataset', ['$resource', function($resource) {
   return $resource('/datasets/api/:id/ ');
-});
+}]);
 
 // Resource for Palettes
-App.factory('Palettes', function($resource) {
+App.factory('Palettes', ['$resource', function($resource) {
   return $resource('/choropleths/api/palettes/:id/ ');
-});
+}]);
 
 
-App.controller('DatasetTableController', function($scope, $http, Dataset) {
+App.controller('DatasetTableController', ['$scope', '$http', 'Dataset', function($scope, $http, Dataset) {
 
   $scope.init = function(id) {
     Dataset.get({id: id}, function(data) {
@@ -122,7 +122,7 @@ App.controller('DatasetTableController', function($scope, $http, Dataset) {
     $scope.sortOrder='name';
   };
   
-});
+}]);
 
 App.directive('progressBar', function() {
   return {

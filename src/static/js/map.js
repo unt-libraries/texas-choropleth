@@ -1,4 +1,6 @@
-App.directive('choropleth', function($http) {
+var App = angular.module('App');
+
+App.directive('choropleth', ['$http', function($http) {
 
   // Clone the loader
   var loader = $("#loader").clone();
@@ -282,10 +284,10 @@ App.directive('choropleth', function($http) {
       render(scope.dataset.records);
     }
   };
-});
+}]);
 
 // Live edit and generic rendering directive for Markdown
-App.directive('markdown', function($window) {
+App.directive('markdown', ['$window', function($window) {
   var converter = new $window.Showdown.converter();
   return {
     restrict: 'E',
@@ -311,9 +313,9 @@ App.directive('markdown', function($window) {
       });
     }
   };
-});
+}]);
 
-App.controller('AbstractController', function AbstractController ($scope, $window, $http, Palettes) {
+App.controller('AbstractController', ['$scope', '$window', '$http', 'Palettes', function AbstractController ($scope, $window, $http, Palettes) {
 
   $scope.tab = 1;
 
@@ -373,9 +375,9 @@ App.controller('AbstractController', function AbstractController ($scope, $windo
       });
     }
   };
-});
+}]);
 
-App.controller('ViewController', function ViewController ($scope, $controller, Choropleth, Dataset, Palettes ) {
+App.controller('ViewController', ['$scope', '$controller', 'Choropleth', 'Dataset', 'Palettes', function ViewController ($scope, $controller, Choropleth, Dataset, Palettes ) {
   $controller('AbstractController', {$scope: $scope});
 
   $scope.init = function(id) {
@@ -395,9 +397,9 @@ App.controller('ViewController', function ViewController ($scope, $controller, C
       });
     });
   };
-});
+}]);
 
-App.controller('EditController', function EditController ($scope, $controller, Choropleth, Dataset, Palettes) {
+App.controller('EditController', ['$scope', '$controller', 'Choropleth', 'Dataset', 'Palettes', function EditController ($scope, $controller, Choropleth, Dataset, Palettes) {
   $controller('ViewController', {$scope: $scope});
 
   $scope.submit = function() {
@@ -408,9 +410,9 @@ App.controller('EditController', function EditController ($scope, $controller, C
   $scope.delete = function() {
     $scope.choropleth.$delete($scope._success);
   };
-});
+}]);
 
-App.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, Dataset, Palettes) {
+App.controller('MappCtrl', ['$scope', '$controller', 'Choropleth', 'Dataset', 'Palettes', function MappCtrl ($scope, $controller, Choropleth, Dataset, Palettes) {
   $controller('AbstractController', {$scope: $scope});
 
   $scope.init = function(id) {
@@ -435,5 +437,5 @@ App.controller('MappCtrl', function MappCtrl ($scope, $controller, Choropleth, D
     $('#in-progress').modal();
     $scope.choropleth.$save($scope._success);
   };
-});
+}]);
 

@@ -1,6 +1,7 @@
 from .base import *
 
 DEBUG = True
+
 TEMPLATE_DEBUG = True
 
 INSTALLED_APPS += (
@@ -23,3 +24,13 @@ DATABASES = {
 }
 
 IMAGE_EXPORT_TMP_DIR = os.path.join('/', 'tmp')
+
+PIPELINE_ENABLED = False
+
+if PIPELINE_ENABLED:
+    # Let Pipeline find Compressed files
+    STATICFILES_FINDERS = (
+        'django.contrib.staticfiles.finders.FileSystemFinder',
+        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+        'pipeline.finders.PipelineFinder',
+    )
