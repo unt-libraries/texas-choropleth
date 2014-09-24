@@ -21,6 +21,7 @@
         <div class="form-group" has-error>
             <div class="label label-danger">{{ form.password.errors.as_text }}</div>
             <input type="password" name="password" class="form-control" placeholder="Password">
+            <div class="pull-right"><a href="{% url 'register' %}">Register</a></div>
         </div>
         <input type="submit" class="btn btn-default" value="Submit" />
         <input type="hidden" name="next" value="{{ next  }}" />
