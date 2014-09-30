@@ -14,6 +14,7 @@ class DatasetForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DatasetForm, self).__init__(*args, **kwargs)
         self.fields['published'].label = 'Shared'
+        self.fields['label'].label = 'Units/Label'
 
     class Meta:
         model = Dataset
@@ -24,6 +25,6 @@ class DatasetForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.TextInput(attrs={'class': 'form-control'}),
             'label': forms.TextInput(attrs={'class': 'form-control'}),
-            'published' : forms.Select(attrs={'class': 'form-control'}),
+            'published': forms.Select(attrs={'class': 'form-control'}),
             'license': forms.Select(attrs={'class': 'form-control'}),
         }
