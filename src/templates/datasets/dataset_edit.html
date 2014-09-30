@@ -19,7 +19,9 @@
 
 {% block workflow %}
 
-    {% include 'partials/workflow.html' %}
+    {% if not dataset %}
+        {% include 'partials/workflow.html' %}
+    {% endif %}
 
 {% endblock workflow %}
 
@@ -47,9 +49,6 @@
                                 <span class="label label-danger">{{ error }}</span><br>
                             {% endfor %}
                             <label for={{form.description.name}} class="control-label">{{form.description.label}}&nbsp;</label>
-                            <span class="glyphicon glyphicon-info-sign form-info"
-                                  popover
-                                  data-content="This is also used as the short description for the choropleth"></span>
                             {{ form.description }}
                         </div>
                     </div>
@@ -61,7 +60,7 @@
                             <label for={{form.label.name}} class="control-label">{{form.label.label}}</label>
                             <span class="glyphicon glyphicon-info-sign form-info"
                                   popover
-                                  data-content="This is used to label the dataset records in the choropleth."></span>
+                                  data-content="Units or label for the individual dataset records."></span>
                             {{ form.label }}
                         </div>
                     </div>
@@ -72,7 +71,7 @@
                             {% endfor %}
                             <label for={{form.published.name}} class="control-label">{{form.published.label}}&nbsp;</label>
                             <span class="glyphicon glyphicon-info-sign form-info"
-                                  data-content="Sharing will make this dataset's detail page public when the choropleth is published."
+                                  data-content="Sharing will make details of this dataset publicly available once the choropleth is published."
                                   popover></span>
                             {{ form.published }}
                         </div>

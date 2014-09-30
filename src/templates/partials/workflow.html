@@ -33,7 +33,7 @@
                     <div class="progress">
                         <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="17%"></div>
                     </div>
-                    <p><strong>Warning:</strong><p>
+                    <p class="text-danger"><strong>Warning:</strong><p>
                     <p>The dataset does not have any data yet. <a href="{% url 'datasets:dataset-detail' object.get_dataset_id %}">Click here</a> to add records.</p>
                 {% endif %}
 
@@ -41,7 +41,7 @@
                     <div class="progress">
                         <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="25%"></div>
                     </div>
-                    <p><strong>Warning:</strong><p>
+                    <p class="text-danger"><strong>Warning:</strong><p>
                     <p>The dataset does not have any data yet. <a href="{% url 'datasets:dataset-detail' object.get_dataset_id %}">Click here</a> to add records.</p>
                 {% endif %}
 
