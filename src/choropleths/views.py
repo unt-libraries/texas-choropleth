@@ -120,6 +120,7 @@ class PaletteAPIView(generics.ListAPIView):
         palettes = Palette.objects.filter(scheme=self.kwargs['pk'])
         return palettes
 
+
 class ChoroplethAPI(viewsets.ModelViewSet):
     model = Choropleth
     serializer_class = ChoroplethSerializer 
@@ -157,6 +158,3 @@ class ChoroplethAPI(viewsets.ModelViewSet):
         os.remove(screen_path)
         os.remove(crop_path)
         os.remove(thumbnail_path)
-
-
-
