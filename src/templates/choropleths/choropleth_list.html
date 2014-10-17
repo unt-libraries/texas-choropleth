@@ -1,64 +1,55 @@
-{% extends "_layout.html" %}
+{% extends "choropleths/_list-layout.html" %}
 {% load staticfiles %}
 {% block page_title %}My Choropleths{% endblock page_title %}
 
 {% block header %}My Choropleths{% endblock header %}
 
-
 {% block control-btns %}
-
     {% include 'partials/sorting-dropdown.html' %}
 
     <a  href="{% url 'datasets:dataset-create' %}">
         <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span>&nbsp;New</button>
     </a>
-
 {% endblock control-btns %}
 
+{% block list_class %}choropleth-grid{% endblock list_class %}
 
-{% block content %}
-{{block.super}}
+{% block object_list %}
+    {% if not forloop.counter|divisibleby:"2"  %}
+        <div class="row">
+    {% endif %}
 
-    <div id="choropleth-grid">
-
-        {% for object in object_list %}
-
-            {% if not forloop.counter|divisibleby:"2"  %}
-                <div class="row">
-            {% endif %}
-
-            <div class="col-sm-6 col-md-6 choropleth-grid-item">
-                <div class="thumbnail">
-                    <a href="{% url "choropleths:choropleth-view" object.id %}">
-                        {% if object.thumbnail %}
-                            <img src="{{ object.thumbnail.url }}">
-                        {% endif %}
-                    </a>
-                    <div class="caption">
-                        <a href="{% url "choropleths:choropleth-view" object.id %}">
-                            <h4>{{ object.name|truncatechars:"60" }}</h4>
-                        </a>
-                        <p class="text-muted">Updated {{ object.modified_at|timesince }} ago</p>
-                        <p>
-                        <a href="{% url 'choropleths:choropleth-detail' object.id %}"><button class="btn btn-default btn-xs">Inspect</button></a>
-                        <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"><button class="btn btn-default btn-xs">Dataset</button></a>
-                        </p>
-
-                    </div>
-                </div>
+    <div class="col-sm-6 col-md-6 choropleth-grid-item">
+        <div class="thumbnail">
+            <a href="{% url "choropleths:choropleth-view" object.id %}">
+                {% if object.thumbnail %}
+                    <img src="{{ object.thumbnail.url }}">
+                {% endif %}
+            </a>
+            <div class="caption">
+                <a href="{% url "choropleths:choropleth-view" object.id %}">
+                    <h4>{{ object.name|truncatechars:"60" }}</h4>
+                </a>
+                <p class="text-muted">Updated {{ object.modified_at|timesince }} ago</p>
+                <p>
+                <a href="{% url 'choropleths:choropleth-detail' object.id %}"><button class="btn btn-default btn-xs">Inspect</button></a>
+                <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"><button class="btn btn-default btn-xs">Dataset</button></a>
+                </p>
             </div>
-
-            {% if forloop.counter|divisibleby:"2"  %}
-                </div>
-            {% endif %}
-
-        {% endfor %}
-
+        </div>
     </div>
 
+    {% if forloop.counter|divisibleby:"2"  %}
+        </div>
+    {% endif %}
+{% endblock object_list %}
 
-{% endblock content %}
+{% block empty_list %}You have not created any choropleths.{% endblock empty_list %}
 
 {% block pagination %}
     {% include 'partials/pagination.html' %}
 {% endblock pagination %}
+
+{% block content %}
+    {{block.super}}
+{% endblock content %}
