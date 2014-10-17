@@ -4,12 +4,11 @@
 <html>
     <head>
         <title>{% block page_title %}{% endblock page_title %} | UNT Choropleths</title>
-        {# <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"> #}
+        <meta name="viewport" content="width=device-width">
         {% compressed_css  'main' %}
         {% compressed_js 'vendor' %}
         {% compressed_js 'app' %}
         {% block head %}{% endblock head %}
-
     </head>
     <body ng-app="App">
         {% include 'partials/navbar.html' %}
