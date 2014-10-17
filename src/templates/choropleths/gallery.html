@@ -1,4 +1,4 @@
-{% extends "_layout.html" %}
+{% extends "choropleths/_list-layout.html" %}
 {% load staticfiles %}
 {% block page_title %}Gallery{% endblock page_title %}
 
@@ -8,76 +8,77 @@
     {% include 'partials/sorting-dropdown.html' with owner=True %}
 {% endblock control-btns %}
 
-{% block content %}
-{{block.super}}
 
-    {% for object in object_list %}
+{% block object_list %}
+    {% if forloop.counter0|divisibleby:"3"  %}
+        <div class="row">
+    {% endif %}
 
-        {% if forloop.counter0|divisibleby:"3"  %}
-            <div class="row">
-        {% endif %}
+    <div class="grid-item col-sm-4">
+        <div class="row">
+            <div class="col-sm-10">
+                <h4>
+                    {% if object.thumbnail %}
 
-        <div class="grid-item col-sm-4">
-            <div class="row">
-                <div class="col-sm-10">
-                    <h4>
-                        {% if object.thumbnail %}
-
-                            <a href="{% url 'choropleths:choropleth-view' object.id %}" class="thumbnail">
-                                <img src="{{ object.thumbnail.url }}" class="img-responsive media-object">
-                            </a>
-
-                        {% endif %}
-
-                        <a href="{% url 'choropleths:choropleth-view' object.id %}">{{ object.name }}</a>
-                        
-                    </h4>
-                    <div class="list-item-description">
-                        {# <h5 class="item-description">{{ object.dataset.description|truncatechars:140 }}</h5> #}
-                        <h5 class="text-muted">Updated {{ object.modified_at|timesince }} ago</h5>
-                        <h5 class="text-muted">Created by: {{ object.owner }}</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="grid-item-icons">
-                        <a href="{% url 'choropleths:choropleth-view' object.id %}"
-                            data-toggle="tooltip"
-                            title="View"
-                            tooltip>
-                            <span class="glyphicon glyphicon-globe"></span>
-                        </a>
-                        <a href="{% url 'choropleths:choropleth-detail' object.id %}"
-                            data-toggle="tooltip"
-                            title="Inspect"
-                            tooltip ><span class="glyphicon glyphicon-file"></span>
+                        <a href="{% url 'choropleths:choropleth-view' object.id %}" class="thumbnail">
+                            <img src="{{ object.thumbnail.url }}" class="img-responsive media-object">
                         </a>
 
-                        {% if object.dataset.published %}
+                    {% endif %}
 
-                            <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"
-                                data-toggle="tooltip"
-                                title="Dataset"
-                                tooltip><span class="glyphicon glyphicon-list-alt"></span>
-                            </a>
-
-                        {% endif %}
-
-                    </ul>
+                    <a href="{% url 'choropleths:choropleth-view' object.id %}">{{ object.name }}</a>
+                    
+                </h4>
+                <div class="list-item-description">
+                    {# <h5 class="item-description">{{ object.dataset.description|truncatechars:140 }}</h5> #}
+                    <h5 class="text-muted">Updated {{ object.modified_at|timesince }} ago</h5>
+                    <h5 class="text-muted">Created by: {{ object.owner }}</h5>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="grid-item-icons">
+                    <a href="{% url 'choropleths:choropleth-view' object.id %}"
+                        data-toggle="tooltip"
+                        title="View"
+                        tooltip>
+                        <span class="glyphicon glyphicon-globe"></span>
+                    </a>
+                    <a href="{% url 'choropleths:choropleth-detail' object.id %}"
+                        data-toggle="tooltip"
+                        title="Inspect"
+                        tooltip ><span class="glyphicon glyphicon-file"></span>
+                    </a>
 
-        {% if forloop.counter|divisibleby:"3"  %}
+                    {% if object.dataset.published %}
+
+                        <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"
+                            data-toggle="tooltip"
+                            title="Dataset"
+                            tooltip><span class="glyphicon glyphicon-list-alt"></span>
+                        </a>
+
+                    {% endif %}
+
+                </ul>
             </div>
-        {% endif %}
+        </div>
+    </div>
 
-    {% endfor %}
+    {% if forloop.counter|divisibleby:"3"  %}
+        </div>
+    {% endif %}
 
+{% endblock object_list %}
 
-{% endblock content %}
+{% block empty_list %}No choropleths have been published yet.{% endblock empty_list %}
+
 
 {% block pagination %}
     {% include 'partials/pagination.html' %}
 {% endblock pagination %}
+
+{% block content %}
+    {{block.super}}
+{% endblock content %}
