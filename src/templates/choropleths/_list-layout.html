@@ -1,0 +1,27 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+{{ block.super }}
+
+    <div class="{% block list_class %}{% endblock list_class %}">
+        {% for object  in object_list %}
+
+        {% block object_list %}{% endblock object_list %}
+
+        {% empty %}
+            <div class="row">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <p class="alert alert-info text-center">
+                        {% block empty_list %}{% endblock empty_list %}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock content %}
+
+{% block pagination %}
+    {% include 'partials/pagination.html' %}
+{% endblock pagination %}
