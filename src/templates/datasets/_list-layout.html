@@ -28,6 +28,14 @@
                 </div>
             </div>
 
+        {% empty %}
+            <div class="row">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <p class="alert alert-info text-center">
+                        {% block empty_list %}{% endblock empty_list %}
+                    </p>
+                </div>
+            </div>
         {% endfor %}
     </div>
 
