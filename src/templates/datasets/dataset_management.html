@@ -1,4 +1,4 @@
-{% extends "_list-layout.html" %}
+{% extends "datasets/_list-layout.html" %}
 {% block page_title %}Dataset Management{% endblock page_title %}
 
 
@@ -111,3 +111,7 @@
     <div ng-app="App">{{ block.super }}</div>
 
 {% endblock content %}
+
+{% block empty_list %}
+    You have not created any datasets.
+{% endblock empty_list %}
