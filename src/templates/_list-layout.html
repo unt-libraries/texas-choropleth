@@ -31,6 +31,9 @@
         {% endfor %}
     </div>
 
-    {% include 'partials/pagination.html' %}
 
 {% endblock content %}
+
+{% block pagination %}
+    {% include 'partials/pagination.html' %}
+{% endblock pagination %}
