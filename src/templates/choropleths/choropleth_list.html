@@ -8,7 +8,7 @@
     {% include 'partials/sorting-dropdown.html' %}
 
     <a  href="{% url 'datasets:dataset-create' %}">
-        <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span>&nbsp;New</button>
+        <button class="btn action"><span class="glyphicon glyphicon-plus"></span>&nbsp;New</button>
     </a>
 {% endblock control-btns %}
 
@@ -32,8 +32,8 @@
                 </a>
                 <p class="text-muted">Updated {{ object.modified_at|timesince }} ago</p>
                 <p>
-                <a href="{% url 'choropleths:choropleth-detail' object.id %}"><button class="btn btn-default btn-xs">Inspect</button></a>
-                <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"><button class="btn btn-default btn-xs">Dataset</button></a>
+                <a href="{% url 'choropleths:choropleth-detail' object.id %}"><button class="btn list-item-navigate">Inspect</button></a>
+                <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"><button class="btn list-item-navigate">Dataset</button></a>
                 </p>
             </div>
         </div>

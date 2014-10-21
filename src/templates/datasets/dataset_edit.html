@@ -30,68 +30,70 @@
 {{ block.super }}
 
     <div class="row">
-        <div class="col-sm-11 col-sm-offset-1">
-            <form method="post" action="." enctype="multipart/form-data" id="dataset-form" class="form-horizontal" role="form">
-                <div>
-                    {% csrf_token %}
-                    <div class="form-group" has-error>
-                        <div class="col-sm-6">
-                            {% for error in form.errors.name %}
-                                <span class="label label-danger">{{ error }}</span><br>
-                            {% endfor %}
-                            <label for={{form.name.name}} class="control-label">{{form.name.label}}</label>
-                            {{ form.name }}
+        <div class="col-sm-10 col-sm-offset-1">
+            <div class="well">
+                <form method="post" action="." enctype="multipart/form-data" id="dataset-form" class="form-horizontal" role="form">
+                    <div>
+                        {% csrf_token %}
+                        <div class="form-group" has-error>
+                            <div class="col-sm-6">
+                                {% for error in form.errors.name %}
+                                    <span class="label label-danger">{{ error }}</span><br>
+                                {% endfor %}
+                                <label for={{form.name.name}} class="control-label">{{form.name.label}}</label>
+                                {{ form.name }}
+                            </div>
+                        </div>
+                        <div class="form-group" has-error>
+                            <div class="col-sm-8">
+                                {% for error in form.errors.description %}
+                                    <span class="label label-danger">{{ error }}</span><br>
+                                {% endfor %}
+                                <label for={{form.description.name}} class="control-label">{{form.description.label}}&nbsp;</label>
+                                {{ form.description }}
+                            </div>
+                        </div>
+                        <div class="form-group" has-error>
+                            <div class="col-sm-6">
+                                {% for error in form.errors.label %}
+                                    <span class="label label-danger">{{ error }}</span><br>
+                                {% endfor %}
+                                <label for={{form.label.name}} class="control-label">{{form.label.label}}</label>
+                                <span class="glyphicon glyphicon-info-sign form-info"
+                                      popover
+                                      data-content="Units or label for the individual dataset records."></span>
+                                {{ form.label }}
+                            </div>
+                        </div>
+                        <div class="form-group" has-error>
+                            <div class="col-sm-6">
+                                {% for error in form.errors.published %}
+                                    <span class="label label-danger">{{ error }}</span><br>
+                                {% endfor %}
+                                <label for={{form.published.name}} class="control-label">{{form.published.label}}&nbsp;</label>
+                                <span class="glyphicon glyphicon-info-sign form-info"
+                                      data-content="Sharing will make details of this dataset publicly available once the choropleth is published."
+                                      popover></span>
+                                {{ form.published }}
+                            </div>
+                        </div>
+                        <div class="form-group" has-error>
+                            <div class="col-sm-6">
+                                {% for error in form.errors.license %}
+                                    <span class="label label-danger">{{ error }}</span><br>
+                                {% endfor %}
+                                <label for={{form.license.name}} class="control-label">{{form.license.label}}</label>
+                                {{ form.license }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-1">
+                                <button type="submit" class="btn submit">Save</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group" has-error>
-                        <div class="col-sm-8">
-                            {% for error in form.errors.description %}
-                                <span class="label label-danger">{{ error }}</span><br>
-                            {% endfor %}
-                            <label for={{form.description.name}} class="control-label">{{form.description.label}}&nbsp;</label>
-                            {{ form.description }}
-                        </div>
-                    </div>
-                    <div class="form-group" has-error>
-                        <div class="col-sm-6">
-                            {% for error in form.errors.label %}
-                                <span class="label label-danger">{{ error }}</span><br>
-                            {% endfor %}
-                            <label for={{form.label.name}} class="control-label">{{form.label.label}}</label>
-                            <span class="glyphicon glyphicon-info-sign form-info"
-                                  popover
-                                  data-content="Units or label for the individual dataset records."></span>
-                            {{ form.label }}
-                        </div>
-                    </div>
-                    <div class="form-group" has-error>
-                        <div class="col-sm-6">
-                            {% for error in form.errors.published %}
-                                <span class="label label-danger">{{ error }}</span><br>
-                            {% endfor %}
-                            <label for={{form.published.name}} class="control-label">{{form.published.label}}&nbsp;</label>
-                            <span class="glyphicon glyphicon-info-sign form-info"
-                                  data-content="Sharing will make details of this dataset publicly available once the choropleth is published."
-                                  popover></span>
-                            {{ form.published }}
-                        </div>
-                    </div>
-                    <div class="form-group" has-error>
-                        <div class="col-sm-6">
-                            {% for error in form.errors.license %}
-                                <span class="label label-danger">{{ error }}</span><br>
-                            {% endfor %}
-                            <label for={{form.license.name}} class="control-label">{{form.license.label}}</label>
-                            {{ form.license }}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-1">
-                            <button type="submit" class="btn btn-default">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
  

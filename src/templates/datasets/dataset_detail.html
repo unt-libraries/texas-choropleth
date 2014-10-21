@@ -15,7 +15,7 @@
         {% if dataset.has_choropleth %}
 
             <a href="{% url 'choropleths:choropleth-view' dataset.choropleth.id %}">
-                <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-globe"></span>&nbsp;Choropleth</button>
+                <button class="btn navigate"> <span class="glyphicon glyphicon-globe"></span>&nbsp;Choropleth</button>
             </a>
 
         {% endif %}
@@ -23,14 +23,14 @@
         {% ifequal dataset.owner user %}
 
             <a href="{% url 'csv-template' dataset.cartogram.id %}">
-                <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
+                <button class="btn navigate"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
             </a>
 
-            <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#delete-form-modal">
+            <button class="btn action" data-toggle="modal" data-target="#delete-form-modal">
                 <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
             </button>
             <a href="{% url 'datasets:dataset-update' dataset.id %}">
-                <button class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
+                <button class="btn action"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
             </a>
 
         {% endifequal %}
@@ -69,7 +69,7 @@
                             {{ form.datafile }}
                             </div>
                             <div class="col-sm-4">
-                                <button type="submit" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#in-progress"><span class="glyphicon glyphicon-upload"></span>&nbsp;Upload</button>
+                                <button type="submit" class="btn submit" data-toggle="modal" data-target="#in-progress"><span class="glyphicon glyphicon-upload"></span>&nbsp;Upload</button>
                             </div>
                         </div>
                         <div class="form-group">
@@ -165,7 +165,7 @@
                     <form method="POST" action="{% url 'datasets:dataset-delete' dataset.id %}">
                         {% csrf_token %}
                         <input type="submit" value="Delete" class="btn btn-danger">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button
+                        <button type="button" class="btn action" data-dismiss="modal">Cancel</button
                     </form>
                 </div>
             </div>
