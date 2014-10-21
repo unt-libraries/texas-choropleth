@@ -8,6 +8,11 @@
         {% compressed_js 'map-vendor' %}
         {% compressed_js 'map' %}
     </head>
+    <style>
+        body {
+            padding-top: 0px;
+        }
+    </style>
     <body ng-app="App">
         <div id="export" ng-controller="ViewController" ng-init="init({{ choropleth.id }})">
           <div ng-if="hasData">
