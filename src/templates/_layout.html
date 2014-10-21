@@ -20,12 +20,18 @@
                     {% block workflow %}{% endblock workflow %}
                     {% block content %}
                         <div class="row">
-                            <h1>
-                                {% block header %}{% endblock header %}
-                                <div class="pull-right control-btns">
-                                    {% block control-btns %}{% endblock control-btns %}
+                            <div class="col-sm-6">
+                                <h1>
+                                    {% block header %}{% endblock header %}
+                                </h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="pull-right">
+                                    <div class="control-btns">
+                                        {% block control-btns %}{% endblock control-btns %}
+                                    </div>
                                 </div>
-                            </h1>
+                            </div>
                         </div>
                         {% if noHorizontalRule %}
                             <br>
