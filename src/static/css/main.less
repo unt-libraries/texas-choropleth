@@ -65,7 +65,34 @@ body {
     border-radius: 0px;
 }
 
+button, a[type=button] {
+    &.navigate {
+        .btn-sm;
+        .btn-primary;
+    }
+
+    &.action {
+        .btn-sm;
+        .btn-default;
+    }
+
+    &.submit {
+        .btn-sm;
+        .btn-primary;
+    }
+
+    &.list-item-navigate {
+        .btn-xs;
+        .btn-primary;
+    }
+}
+
+
 .control-btns {
+    button {
+        margin-top: 1.6em;
+    }
+
     a:hover {
         text-decoration: none;
     }
@@ -135,10 +162,10 @@ form {
 
         .wrapper {
             #choropleth-selection {
+                .well;
                 min-width: 10em;
                 margin: 1em 1em;
-                .well;
-                background-color: #FFF;
+                // background-color: #FFF;
                 .box-shadow(0 1px 3px rgba(0,0,0,.25));
                 top: 0px;
                 right: 0px;
@@ -271,15 +298,15 @@ form {
         .icon-styling(@brand-warning);
     }
 
-    .data-detail {
-        .icon-styling(@gray-light);
-        &.no-records {
-            .icon-styling(@brand-danger);
-        }
-    }
+    // .data-detail {
+    //     .icon-styling(@gray-light);
+    //     &.no-records {
+    //         .icon-styling(@brand-danger);
+    //     }
+    // }
 
     a {
-        color: @gray-light
+        color: @brand-primary; 
     }
 
     a:hover {
