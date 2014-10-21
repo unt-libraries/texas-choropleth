@@ -1,39 +1,37 @@
 <form name="form" novalidate>
     {% csrf_token %}
-    <div id="top-form-wrapper"class="form-inline">
-        <div class="form-group" ng-class="{'has-error': form.name.$invalid && !form.name.$pristine}">
-            <div class="col-sm-10">
+    <div id="top-form-wrapper"class="form-horizontal">
+        <div class="form-group" >
+            <div class="col-lg-5" ng-class="{'has-error': form.name.$invalid && !form.name.$pristine}">
                <label for="name" class="control-label">Name</label>
                 <input class="form-control" type="text" name="name" value="{{ choropleth.name }}" ng-maxlength="96" ng-model="choropleth.name" required>
            </div>
-       </div>
-        <div class="form-group" ng-class="{'has-error': form.published.$invalid && !form.published.$pristine}">
-           <div class="col-sm-10">
+           <div class="col-lg-3" ng-class="{'has-error': form.published.$invalid && !form.published.$pristine}">
                <label for="published" class="control-label">Published</label>
                <select class="form-control" name="published" ng-model="choropleth.published">
                        <option value="0">No</option>
                        <option value="1">Yes</option>
                </select>
            </div>
-       </div>
-       <div class="form-group pull-right">
-           <div id="submission-btns">
+           <div class="col-lg-4">
+               <div id="submission-btns" class="pull-right">
 
-               {% if not create %}
+                   {% if not create %}
 
-                    <a  type="button" class="btn navigate" href="{% url 'datasets:dataset-detail' choropleth.dataset_id %}">
-                        <span class="glyphicon glyphicon-book"></span>&nbsp;Dataset
-                    </a>
+                        <a  type="button" class="btn navigate" href="{% url 'datasets:dataset-detail' choropleth.dataset_id %}">
+                            <span class="glyphicon glyphicon-book"></span>&nbsp;Dataset
+                        </a>
 
-                    <button class="btn action" data-toggle="modal" data-target="#delete-choropleth-form" >
-                        <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+                        <button class="btn action" data-toggle="modal" data-target="#delete-choropleth-form" >
+                            <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+                        </button>
+
+                    {% endif %}
+
+                    <button class="btn action" ng-click="submit()" ng-disabled="!form.$valid">
+                        <span class="glyphicon glyphicon-save"></span>&nbsp;Save
                     </button>
-
-                {% endif %}
-
-                <button class="btn action" ng-click="submit()" ng-disabled="!form.$valid">
-                    <span class="glyphicon glyphicon-save"></span>&nbsp;Save
-                </button>
+                </div>
             </div>
         </div>
     </div>
