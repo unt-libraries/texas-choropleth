@@ -65,7 +65,7 @@ body {
     border-radius: 0px;
 }
 
-button, a[type=button] {
+button, a[type=button], input[type=submit] {
     &.navigate {
         .btn-sm;
         .btn-primary;
@@ -79,6 +79,11 @@ button, a[type=button] {
     &.submit {
         .btn-sm;
         .btn-primary;
+    }
+
+    &.delete {
+        .btn-sm;
+        .btn-danger;
     }
 
     &.list-item-navigate {
