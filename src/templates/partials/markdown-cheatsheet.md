@@ -2,7 +2,6 @@
 ## Markdown Cheat Sheet
 This is intended as a quick reference and showcase. For more complete info, see [John Gruber's original spec](http://daringfireball.net/projects/markdown/).
 
-<a name="headers"/>
 ## Headers
 
 ```no-highlight
@@ -37,7 +36,6 @@ Alt-H1
 Alt-H2
 ------
 
-<a name="emphasis"/>
 ## Emphasis
 
 ```no-highlight
@@ -55,7 +53,6 @@ Strong emphasis, aka bold, with **asterisks** or __underscores__.
 Combined emphasis with **asterisks and _underscores_**.
 
 
-<a name="lists"/>
 ## Lists
 
 (In this example, leading and trailing spaces are shown with with dots: ⋅)
@@ -96,7 +93,6 @@ Combined emphasis with **asterisks and _underscores_**.
 - Or minuses
 + Or pluses
 
-<a name="links"/>
 ## Links
 
 There are two ways to create links.
@@ -139,7 +135,6 @@ Some text to show that the reference links can follow later.
 [1]: http://slashdot.org
 [link text itself]: http://www.reddit.com
 
-<a name="images"/>
 ## Images
 
 ```no-highlight
@@ -162,7 +157,6 @@ Reference-style:
 
 [logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
 
-<a name="code"/>
 ## Code
 
 Code blocks are part of the Markdown spec.
@@ -188,7 +182,6 @@ def foo():
     print "hello world"
 ```
 
-<a name="blockquotes"/>
 ## Blockquotes
 
 ```no-highlight
@@ -207,7 +200,6 @@ Quote break.
 
 > This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can *put* **Markdown** into a blockquote. 
 
-<a name="html"/>
 ## Inline HTML
 
 You can also use raw HTML in your Markdown, and it'll mostly work pretty well. 
@@ -230,7 +222,6 @@ You can also use raw HTML in your Markdown, and it'll mostly work pretty well.
   <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
 </dl>
 
-<a name="hr"/>
 ## Horizontal Rule
 
 ```
@@ -263,7 +254,6 @@ ___
 
 Underscores
 
-<a name="lines"/>
 ## Line Breaks
 
 My basic recommendation for learning how line breaks work is to experiment and discover -- hit &lt;Enter&gt; once (i.e., insert one newline), then hit it twice (i.e., insert two newlines), see what happens. You'll soon learn to get what you want. "Markdown Toggle" is your friend. 
