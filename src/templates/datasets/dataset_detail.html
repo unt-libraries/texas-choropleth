@@ -104,53 +104,51 @@
         </div>
     </div>
     
-    {% if dataset.records.exists %}
-
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="panel-title">
                 <span>Records<span>
 
-                {% ifequal dataset.owner user %}
+                {% if dataset.owner == user and dataset.records.exists%}
 
                     <span id="export-dataset" class="pull-right">
                         <a href="{% url 'datasets:dataset-export' dataset.id %}"><span class="glyphicon glyphicon-circle-arrow-down"></span>&nbsp;Export</a>
                     <span>
 
-                {% endifequal %}
+                {% endif %}
 
             </div>
 
         </div>
-        <div loading class="panel-body dataset" ng-controller="DatasetTableController" ng-init="init({{ dataset.id }})">
-            <table class="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                        <th ng-click="sortOrder = 'name'; reverse=!reverse">{{ dataset.cartogram.subregion_label }} Name</th>
-                        <th ng-click="sortOrder = 'cartogram_entity'; reverse=!reverse">FIPS</th>
-                        <th ng-click="sortOrder = 'value'; reverse=!reverse">Value</th>
-                    </tr>
-                </thead>
-                <tbody>
 
-                    <tr ng-repeat="record in dataset.records | orderBy:sortOrder:reverse">
-                        <td>{$ record.name $}</td>
-                        <td>{$ record.cartogram_entity $}</td>
-                        <td>{$ record.value | number $}</td>
-                    </tr>
+        {% if dataset.records.exists %}
+            <div loading class="panel-body dataset" ng-controller="DatasetTableController" ng-init="init({{ dataset.id }})">
+                <table class="table table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th ng-click="sortOrder = 'name'; reverse=!reverse">{{ dataset.cartogram.subregion_label }} Name</th>
+                            <th ng-click="sortOrder = 'cartogram_entity'; reverse=!reverse">FIPS</th>
+                            <th ng-click="sortOrder = 'value'; reverse=!reverse">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                </tbody>
-            </table>
-        </div>
+                        <tr ng-repeat="record in dataset.records | orderBy:sortOrder:reverse">
+                            <td>{$ record.name $}</td>
+                            <td>{$ record.cartogram_entity $}</td>
+                            <td>{$ record.value | number $}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="panel-body">
+                <p class="does-not-exist">This dataset does not have any records</p>
+            </div>
+        {% endif %}
+
     </div>
-    
-    {% else %}
-
-        <div class="dataset-message">
-            <h3><em>This dataset does not have any records</em></h3>
-        </div>
-
-    {% endif %}
 
     <div class="modal fade" id="delete-form-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
@@ -164,7 +162,7 @@
                 <div class="modal-footer">
                     <form method="POST" action="{% url 'datasets:dataset-delete' dataset.id %}">
                         {% csrf_token %}
-                        <input type="submit" value="Delete" class="btn btn-danger">
+                        <input type="submit" value="Delete" class="btn delete">
                         <button type="button" class="btn action" data-dismiss="modal">Cancel</button
                     </form>
                 </div>

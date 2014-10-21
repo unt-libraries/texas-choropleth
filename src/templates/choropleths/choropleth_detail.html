@@ -45,7 +45,7 @@
                     {% if choropleth.dataset.description %}
                         {{ choropleth.dataset.description }}
                     {% else %}
-                        <h4 class="text-center text-muted"><em>The associated dataset does not have a description</em></h4>
+                        <p class="does-not-exist">The associated dataset does not have a description</p>
                     {% endif %}
 
                 </div>
@@ -60,7 +60,7 @@
                     {% if choropleth.description %}
                         <markdown>{{ choropleth.description }}</markdown>
                     {% else %}
-                        <h4 class="text-center text-muted"><em>This choropleth does not have a description</em></h4>
+                        <p class="does-not-exist">This choropleth does not have a description</p>
                     {% endif %}
                 </div>
             </div>
