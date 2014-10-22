@@ -71,15 +71,22 @@ App.directive('hasRecords', function() {
   };
 });
 
+// Ajax loader
 App.directive('loading', function($http) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
+      var loader = $('#loader').clone();
+
+      if (attrs.loading === 'http') {
+          element.append(loader.show());
+        return;
+      }
+
       scope.isLoading = function() {
         return $http.pendingRequests.length > 0;
       };
 
-      loader = $('#loader').clone();
 
       scope.$watch(scope.isLoading, function(v) {
         if (v) {
