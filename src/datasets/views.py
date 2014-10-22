@@ -9,6 +9,7 @@ from .serializers import DatasetSerializer
 from .forms import DatasetUploadForm, DatasetForm
 from django.http import HttpResponse
 from core.views import GetPublishedObjectMixin, ListSortMixin
+from django.contrib import messages
 
 
 class DatasetManagement(ListSortMixin, generic.ListView):
@@ -58,7 +59,15 @@ class DatasetUpload(generic.detail.SingleObjectMixin, generic.FormView):
         document.dataset = self.object
         document.owner = self.request.user
         document.save()
-        self.object.import_dataset()
+
+        try:
+            self.object.import_dataset()
+        except self.object.DoesNotExist:
+            messages.error(
+                self.request,
+                "Oops! Something went wrong. Try uploading your file again."
+            )
+
         return super(DatasetUpload, self).form_valid(form)
 
     def get_success_url(self):

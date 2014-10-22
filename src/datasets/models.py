@@ -198,6 +198,9 @@ class Dataset(PublishedMixin, AbstractNameModel):
         """
         Import datafile records into the DatasetRecord
         """
+        if not self.get_datafile():
+            raise self.DoesNotExist
+
         document = csv.reader(self.get_datafile().read().splitlines())
 
         imported_records = dict([('created', 0), ('updated', 0)])
@@ -231,7 +234,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
                     imported_records['created'] += 1
 
         self.save()
-        self.get_datafile().seek(0)
+        self.get_datafile().delete()
         return imported_records
 
     def get_datafile(self):
