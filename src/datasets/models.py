@@ -281,9 +281,6 @@ class DatasetRecord(AbstractModel):
         related_name="records"
     )
 
-    def replace_datafile(self, document):
-        self.objects.remove
-
     def get_entity_id(self):
         """
         Shortcut to the cartogram_entity's id
