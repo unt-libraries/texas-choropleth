@@ -50,5 +50,5 @@ class RegisterView(generic.FormView):
         return reverse('login')
 
     def form_valid(self, form):
-        messages.success(self.request, 'Thanks for registering. Please login with your new username and password.')
+        messages.info(self.request, 'Thanks for registering. Please login with your new username and password.')
         return super(RegisterView, self).form_valid(form)
