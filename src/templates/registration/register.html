@@ -1,14 +1,23 @@
 {% extends "_layout.html" %}
+{% block page_title %}Register{% endblock page_title %}
 
 {% block content %}
 
-<div class="row">
-    {% if form.non_field_errors %}
-        {% for error in form.non_field_errors %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="row">
+            <p class="col-sm-6 col-sm-offset-3 alert alert-info">{{ message }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+        <div class="row">
             <p class="col-sm-6 col-sm-offset-3 alert alert-danger">{{ error }}</p>
-        {% endfor %}
-    {% endif %}
-</div>
+        </div>
+    {% endfor %}
+{% endif %}
 
 <form method="post" action="{% url 'register' %}" name="register">
     {% csrf_token %}
@@ -26,7 +35,7 @@
             <div class="label label-danger">{{ form.password2.errors.as_text }}</div>
             <input type="password" name="password2" class="form-control" placeholder="Confirm Password">
         </div>
-        <input type="submit" class="btn action" value="Submit" />
+        <input type="submit" class="btn submit" value="Submit" />
     </div>
 </form>
 

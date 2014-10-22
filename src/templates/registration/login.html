@@ -1,14 +1,23 @@
 {% extends "_layout.html" %}
+{% block page_title %}Login{% endblock page_title %}
 
 {% block content %}
 
-<div class="row">
-    {% if form.non_field_errors %}
-        {% for error in form.non_field_errors %}
-            <p class="col-sm-6 col-sm-offset-3 alert alert-danger">{{ error }}</p>
-        {% endfor %}
-    {% endif %}
-</div>
+{% if messages %}
+    {% for message in messages %}
+        <div class="row">
+            <p class="col-sm-6 col-sm-offset-3 message info">{{ message }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+        <div class="row">
+            <p class="col-sm-6 col-sm-offset-3 message error">{{ error }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
 
 <form method="post" action="{% url 'django.contrib.auth.views.login' %}" name="login">
     {% csrf_token %}
@@ -23,7 +32,7 @@
             <input type="password" name="password" class="form-control" placeholder="Password">
             <div class="pull-right"><a href="{% url 'register' %}">Register</a></div>
         </div>
-        <input type="submit" class="btn action" value="Submit" />
+        <input type="submit" class="btn submit" value="Submit" />
         <input type="hidden" name="next" value="{{ next  }}" />
     </div>
 </form>
