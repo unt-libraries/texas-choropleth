@@ -8,7 +8,7 @@ from .models import Dataset, DatasetDocument
 from .serializers import DatasetSerializer
 from .forms import DatasetUploadForm, DatasetForm
 from django.http import HttpResponse
-from choropleths.views import GetPublishedObjectMixin, ListSortMixin
+from core.views import GetPublishedObjectMixin, ListSortMixin
 
 
 class DatasetManagement(ListSortMixin, generic.ListView):
