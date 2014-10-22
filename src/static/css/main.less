@@ -135,24 +135,11 @@ form {
 #choropleth-wrapper {
     min-width: 650px;
     #top-form-wrapper {
-
         margin-bottom: 1.7em;
 
-        input[name=name] {
-            width: 20em;
-        }
-
-        select[name=published] {
-            width: 10em;
-        }
-
-        @media (max-width: 768px) {
-            input[name=name] {
-                width: 100%;
-            }
-
-            select[name=published] {
-                width: 100%;
+        @media(max-width: 1200px) {
+            .form-group {
+                clear:both;
             }
         }
     }

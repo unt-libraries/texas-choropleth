@@ -1,6 +1,24 @@
 <form name="form" novalidate>
     {% csrf_token %}
     <div id="top-form-wrapper"class="form-horizontal">
+       <div id="submission-btns" class="pull-right">
+
+           {% if not create %}
+
+                <a  type="button" class="btn navigate" href="{% url 'datasets:dataset-detail' choropleth.dataset_id %}">
+                    <span class="glyphicon glyphicon-book"></span>&nbsp;Dataset
+                </a>
+
+                <button class="btn action" data-toggle="modal" data-target="#delete-choropleth-form" >
+                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
+                </button>
+
+            {% endif %}
+
+            <button class="btn action" ng-click="submit()" ng-disabled="!form.$valid">
+                <span class="glyphicon glyphicon-save"></span>&nbsp;Save
+            </button>
+        </div>
         <div class="form-group" >
             <div class="col-lg-5" ng-class="{'has-error': form.name.$invalid && !form.name.$pristine}">
                <label for="name" class="control-label">Name</label>
@@ -13,26 +31,6 @@
                        <option value="1">Yes</option>
                </select>
            </div>
-           <div class="col-lg-4">
-               <div id="submission-btns" class="pull-right">
-
-                   {% if not create %}
-
-                        <a  type="button" class="btn navigate" href="{% url 'datasets:dataset-detail' choropleth.dataset_id %}">
-                            <span class="glyphicon glyphicon-book"></span>&nbsp;Dataset
-                        </a>
-
-                        <button class="btn action" data-toggle="modal" data-target="#delete-choropleth-form" >
-                            <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
-                        </button>
-
-                    {% endif %}
-
-                    <button class="btn action" ng-click="submit()" ng-disabled="!form.$valid">
-                        <span class="glyphicon glyphicon-save"></span>&nbsp;Save
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 
