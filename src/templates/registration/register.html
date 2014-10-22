@@ -3,13 +3,6 @@
 
 {% block content %}
 
-{% if messages %}
-    {% for message in messages %}
-        <div class="row">
-            <p class="col-sm-6 col-sm-offset-3 alert alert-info">{{ message }}</p>
-        </div>
-    {% endfor %}
-{% endif %}
 
 {% if form.non_field_errors %}
     {% for error in form.non_field_errors %}
@@ -22,6 +15,7 @@
 <form method="post" action="{% url 'register' %}" name="register">
     {% csrf_token %}
     <div class="col-sm-6 col-sm-offset-3">
+        {% include "partials/messages.html" %}
         <h3>Register</h3>
         <div class="form-group" has-error>
         <div class="label label-danger">{{ form.username.errors.as_text }}</div>

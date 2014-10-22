@@ -1,9 +1,8 @@
 {% extends "_layout.html" %}
-{% block page_title %}Dataset Management{% endblock page_title %}
+{% block page_title %}{{dataset.name}}{% endblock page_title %}
 
 
 {% block header %}{{ dataset.name }}{% endblock header %}
-
 
 {% if dataset.owner.id == user.id %}
 
@@ -38,7 +37,6 @@
 
 {% endif %}
 
-
 {% block content %}
 {{ block.super }}
 
@@ -50,6 +48,7 @@
         {% if dataset.owner.id == user.id %}
 
             <div class="col-sm-6">
+                {% include "partials/messages.html" %}
                 <div id="datafile-form" class="well">
                     <form method="post" action="{% url 'datasets:dataset-detail' dataset.id %}" enctype="multipart/form-data" class="form-horizontal">
                         {% csrf_token %}
