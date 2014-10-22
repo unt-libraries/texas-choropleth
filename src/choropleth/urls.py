@@ -4,7 +4,8 @@ from django.conf.urls.static import static
 
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
-from choropleths.views import GalleryView, HelpView
+from core.views import HelpView, RegisterView
+from choropleths.views import GalleryView
 from choropleths.feeds import ChoroplethFeed
 from cartograms.views import cartogram_csv_template
 
@@ -17,12 +18,12 @@ urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
     url(r'^feed/$', ChoroplethFeed()),
-    url(r'^register/$', CreateView.as_view(
-        template_name='registration/register.html',
-        form_class=UserCreationForm,
-        success_url='/'
-        ), name='register'
-    )
+    # url(r'^register/$', CreateView.as_view(
+    #     template_name='registration/register.html',
+    #     form_class=UserCreationForm,
+    #     success_url='/login'
+    #     ), name='register'
+    url(r'^register/$', RegisterView.as_view(), name='register'),
 )
 
 # Serve Media
