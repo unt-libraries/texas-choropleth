@@ -38,9 +38,9 @@
                             <hr>
                         {% endif %}
                     {% endblock content %}
+                    {% block pagination %}{% endblock pagination %}
                 </div>
             </div>
-            {% block pagination %}{% endblock pagination %}
         </div>
         <div id="loader">
             <img src="{% static "img/loader.gif" %}">
