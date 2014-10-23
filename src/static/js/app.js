@@ -135,7 +135,6 @@ App.directive('progressBar', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-      console.log(attrs);
       $(element).width(attrs.progressBar);
     }
   };
