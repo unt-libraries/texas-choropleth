@@ -46,6 +46,7 @@
                 {# Scale Select #}
                 <div class="form-group col-xs-3" ng-class="{'has-error': form.scale.$invalid && !form.scale.$pristine}">
                     <label for="scale" class="control-label">Scale</label>
+                    <a href="{% url "help" %}#scale" target="_blank"><span class="glyphicon glyphicon-info-sign form-info" data-toggle="tooltip" title="Scale Help" tooltip ></span></a>
                     <select class="form-control" name="scale" ng-model="choropleth.scale" ng-options="scale.id as scale.name for scale in scales" required>
                     </select>
                 </div>
@@ -53,6 +54,7 @@
                 {# Scheme Select #}
                 <div class="form-group col-xs-3">
                     <label for="scheme" class="control-label">Scheme</label>
+                    <a href="{% url "help" %}#scheme" target="_blank"><span class="glyphicon glyphicon-info-sign form-info" data-toggle="tooltip" title="Scheme Help" tooltip ></span></a>
                     <select class="form-control" name="scheme" ng-model="choropleth.scheme" ng-change="getSchemePalettes(choropleth.scheme)" ng-options="scheme.id as scheme.name for scheme in schemes" required>
                     </select>
                 </div>
@@ -60,6 +62,7 @@
                 {# Palette Select #}
                 <div class="form-group col-xs-3">
                     <label for="palette" class="control-label">Palette</label>
+                    <a href="{% url "help" %}#palette" target="_blank"><span class="glyphicon glyphicon-info-sign form-info" data-toggle="tooltip" title="Palette Help" tooltip ></span></a>
                     <select class="form-control" name="palette" ng-model="choropleth.palette" ng-change="findPalette(choropleth.palette)" ng-options="palette.id as palette.name for palette in palettes" required>
                     </select>
                 </div>
@@ -69,6 +72,7 @@
                     {# Range Select #}
                     <div class="form-group col-xs-3" ng-class="{'has-error': form.range.$invalid && !form.range.$pristine}">
                         <label for="range" class="control-label"># of Classes</label>
+                    <a href="{% url "help" %}#classes" target="_blank"><span class="glyphicon glyphicon-info-sign form-info" data-toggle="tooltip" title="Classes Help" tooltip ></span></a>
                         <select class="form-control" name="range" ng-model="choropleth.data_classes" ng-options="n for n in range.options" required>
                         </select>
                     </div>
