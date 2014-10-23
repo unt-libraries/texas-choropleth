@@ -3,13 +3,14 @@ import csv
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
 from django.views import generic
-from rest_framework.generics import RetrieveAPIView
-from .models import Dataset, DatasetDocument
-from .serializers import DatasetSerializer
-from .forms import DatasetUploadForm, DatasetForm
 from django.http import HttpResponse
-from core.views import GetPublishedObjectMixin, ListSortMixin
 from django.contrib import messages
+from rest_framework.generics import RetrieveAPIView
+
+from core.views import GetPublishedObjectMixin, ListSortMixin
+from .forms import DatasetUploadForm, DatasetForm
+from .serializers import DatasetSerializer
+from .models import Dataset, DatasetDocument
 
 
 class DatasetManagement(ListSortMixin, generic.ListView):
@@ -62,7 +63,7 @@ class DatasetUpload(generic.detail.SingleObjectMixin, generic.FormView):
 
         try:
             self.object.import_dataset()
-        except self.object.DoesNotExist:
+        except DatasetDocument.DoesNotExist:
             messages.error(
                 self.request,
                 "Oops! Something went wrong. Try uploading your file again."

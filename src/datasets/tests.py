@@ -36,6 +36,8 @@ class ImportDatasetTestCase(TestCase):
         dataset.import_dataset()  # Initial import
 
         # Import again to verify it can handle existant data
+        dataset.document.datafile = File(open('src/datasets/test_data/import_dataset1.csv'))
+        dataset.save()
         imported_records = dataset.import_dataset()
         self.assertEqual(imported_records['updated'], 0)
         self.assertEqual(imported_records['created'], 0)
@@ -52,6 +54,12 @@ class ImportDatasetTestCase(TestCase):
         imported_records = dataset.import_dataset()
 
         self.assertEqual(imported_records['updated'], 2)
+
+    def test_import_dataset_throws_exception(self):
+        dataset = Dataset.objects.get(name="Test")
+        dataset.import_dataset()  # Initial import
+        with self.assertRaises(DatasetDocument.DoesNotExist):
+            dataset.import_dataset()
 
 
 class DatasetValidatorTestCase(TestCase):

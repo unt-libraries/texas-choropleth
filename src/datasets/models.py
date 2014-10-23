@@ -199,7 +199,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
         Import datafile records into the DatasetRecord
         """
         if not self.get_datafile():
-            raise self.DoesNotExist
+            raise DatasetDocument.DoesNotExist
 
         document = csv.reader(self.get_datafile().read().splitlines())
 
