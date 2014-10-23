@@ -1,2 +1,2 @@
 #!/bin/bash
-fig run web src/manage.py $*
+fig run --rm web src/manage.py $*
