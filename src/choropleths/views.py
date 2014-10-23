@@ -3,12 +3,14 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.views import generic
 from django.core.exceptions import PermissionDenied
 from django.core.files.base import File
 from datasets.models import Dataset
 
 from core.views import ListSortMixin, GetPublishedObjectMixin
+from core.api_permissions import IsOwnerOrPublished
 from .models import Choropleth, Palette
 from .serializers import ChoroplethSerializer, PaletteSerializer
 from .screenshot import get_screen_shot
@@ -92,12 +94,16 @@ class ChoroplethAPI(viewsets.ModelViewSet):
     model = Choropleth
     serializer_class = ChoroplethSerializer 
     queryset = Choropleth.objects.select_related('dataset', 'palette')
-    
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsOwnerOrPublished,)
+
     def pre_save(self, obj):
         obj.owner = self.request.user
 
     def post_save(self, obj, **kwargs):
-        export = reverse('choropleths:choropleth-export', kwargs={'pk': obj.id})
+        export = reverse(
+            'choropleths:choropleth-export',
+            kwargs={'pk': obj.id})
         url = self.request.build_absolute_uri(export)
 
         filename = "{0}.png".format(obj.id)
