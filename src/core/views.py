@@ -5,6 +5,8 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
+from .forms import FullUserCreationForm
+
 
 class GetPublishedObjectMixin(object):
     """
@@ -41,10 +43,10 @@ class HelpView(generic.TemplateView):
     template_name = "site/help.html"
 
 
-class RegisterView(generic.FormView):
+class RegisterView(generic.CreateView):
     template_name = "registration/register.html"
     model = settings.AUTH_USER_MODEL
-    form_class = UserCreationForm
+    form_class = FullUserCreationForm
 
     def get_success_url(self):
         return reverse('login')
