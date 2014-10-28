@@ -4,17 +4,11 @@
             <div class="modal-header"></div>
                 <div class="modal-body">
                 {% if message %}
-
                     <p class="text-center">{{ message }}</p>
-
                 {% else %}
-
                     <p class="text-center">Saving...</strong></p>
-
                 {% endif %}
 
-                {# Usually the loading directive uses pending Ajax requests so we'll let it know
-                   explicity that the request is not Ajax #}
                 {% if http %}
                     <div loading="http"></div>
                 {% else %}
