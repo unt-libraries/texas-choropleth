@@ -3,10 +3,6 @@
 <html>
     <head>
         {% compressed_css 'main' %}
-        {% compressed_js 'vendor' %}
-        {% compressed_js 'app' %}
-        {% compressed_js 'map-vendor' %}
-        {% compressed_js 'map' %}
     </head>
     <style>
         body {
@@ -19,5 +15,9 @@
             <choropleth hide-legend="true"></choropleth>
           </div>
         </div>
+        {% compressed_js 'vendor' %}
+        {% compressed_js 'app' %}
+        {% compressed_js 'map-vendor' %}
+        {% compressed_js 'map' %}
     </body>
 </html>

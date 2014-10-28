@@ -2,23 +2,19 @@
 {% load compressed %}
 {% block page_title %}Choropleth{% endblock page_title %}
 
-{% block head %}
-    {% compressed_js 'map-vendor' %}
-    {% compressed_js 'map' %}
-{% endblock head %}
-
 {% block workflow %}
-
     {% include 'partials/workflow.html' %}
-
 {% endblock workflow %}
 
 {% block content %}
-
     <div class="col-sm-12" id="choropleth-wrapper">
         <div ng-controller="MappCtrl" ng-init="init({{ dataset.id }})">
             {% include 'choropleths/_choropleth_form.html' with create=True %}
         </div>
     </div>
-
 {% endblock content %}
+
+{% block scripts %}
+    {% compressed_js 'map-vendor' %}
+    {% compressed_js 'map' %}
+{% endblock scripts %}

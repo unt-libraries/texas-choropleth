@@ -2,21 +2,13 @@
 {% load compressed %}
 {% block page_title %}Choropleth{% endblock page_title %}
 
-
-{% block head %}
-    {% compressed_js 'map-vendor' %}
-    {% compressed_js 'map' %}
-{% endblock head %}
-
 {% block workflow %}
     {% if not choropleth.has_records %}
         {% include 'partials/workflow.html' %}
     {% endif %}
 {% endblock workflow %}
 
-
 {% block content %}
-
 <div class="col-sm-12" id="choropleth-wrapper">
     <div ng-controller="EditController" ng-init="init({{ choropleth.id }})">
 
@@ -40,5 +32,9 @@
         </div>
     </div>
 </div>
-
 {% endblock content %}
+
+{% block scripts %}
+    {% compressed_js 'map-vendor' %}
+    {% compressed_js 'map' %}
+{% endblock scripts %}
