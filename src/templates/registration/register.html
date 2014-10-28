@@ -17,19 +17,45 @@
     <div class="col-sm-6 col-sm-offset-3">
         {% include "partials/messages.html" %}
         <h3>Register</h3>
+        <div class="form-horizontal">
         <div class="form-group" has-error>
-        <div class="label label-danger">{{ form.username.errors.as_text }}</div>
-        <input type="text" name="username" class="form-control" placeholder="Username">
+            <div class="col-sm-12">
+                <div class="label label-danger">{{ form.first_name.errors.as_text }}</div>
+                <input type="text" name="first_name" class="form-control" placeholder="First Name">
+            </div>
         </div>
         <div class="form-group" has-error>
-            <div class="label label-danger">{{ form.password1.errors.as_text }}</div>
-            <input type="password" name="password1" class="form-control" placeholder="Password">
+            <div class="col-sm-12">
+                <div class="label label-danger">{{ form.last_name.errors.as_text }}</div>
+                <input type="text" name="last_name" class="form-control" placeholder="Last Name">
+            </div>
         </div>
         <div class="form-group" has-error>
-            <div class="label label-danger">{{ form.password2.errors.as_text }}</div>
-            <input type="password" name="password2" class="form-control" placeholder="Confirm Password">
+            <div class="col-sm-12">
+                <div class="label label-danger">{{ form.email.errors.as_text }}</div>
+                <input type="text" name="email" class="form-control" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group" has-error>
+            <div class="col-sm-12">
+                <div class="label label-danger">{{ form.username.errors.as_text }}</div>
+                <input type="text" name="username" class="form-control" placeholder="Username">
+            </div>
+        </div>
+        <div class="form-group" has-error>
+            <div class="col-sm-12">
+                <div class="label label-danger">{{ form.password1.errors.as_text }}</div>
+                <input type="password" name="password1" class="form-control" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group" has-error>
+            <div class="col-sm-12">
+                <div class="label label-danger">{{ form.password2.errors.as_text }}</div>
+                <input type="password" name="password2" class="form-control" placeholder="Confirm Password">
+            </div>
         </div>
         <input type="submit" class="btn submit" value="Submit" />
+    </div>
     </div>
 </form>
 
