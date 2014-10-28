@@ -94,8 +94,6 @@ class ChoroplethAPI(viewsets.ModelViewSet):
     model = Choropleth
     serializer_class = ChoroplethSerializer 
     queryset = Choropleth.objects.select_related('dataset', 'palette')
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsOwnerOrPublished,)
 
     def pre_save(self, obj):
         obj.owner = self.request.user
