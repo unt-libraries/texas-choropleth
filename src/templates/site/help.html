@@ -7,10 +7,12 @@
 {% block content %}
 {{ block.super }}
 <section>
-    <h3>Clarification of Terms</h3>
+    <h2>Definitions</h2>
 </section>
-<section id="scale">
-    <h4>Scale</h4>
+
+<a class="help-anchor" id="scale"></a>
+<section>
+    <h3>Scale</h3>
     <p>The scale choice is crucial in determining how effective the choropleth is. Based on the nature of your dataset, you will want to choose one of the following to make the map more meaningful.</p>
     <h5><strong>Quantized</strong></h5>
     <p>This is a variant of a linear scale. Instead of a continuous domain, like a linear scale, the input domain is divided equally into the number of specified classes. Eventually, each class is differentiated by a specific color in the choropleth. This scale is available for any dataset.</p>
@@ -18,8 +20,9 @@
     <p>A nonlinear scale based on the orders of magnitude unlike a standard linear scale. This scale can be useful when dataset values grow exponentially. Because the logarithmic scale output approaches inifinity as the input approaches 0, this scale is only available to datasets where the values are exclusively negative, or exclusively positive.</p>
 </section>
 
-<section id="scheme">
-    <h4>Scheme</h4>
+<a class="help-anchor" id="scheme"></a>
+<section>
+    <h3>Scheme</h3>
     <p>The schemes used in this app, are the same schemes that Cynthia Brewer used to develop and explain the ColorBrewer palettes, which are also used in this app.</p>
     <h5 id="sequential"><strong>Sequential</strong></h5> 
     <p>This scheme represents a collection of palettes that that appear to increase in magnitude. Here is how Cynthia Brewer describes it.</p>
@@ -35,13 +38,15 @@
     </blockquote>
 </section>
 
-<section id="palette">
-    <h4>Palette</h4>
+<a class="help-anchor" id="palette"></a>
+<section>
+    <h3>Palette</h3>
     <p>A palette, in the context of this application, is a collection of colors that was intentially assembled to communicate the scheme. This application uses the palettes that Cynthia Brewer has created specifically designed for maps. See <a href="http://colorbrewer2.org/">ColorBrewer</a> for more information.</p>
 </section>
 
-<section id="classes">
-    <h4>Classes</h4>
+<a class="help-anchor" id="classes"></a>
+<section>
+    <h3>Classes</h3>
     <p>For choropleths that employ the Quantized scale, the number of classes determines the number of groups that your dataset is broken into, thus how many colors will be represented. The number of classes available is determined by the palette. Each palette includes at least 3 and as many as 12 classes.</p>
 </section>
 <hr>

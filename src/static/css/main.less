@@ -12,6 +12,8 @@
 @bootstrap-grey: #e7e7e7;
 @nav-color: #FFF;
 
+@body-padding-top: 60px;
+
 
 .icon-styling(@icon-color) {
     color: @icon-color;
@@ -26,10 +28,9 @@ html {
 }
 
 body {
-    padding-top: 60px;
+    padding-top: @body-padding-top;
     padding-bottom: 110px;
 }
-
 
 #brand {
     #brand-location {
@@ -96,7 +97,6 @@ button, a[type=button], input[type=submit] {
     }
 }
 
-
 .control-btns {
     button {
         margin-top: 1.8em;
@@ -112,7 +112,6 @@ button, a[type=button], input[type=submit] {
     stroke: #CCC;
     stroke-width: 1px;
 }
-
 
 #export {
     // Div that contains the exportable SVG
@@ -280,6 +279,7 @@ form {
     }
 
 }
+
 .item-icons {
     .list-inline;
     font-size: 17px;
@@ -348,6 +348,13 @@ form {
     .text-center;
     .text-muted;
     font-style: italic;
+}
+
+.help-anchor{
+    display: block;
+    top: -@body-padding-top;
+    position: relative;
+    visibility: hidden;
 }
 
 .help-quote {
