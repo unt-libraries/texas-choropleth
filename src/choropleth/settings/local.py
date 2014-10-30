@@ -25,6 +25,8 @@ DATABASES = {
 
 IMAGE_EXPORT_TMP_DIR = os.path.join('/', 'tmp')
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 PIPELINE_ENABLED = False
 
 if PIPELINE_ENABLED:
