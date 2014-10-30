@@ -10,7 +10,7 @@ from django.core.files.base import File
 from datasets.models import Dataset
 
 from core.views import ListSortMixin, GetPublishedObjectMixin
-from core.api_permissions import IsOwnerOrPublished
+from core.api_permissions import IsOwnerOrSafeMethods
 from .models import Choropleth, Palette
 from .serializers import ChoroplethSerializer, PaletteSerializer
 from .screenshot import get_screen_shot
@@ -94,6 +94,8 @@ class ChoroplethAPI(viewsets.ModelViewSet):
     model = Choropleth
     serializer_class = ChoroplethSerializer 
     queryset = Choropleth.objects.select_related('dataset', 'palette')
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsOwnerOrSafeMethods,)
 
     def pre_save(self, obj):
         obj.owner = self.request.user
