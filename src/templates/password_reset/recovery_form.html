@@ -1,0 +1,24 @@
+{% extends "registration/_layout.html" %}
+{% load core_tags %}
+{% load url from future %}
+
+{% block content %}
+{{ block.super }}
+{% endblock content %}
+
+{% block page_title %}Password Reset{% endblock page_title %}
+
+{% block registration %}
+    <h3>Reset Password</h3>
+    <form method="post" action="{{ url }}">
+        {% csrf_token %}
+        <div class="form-group" has-error>
+            {% for error in form.errors.username_or_email %}
+                <span class="label label-danger">{{ error }}</span><br>
+            {% endfor %}
+            <label for={{form.username_or_email.name}} class="control-label">{{form.username_or_email.label}}</label>
+            {{ form.username_or_email|addclass:"form-control" }}
+        </div>
+        <p><input type="submit" value="Recover my password" class="btn submit"></p>
+    </form>
+{% endblock registration %}

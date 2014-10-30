@@ -1,0 +1,16 @@
+{% extends "registration/_layout.html" %}
+{% load core_tags %}
+{% load url from future %}
+
+{% block content %}
+{{ block.super }}
+{% endblock content %}
+
+{% block page_title %}Password Reset{% endblock page_title %}
+
+{% block registration %}
+    <h3>Reset Password</h3>
+    <div class="message info">
+        <p>{% with ago=timestamp|timesince %}An email was sent to <strong>{{ email }}</strong> {{ ago }} ago. Use the link in it to set a new password.{% endwith %}</p>
+    </div>
+{% endblock registration %}

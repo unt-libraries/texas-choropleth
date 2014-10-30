@@ -1,0 +1,15 @@
+{% extends "registration/_layout.html" %}
+{% load core_tags %}
+
+{% block content %}
+{{ block.super }}
+{% endblock content %}
+
+{% block page_title %}Password Reset{% endblock page_title %}
+
+{% block registration %}
+    <h3>Reset Password</h3>
+    <div class="message info">
+        <p>Your password has successfully been reset. You can use it right now on the login page</p>
+    </div>
+{% endblock registration %}

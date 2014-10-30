@@ -1,0 +1,37 @@
+{% extends "registration/_layout.html" %}
+{% load core_tags %}
+
+{% block content %}
+{{ block.super }}
+{% endblock content %}
+
+{% block page_title %}Password Reset{% endblock page_title %}
+
+{% block registration %}
+    {% if invalid %}{% url "password_reset_recover" as recovery_url %}
+        <div class="message info">
+            <p>Sorry, this password reset link is invalid. You can still <a href="{{ recovery_url }}">request a new one</a>.</p>
+        </div>
+    {% else %}
+    <h3>Reset Password</h3>
+    <p>Reset password for <strong>{{ username }}</strong></p>
+    <form method="post" action="{% url "password_reset_reset" token %}">
+        {% csrf_token %}
+        <div class="form-group" has-error>
+            {% for error in form.errors.password1 %}
+                <span class="label label-danger">{{ error }}</span><br>
+            {% endfor %}
+            <label for={{form.password1.name}} class="control-label">{{form.password1.label}}</label>
+            {{ form.password1|addclass:"form-control" }}
+        </div>
+        <div class="form-group" has-error>
+            {% for error in form.errors.password2 %}
+                <span class="label label-danger">{{ error }}</span><br>
+            {% endfor %}
+            <label for={{form.password2.name}} class="control-label">{{form.password2.label}}</label>
+            {{ form.password2|addclass:"form-control" }}
+        </div>
+        <p><input type="submit" value="Set new password" class="btn submit"></p>
+    </form>
+    {% endif %}
+{% endblock registration %}
