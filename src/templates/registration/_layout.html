@@ -1,0 +1,17 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+
+{% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+        <div class="row">
+            <p class="col-sm-6 col-sm-offset-3 message error">{{ error }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="col-sm-6 col-sm-offset-3">
+    {% block registration %}{% endblock registration %}
+</div>
+
+{% endblock content %}
