@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^choropleths/', include('choropleths.urls', namespace="choropleths")),
     url(r'^cartogram-template/(?P<pk>[0-9]+)/$', cartogram_csv_template, name="csv-template"),
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/login'}, name='logout'),
     url(r'^feed/$', ChoroplethFeed()),
     url(r'^register/$', core_views.RegisterView.as_view(), name='register'),
 )
