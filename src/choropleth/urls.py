@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/login'}, name='logout'),
     url(r'^feed/$', ChoroplethFeed()),
     url(r'^register/$', core_views.RegisterView.as_view(), name='register'),
+    url(r'^reset/', include('password_reset.urls')),
 )
 
 # Serve Media
