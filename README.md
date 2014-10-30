@@ -1,3 +1,11 @@
+# Choropleth
+
+Dependencies:
+* PhantomJS 1.9.7
+* lessc
+* cssmin
+* uglify-js
+
 ## Building
 
 **Requirement**
