@@ -48,6 +48,8 @@ THIRD_PARTY_APPS = (
     'pipeline',
     'rest_framework',
     'rest_framework.authtoken',
+    'password_reset',
+
 )
 
 LOCAL_APPS = (
