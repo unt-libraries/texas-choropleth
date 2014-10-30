@@ -34,7 +34,7 @@
                 <p>
                 <a href="{% url 'choropleths:choropleth-detail' object.id %}"><button class="btn list-item-navigate">Inspect</button></a>
                 <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"><button class="btn list-item-navigate">Dataset</button></a>
-                <a href="{% url 'choropleths:choropleth-edit' object.dataset.id %}"><button class="btn list-item-action">Edit</button></a>
+                <a href="{% url 'choropleths:choropleth-edit' object.id %}"><button class="btn list-item-action">Edit</button></a>
                 </p>
             </div>
         </div>
