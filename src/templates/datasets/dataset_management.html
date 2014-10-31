@@ -75,7 +75,7 @@
         </a>
         <a href="{% url 'choropleths:choropleth-detail' object.choropleth.id %}"
            data-toggle="tooltip"
-           title="Inspect Choropleth"
+           title="Choropleth Overview"
            tooltip>
            <span class="glyphicon glyphicon-file"></span>
         </a>
@@ -95,7 +95,7 @@
     <a class="data-detail"
        href="{% url 'datasets:dataset-detail' object.id %}"
        data-toggle="tooltip"
-       title="Inspect Dataset"
+       title="Dataset Overview"
        data-placement="left"
        data-records={{ object.has_records }}
        has-records
