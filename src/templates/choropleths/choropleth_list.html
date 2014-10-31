@@ -24,6 +24,8 @@
             <a href="{% url "choropleths:choropleth-view" object.id %}">
                 {% if object.thumbnail %}
                     <img src="{{ object.thumbnail.url }}">
+                {% else %}
+                    <img src="{% static 'img/placeholder_thumbnail.png' %}">
                 {% endif %}
             </a>
             <div class="caption">

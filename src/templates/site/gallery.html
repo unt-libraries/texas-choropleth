@@ -24,6 +24,12 @@
                             <img src="{{ object.thumbnail.url }}" class="img-responsive media-object">
                         </a>
 
+                    {% else %}
+
+                        <a href="{% url 'choropleths:choropleth-view' object.id %}" class="thumbnail">
+                            <img src="{% static 'img/placeholder_thumbnail.png' %}" class="img-responsive media-object">
+                        </a>
+
                     {% endif %}
 
                     <a href="{% url 'choropleths:choropleth-view' object.id %}">{{ object.name }}</a>
