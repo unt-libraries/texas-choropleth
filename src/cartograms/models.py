@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class AbstractCartogram(models.Model):
     status = models.BooleanField(default=True)
     name = models.CharField(max_length=96)
@@ -8,7 +9,7 @@ class AbstractCartogram(models.Model):
         abstract = True
 
 
-class Cartogram(AbstractCartogram): # Initially named Map, but changed to avoid interfering with keyword
+class Cartogram(AbstractCartogram):
     cartogram_id = models.CharField(
         max_length=16,
         unique=True
@@ -22,12 +23,12 @@ class Cartogram(AbstractCartogram): # Initially named Map, but changed to avoid 
 
 
 class CartogramEntity(AbstractCartogram):
-    entity_id = models.CharField(max_length=16) 
+    entity_id = models.CharField(max_length=16)
     cartogram = models.ForeignKey(
         Cartogram,
         related_name="entities",
-        db_column="cartogram"  #change the column name since Cartogram already has a cartogram_id field
-    ) 
+        db_column="cartogram"
+    )
 
     def __unicode__(self):
         return self.name
@@ -39,5 +40,4 @@ class CartogramEntity(AbstractCartogram):
         index_together = [
             ['entity_id', 'cartogram']
         ]
-        db_table="cartograms_entity"
-
+        db_table = "cartograms_entity"
