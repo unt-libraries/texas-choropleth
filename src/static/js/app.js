@@ -100,7 +100,7 @@ App.directive('loading', function($http) {
 });
 
 App.factory('Choropleth', ['$resource', function($resource) {
-  return $resource('/choropleths/api/:id/ ', { id: '@id' }, {
+  return $resource('/api/choropleths/:id/ ', { id: '@id' }, {
     update: {
       method: 'PUT'
     }
@@ -109,12 +109,12 @@ App.factory('Choropleth', ['$resource', function($resource) {
 
 // Resource for Dataset
 App.factory('Dataset', ['$resource', function($resource) {
-  return $resource('/datasets/api/:id/ ');
+  return $resource('/api/datasets/:id/ ');
 }]);
 
 // Resource for Palettes
 App.factory('Palettes', ['$resource', function($resource) {
-  return $resource('/choropleths/api/palettes/:id/ ');
+  return $resource('/api/choropleths/palettes/:id/ ');
 }]);
 
 
