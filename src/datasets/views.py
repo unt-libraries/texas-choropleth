@@ -5,13 +5,9 @@ from django.core.exceptions import PermissionDenied
 from django.views import generic
 from django.http import HttpResponse
 from django.contrib import messages
-from rest_framework.generics import RetrieveAPIView
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 from core.views import GetPublishedObjectMixin, ListSortMixin
-from core.api_permissions import IsOwnerOrSafeMethods
 from .forms import DatasetUploadForm, DatasetForm
-from .serializers import DatasetSerializer
 from .models import Dataset, DatasetDocument
 
 
@@ -133,14 +129,6 @@ class DatasetUpdate(generic.edit.UpdateView):
         if dataset.owner != self.request.user:
             raise PermissionDenied()
         return dataset
-
-
-class DatasetAPIView(RetrieveAPIView):
-    model = Dataset
-    serializer_class = DatasetSerializer
-    queryset = Dataset.objects.prefetch_related('records__cartogram_entity')
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsOwnerOrSafeMethods,)
 
 
 def export_dataset(request, pk):
