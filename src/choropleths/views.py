@@ -1,19 +1,9 @@
-import os
-from django.core.urlresolvers import reverse
-from django.conf import settings
-from rest_framework import generics
-from rest_framework import viewsets
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.views import generic
 from django.core.exceptions import PermissionDenied
-from django.core.files.base import File
 from datasets.models import Dataset
 
 from core.views import ListSortMixin, GetPublishedObjectMixin
-from core.api_permissions import IsOwnerOrSafeMethods
-from .models import Choropleth, Palette
-from .serializers import ChoroplethSerializer, PaletteSerializer
-from .screenshot import get_screen_shot
+from .models import Choropleth
 
 
 class ChoroplethExport(generic.DetailView):
@@ -58,7 +48,7 @@ class ChoroplethEdit(GetPublishedObjectMixin, generic.DetailView):
 
 class ChoroplethCreate(generic.TemplateView):
     template_name = "choropleths/choropleth_create.html"
-    
+
     def get_context_data(self, **kwargs):
         context = super(ChoroplethCreate, self).get_context_data(**kwargs)
         dataset = Dataset.objects.get(id=kwargs['pk'])
@@ -68,55 +58,3 @@ class ChoroplethCreate(generic.TemplateView):
             return context
         else:
             raise PermissionDenied()
-
-
-class PaletteAPIView(generics.ListAPIView):
-    model = Palette
-    serializer_class = PaletteSerializer
-
-    def get_queryset(self):
-        palettes = Palette.objects.filter(scheme=self.kwargs['pk'])
-        return palettes
-
-
-class ChoroplethAPI(viewsets.ModelViewSet):
-    model = Choropleth
-    serializer_class = ChoroplethSerializer 
-    queryset = Choropleth.objects.select_related('dataset', 'palette')
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsOwnerOrSafeMethods,)
-
-    def pre_save(self, obj):
-        obj.owner = self.request.user
-
-    def post_save(self, obj, **kwargs):
-        export = reverse(
-            'choropleths:choropleth-export',
-            kwargs={'pk': obj.id})
-        url = self.request.build_absolute_uri(export)
-
-        filename = "{0}.png".format(obj.id)
-
-        options = {
-            'url': url,
-            'filename': filename,
-            'path': settings.IMAGE_EXPORT_TMP_DIR,
-            'crop': True,
-            'crop_replace': False,
-            'thumbnail': True,
-            'thumbnail_replace': False,
-            'thumbnail_width': 200,
-            'thumbnail_height': 150
-        }
-
-        screen_path, crop_path, thumbnail_path = get_screen_shot(**options)
-
-        f = File(open(thumbnail_path))
-        if obj.thumbnail:
-            obj.thumbnail.delete()
-        obj.thumbnail = f
-        obj.save()
-
-        os.remove(screen_path)
-        os.remove(crop_path)
-        os.remove(thumbnail_path)

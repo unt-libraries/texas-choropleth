@@ -13,7 +13,4 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/view/$', views.ChoroplethView.as_view(), name='choropleth-view'),
     url(r'^(?P<pk>[0-9]+)/export/$', views.ChoroplethExport.as_view(), name='choropleth-export'),
     url(r'^feed/$', feeds.ChoroplethFeed()),
-    url(r'^api/$', views.ChoroplethAPI.as_view({'get':'list', 'post': 'create'}), name='api-create'),
-    url(r'^api/(?P<pk>[0-9]+)/$', views.ChoroplethAPI.as_view({'get':'retrieve', 'put': 'update', 'delete': 'destroy'}), name='api-retrieve-update'),
-    url(r'^api/palettes/(?P<pk>[0-9]+)/$', views.PaletteAPIView.as_view(), name='palette-api'),
 ]
