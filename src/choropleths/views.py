@@ -16,17 +16,6 @@ from .serializers import ChoroplethSerializer, PaletteSerializer
 from .screenshot import get_screen_shot
 
 
-class GalleryView(ListSortMixin, generic.ListView):
-    model = Choropleth
-    template_name = "choropleths/gallery.html"
-    paginate_by = 12
-
-    def get_queryset(self):
-        return self.get_sorted_queryset() \
-            .filter(published=1) \
-            .select_related('dataset')
-
-
 class ChoroplethExport(generic.DetailView):
     model = Choropleth
     template_name = "choropleths/choropleth_export.html"

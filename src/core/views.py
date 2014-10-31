@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
 from .forms import FullUserCreationForm
+from choropleths.models import Choropleth
 
 
 class GetPublishedObjectMixin(object):
@@ -37,6 +38,17 @@ class ListSortMixin(object):
         sort_order = "{0}" if sort_order > 0 else "-{0}"
         sort = sort_order.format(sort_by)
         return self.model.objects.order_by(sort)
+
+
+class GalleryView(ListSortMixin, generic.ListView):
+    model = Choropleth
+    template_name = "site/gallery.html"
+    paginate_by = 12
+
+    def get_queryset(self):
+        return self.get_sorted_queryset() \
+            .filter(published=1) \
+            .select_related('dataset')
 
 
 class HelpView(generic.TemplateView):
