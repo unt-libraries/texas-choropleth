@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     url(r'^cartogram-template/(?P<pk>[0-9]+)/$', cartogram_csv_template, name="csv-template"),
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/login'}, name='logout'),
-    url(r'^register/$', views.RegisterView.as_view(), name='register'),
+    # url(r'^register/$', views.RegisterView.as_view(), name='register'),
     url(r'^reset/', include('password_reset.urls')),
     url(r'^api/', include('core.api.urls', namespace="api")),
 )
