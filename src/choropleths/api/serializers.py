@@ -1,11 +1,8 @@
 from rest_framework import serializers
 from choropleths.models import Choropleth, Palette
-# from datasets.models import Dataset, DatasetRecord
-# from datasets.serializers import DatasetSerializer
 
 
 class ChoroplethSerializer(serializers.ModelSerializer):
-    # dataset = DatasetSerializer()
     dataset = serializers.PrimaryKeyRelatedField()
     owner = serializers.PrimaryKeyRelatedField()
 
