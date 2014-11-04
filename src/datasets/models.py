@@ -46,23 +46,25 @@ class PublishedMixin(models.Model):
         abstract = True
 
 
-class Dataset(PublishedMixin, AbstractNameModel):
-    LICENSE_CHOICES = (
-        ('L1', 'Some License 1'),
-        ('L2', 'Some License 2'),
-        ('L3', 'Some License 3'),
-    )
+class License(AbstractNameModel):
+    html = models.TextField()
 
+    def __unicode__(self):
+        return self.name
+
+
+class Dataset(PublishedMixin, AbstractNameModel):
     description = models.CharField(max_length=160, blank=True)
     label = models.CharField(
         max_length=48,
         blank=True
     )
-    license = models.CharField(
-        max_length=8,
-        choices=LICENSE_CHOICES,
-        blank=True,
-        null=True
+    license = models.ForeignKey(
+        License,
+        related_name='+',
+        null=True,
+        blank=False,
+        on_delete=models.PROTECT
     )
     cartogram = models.ForeignKey(
         Cartogram,
