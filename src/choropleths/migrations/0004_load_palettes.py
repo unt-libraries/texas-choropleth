@@ -7,12 +7,11 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        "Write your forwards methods here."
         from django.core.management import call_command
         call_command("loaddata", "palettes.json")
 
     def backwards(self, orm):
-        "Write your backwards methods here."
+        pass
 
     models = {
         u'auth.group': {
