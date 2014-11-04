@@ -2,8 +2,6 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.conf.urls.static import static
 
-from choropleths.feeds import ChoroplethFeed
-
 
 urlpatterns = patterns('',
     url(r'^', include('core.urls')),
