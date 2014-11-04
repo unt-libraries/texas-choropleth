@@ -41,44 +41,27 @@
 {{ block.super }}
 
     <div class="row">
-        <div class="col-sm-12">
-            <p>{{ dataset.description }}</p>
-        </div>
-
-        {% if dataset.owner.id == user.id %}
-
-            <div class="col-sm-6">
-                {% include "partials/messages.html" %}
-                <div id="datafile-form" class="well">
-                    <form method="post" action="{% url 'datasets:dataset-detail' dataset.id %}" enctype="multipart/form-data" class="form-horizontal">
-                        {% csrf_token %}
-                        {% if form.errors %}
-
-                            <div class="form-group">
-                                {% for error in form.datafile.errors %}
-                                    <div class="label label-danger">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-
-                        {% endif %}
-
-                        <div class="form-group">
-                            <div class="col-sm-8">
-                            {{ form.datafile.label_tag }}
-                            {{ form.datafile }}
-                            </div>
-                            <div class="col-sm-4">
-                                <button type="submit" class="btn submit" data-toggle="modal" data-target="#in-progress"><span class="glyphicon glyphicon-upload"></span>&nbsp;Upload</button>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                        </div>
-                    </form>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Description</div>
+                <div class="panel-body">
+                    <p>{{ dataset.description }}</p>
                 </div>
             </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">License</div>
+                <div class="panel-body">
+                    <div class="license">
+                        {{ dataset.license.html|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        {% endif %}
-
+    <div class="row">
         <div class="col-sm-6">
             <div id="info-panel" class="panel panel-default">
                 <div class="panel-heading">
@@ -91,18 +74,52 @@
                         <dl class="dl-horizontal">
                             <dt>Created</dt><dd>{{ dataset.created_at|date:'m/d/Y' }}</dd>
                             <dt>Last Modified</dt><dd>{{ dataset.modified_at|timesince }} ago</dd>
-                            <dt>Document Name</dt><dd>{{ dataset.document }}</dd>
                             <dt>Label/Units</dt><dd>{{ dataset.label }}</dd>
                             <dt>Cartogram</dt><dd>{{ dataset.cartogram.name}}</dd>
                             <dt>Published</dt><dd>{{ dataset.get_published_display }}</dd>
-                            <dt>License</dt><dd>{{ dataset.get_license_display }}
+                            <dt>License</dt><dd>{{ dataset.license.name }}
                         </dl>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     
+    {% if dataset.owner == user %}
+
+        <div class="col-sm-6">
+            {% include "partials/messages.html" %}
+            <div id="datafile-form" class="well">
+                <form method="post" action="{% url 'datasets:dataset-detail' dataset.id %}" enctype="multipart/form-data" class="form-horizontal">
+                    {% csrf_token %}
+                    {% if form.errors %}
+
+                        <div class="form-group">
+                            {% for error in form.datafile.errors %}
+                                <div class="label label-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                    {% endif %}
+
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                        {{ form.datafile.label_tag }}
+                        {{ form.datafile }}
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn submit" data-toggle="modal" data-target="#in-progress"><span class="glyphicon glyphicon-upload"></span>&nbsp;Upload</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    {% endif %}
+
+    </div>
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="panel-title">
