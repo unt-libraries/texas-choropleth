@@ -125,7 +125,7 @@
             <div class="panel-title">
                 <span>Records<span>
 
-                {% if dataset.owner == user and dataset.records.exists%}
+                {% if dataset.records.exists %}
 
                     <span id="export-dataset" class="pull-right">
                         <a href="{% url 'datasets:dataset-export' dataset.id %}"><span class="glyphicon glyphicon-circle-arrow-down"></span>&nbsp;Export</a>
