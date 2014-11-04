@@ -6,7 +6,7 @@
 {% block control-btns %}
 
     <a href="{% url 'choropleths:choropleth-view' choropleth.pk %}">
-        <button class="btn navigate"><span class="glyphicon glyphicon-globe"></span>&nbsp;View</button>
+        <button class="btn navigate"><span class="glyphicon glyphicon-globe"></span>&nbsp;Choropleth</button>
     </a>
 
     {% ifequal user choropleth.owner %}
