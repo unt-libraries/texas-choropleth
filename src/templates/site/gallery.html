@@ -20,19 +20,19 @@
                 <h4>
                     {% if object.thumbnail %}
 
-                        <a href="{% url 'choropleths:choropleth-view' object.id %}" class="thumbnail">
+                        <a href="{% url 'choropleths:view' object.id %}" class="thumbnail">
                             <img src="{{ object.thumbnail.url }}" class="img-responsive media-object">
                         </a>
 
                     {% else %}
 
-                        <a href="{% url 'choropleths:choropleth-view' object.id %}" class="thumbnail">
+                        <a href="{% url 'choropleths:view' object.id %}" class="thumbnail">
                             <img src="{% static 'img/placeholder_thumbnail.png' %}" class="img-responsive media-object">
                         </a>
 
                     {% endif %}
 
-                    <a href="{% url 'choropleths:choropleth-view' object.id %}">{{ object.name }}</a>
+                    <a href="{% url 'choropleths:view' object.id %}">{{ object.name }}</a>
                     
                 </h4>
                 <div class="list-item-description">
@@ -45,13 +45,13 @@
         <div class="row">
             <div class="col-sm-12">
                 <ul class="grid-item-icons">
-                    <a href="{% url 'choropleths:choropleth-view' object.id %}"
+                    <a href="{% url 'choropleths:view' object.id %}"
                         data-toggle="tooltip"
                         title="Choropleth"
                         tooltip>
                         <span class="glyphicon glyphicon-globe"></span>
                     </a>
-                    <a href="{% url 'choropleths:choropleth-detail' object.id %}"
+                    <a href="{% url 'choropleths:detail' object.id %}"
                         data-toggle="tooltip"
                         title="Overview"
                         tooltip ><span class="glyphicon glyphicon-file"></span>
@@ -59,7 +59,7 @@
 
                     {% if object.dataset.published %}
 
-                        <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"
+                        <a href="{% url 'datasets:detail' object.dataset.id %}"
                             data-toggle="tooltip"
                             title="Dataset"
                             tooltip><span class="glyphicon glyphicon-list-alt"></span>

@@ -7,7 +7,7 @@
 {% block control-btns %}
     {% include 'partials/sorting-dropdown.html' %}
 
-    <a  href="{% url 'datasets:dataset-create' %}">
+    <a  href="{% url 'datasets:create' %}">
         <button class="btn action"><span class="glyphicon glyphicon-plus"></span>&nbsp;New</button>
     </a>
 {% endblock control-btns %}
@@ -21,7 +21,7 @@
 
     <div class="col-sm-6 col-md-6 choropleth-grid-item">
         <div class="thumbnail">
-            <a href="{% url "choropleths:choropleth-view" object.id %}">
+            <a href="{% url "choropleths:view" object.id %}">
                 {% if object.thumbnail %}
                     <img src="{{ object.thumbnail.url }}">
                 {% else %}
@@ -29,14 +29,14 @@
                 {% endif %}
             </a>
             <div class="caption">
-                <a href="{% url "choropleths:choropleth-view" object.id %}">
+                <a href="{% url "choropleths:view" object.id %}">
                     <h4>{{ object.name|truncatechars:"60" }}</h4>
                 </a>
                 <p class="text-muted">Updated {{ object.modified_at|timesince }} ago</p>
                 <p>
-                <a href="{% url 'choropleths:choropleth-detail' object.id %}"><button class="btn list-item-navigate">Overview</button></a>
-                <a href="{% url 'datasets:dataset-detail' object.dataset.id %}"><button class="btn list-item-navigate">Dataset</button></a>
-                <a href="{% url 'choropleths:choropleth-edit' object.id %}"><button class="btn list-item-action">Edit</button></a>
+                <a href="{% url 'choropleths:detail' object.id %}"><button class="btn list-item-navigate">Overview</button></a>
+                <a href="{% url 'datasets:detail' object.dataset.id %}"><button class="btn list-item-navigate">Dataset</button></a>
+                <a href="{% url 'choropleths:edit' object.id %}"><button class="btn list-item-action">Edit</button></a>
                 </p>
             </div>
         </div>

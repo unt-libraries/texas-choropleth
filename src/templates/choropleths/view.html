@@ -7,13 +7,13 @@
 {% block control-btns %}
 
     {% if choropleth.dataset.published or choropleth.owner == user %}
-        <a  href="{% url 'datasets:dataset-detail' choropleth.dataset_id %}">
+        <a  href="{% url 'datasets:detail' choropleth.dataset_id %}">
             <button class="btn navigate"><span class="glyphicon glyphicon-book"></span>&nbsp;Dataset</button>
         </a>
     {% endif %}
 
     {% if choropleth.owner.id == user.id %}
-        <a  href="{% url 'choropleths:choropleth-edit' choropleth.id %}">
+        <a  href="{% url 'choropleths:edit' choropleth.id %}">
             <button class="btn action"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
         </a>
     {% endif %}

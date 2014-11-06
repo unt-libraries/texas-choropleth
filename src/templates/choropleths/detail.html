@@ -5,12 +5,12 @@
 
 {% block control-btns %}
 
-    <a href="{% url 'choropleths:choropleth-view' choropleth.pk %}">
+    <a href="{% url 'choropleths:view' choropleth.pk %}">
         <button class="btn navigate"><span class="glyphicon glyphicon-globe"></span>&nbsp;Choropleth</button>
     </a>
 
     {% ifequal user choropleth.owner %}
-        <a href="{% url 'choropleths:choropleth-edit' choropleth.pk %}">
+        <a href="{% url 'choropleths:edit' choropleth.pk %}">
             <button class="btn action"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
         </a>
     {% endifequal %}

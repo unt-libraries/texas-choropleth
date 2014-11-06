@@ -19,4 +19,4 @@ class ChoroplethFeed(Feed):
         return item.dataset.description
 
     def item_link(self, item):
-        return reverse('choropleths:choropleth-view', args=[item.id])
+        return reverse('choropleths:view', args=[item.id])

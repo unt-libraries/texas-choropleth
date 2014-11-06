@@ -34,7 +34,7 @@ class ChoroplethAPI(viewsets.ModelViewSet):
 
     def post_save(self, obj, **kwargs):
         export = reverse(
-            'choropleths:choropleth-export',
+            'choropleths:export',
             kwargs={'pk': obj.id})
         url = self.request.build_absolute_uri(export)
 
