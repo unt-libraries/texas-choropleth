@@ -9,6 +9,28 @@ App.config(['$interpolateProvider', '$httpProvider', function($interpolateProvid
   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
 }]);
 
+// Browser detection messaging
+App.directive('isFirefox', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      var KEY = 'texaschoropleth:firefox-message-dismiss';
+      if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        if (localStorage.getItem(KEY)) {
+          return;
+        }
+
+        var message = $(element);
+
+        message.removeClass('hidden');
+        message.on('close.bs.alert', function() {
+          localStorage.setItem(KEY, 1);
+        });
+      }
+    }
+  };
+});
+
 // Bootstrap active tab helper
 App.directive('isActive', function() {
   return {
