@@ -44,7 +44,12 @@ class ChoroplethViewsTestCase(TestCase):
         self.user1 = mommy.make(User, password=make_password('password'))
         self.user2 = mommy.make(User, password=make_password('password'))
         self.dataset = mommy.make(Dataset, owner=self.user1)
-        self.choropleth = mommy.make(Choropleth, dataset=self.dataset, owner=self.user1)
+        self.choropleth = mommy.make(
+            Choropleth,
+            dataset=self.dataset,
+            owner=self.user1,
+            published=0
+        )
 
     def test_anon_user_can_view_choropleth_list(self):
         response = self.client.get(reverse('choropleths:list'))

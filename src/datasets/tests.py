@@ -182,7 +182,11 @@ class DatasetViewsTestCase(TestCase):
     def setUp(self):
         self.user1 = mommy.make(User, password=make_password('password'))
         self.user2 = mommy.make(User, password=make_password('password'))
-        self.dataset = mommy.make(Dataset, owner=self.user1)
+        self.dataset = mommy.make(
+            Dataset,
+            owner=self.user1,
+            published=0
+        )
 
     def test_anon_user_cannot_view_dataset_management(self):
         response = self.client.get(reverse('datasets:management'))
