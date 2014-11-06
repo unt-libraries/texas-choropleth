@@ -42,43 +42,51 @@
 
     <div class="row">
         <div class="col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">Description</div>
-                <div class="panel-body">
-                    <p>{{ dataset.description }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">License</div>
-                <div class="panel-body">
-                    <div class="license">
-                        {{ dataset.license.html|safe }}
+            <div class="panel-group" id="info-accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab">
+                        <div class="panel-title">
+                            <a data-toggle="collapse" data-parent="#info-accordion" href="#description">Description</a>
+                        </div>
+                    </div>
+                    <div id="description" class="pane-collapse collapse">
+                        <div class="panel-body">
+                            <p>{{ dataset.description }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a data-toggle="collapse" data-parent="#info-accordion" href="#license">License</a>
+                        </div>
+                    </div>
+                    <div id="license" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="license">
+                                {{ dataset.license.html|safe }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="row">
-        <div class="col-sm-6">
-            <div id="info-panel" class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <a data-toggle="collapse" data-parent="#info-wrapper" href="#info">Info</a>
+                <div id="info-panel" class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a data-toggle="collapse" data-parent="#info-accordion" href="#info">Info</a>
+                        </div>
                     </div>
-                </div>
-                <div id="info" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <dl class="dl-horizontal">
-                            <dt>Created</dt><dd>{{ dataset.created_at|date:'m/d/Y' }}</dd>
-                            <dt>Last Modified</dt><dd>{{ dataset.modified_at|timesince }} ago</dd>
-                            <dt>Label/Units</dt><dd>{{ dataset.label }}</dd>
-                            <dt>Cartogram</dt><dd>{{ dataset.cartogram.name}}</dd>
-                            <dt>Published</dt><dd>{{ dataset.get_published_display }}</dd>
-                            <dt>License</dt><dd>{{ dataset.license.name }}
-                        </dl>
+                    <div id="info" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <dl class="dl-horizontal">
+                                <dt>Created</dt><dd>{{ dataset.created_at|date:'m/d/Y' }}</dd>
+                                <dt>Last Modified</dt><dd>{{ dataset.modified_at|timesince }} ago</dd>
+                                <dt>Label/Units</dt><dd>{{ dataset.label }}</dd>
+                                <dt>Cartogram</dt><dd>{{ dataset.cartogram.name}}</dd>
+                                <dt>Published</dt><dd>{{ dataset.get_published_display }}</dd>
+                                <dt>License</dt><dd>{{ dataset.license.name }}
+                            </dl>
+                        </div>
                     </div>
                 </div>
             </div>
