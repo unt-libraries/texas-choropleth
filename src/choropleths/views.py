@@ -8,12 +8,12 @@ from .models import Choropleth
 
 class ChoroplethExport(generic.DetailView):
     model = Choropleth
-    template_name = "choropleths/choropleth_export.html"
+    template_name = "choropleths/export.html"
 
 
 class ChoroplethList(ListSortMixin, generic.ListView):
     model = Choropleth
-    template_name = 'choropleths/choropleth_list.html'
+    template_name = 'choropleths/list.html'
     paginate_by = 10
 
     def get_queryset(self):
@@ -24,16 +24,16 @@ class ChoroplethList(ListSortMixin, generic.ListView):
 
 class ChoroplethDetail(GetPublishedObjectMixin, generic.DetailView):
     model = Choropleth
-    template_name = 'choropleths/choropleth_detail.html'
+    template_name = 'choropleths/detail.html'
 
 
 class ChoroplethView(GetPublishedObjectMixin, generic.DetailView):
-    template_name = 'choropleths/choropleth_view.html'
+    template_name = 'choropleths/view.html'
     model = Choropleth
 
 
 class ChoroplethEdit(GetPublishedObjectMixin, generic.DetailView):
-    template_name = "choropleths/choropleth_edit.html"
+    template_name = "choropleths/edit.html"
     model = Choropleth
 
     def get_object(self, **kwargs):
@@ -47,7 +47,7 @@ class ChoroplethEdit(GetPublishedObjectMixin, generic.DetailView):
 
 
 class ChoroplethCreate(generic.TemplateView):
-    template_name = "choropleths/choropleth_create.html"
+    template_name = "choropleths/create.html"
 
     def get_context_data(self, **kwargs):
         context = super(ChoroplethCreate, self).get_context_data(**kwargs)
