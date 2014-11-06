@@ -39,7 +39,7 @@ class PublishedMixin(models.Model):
     )
     published = models.IntegerField(
         choices=PUBLISH_CHOICES,
-        default=0
+        default=1
     )
 
     class Meta:
