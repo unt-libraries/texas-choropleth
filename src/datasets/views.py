@@ -12,7 +12,7 @@ from .models import Dataset, DatasetDocument
 
 
 class DatasetManagement(ListSortMixin, generic.ListView):
-    template_name = "datasets/dataset_management.html"
+    template_name = "datasets/management.html"
     model = Dataset
     paginate_by = 10
 
@@ -23,6 +23,7 @@ class DatasetManagement(ListSortMixin, generic.ListView):
 
 
 class DatasetDisplay(GetPublishedObjectMixin, generic.DetailView):
+    template_name = "datasets/detail.html"
     model = Dataset
     queryset = Dataset.objects.prefetch_related('records__cartogram_entity')
 
@@ -33,7 +34,7 @@ class DatasetDisplay(GetPublishedObjectMixin, generic.DetailView):
 
 
 class DatasetUpload(generic.detail.SingleObjectMixin, generic.FormView):
-    template_name = 'datasets/dataset_detail.html'
+    template_name = 'datasets/detail.html'
     form_class = DatasetUploadForm
     model = Dataset
 
@@ -86,7 +87,7 @@ class DatasetDetail(generic.View):
 
 
 class DatasetCreate(generic.edit.CreateView):
-    template_name = 'datasets/dataset_edit.html'
+    template_name = 'datasets/edit.html'
     model = Dataset
     form_class = DatasetForm
 
@@ -115,7 +116,7 @@ class DatasetDelete(generic.edit.DeleteView):
 
 
 class DatasetUpdate(generic.edit.UpdateView):
-    template_name = 'datasets/dataset_edit.html'
+    template_name = 'datasets/edit.html'
     model = Dataset
     form_class = DatasetForm
 
