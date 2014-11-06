@@ -263,7 +263,7 @@ App.directive('choropleth', ['$http', function($http) {
         // Show the loader if it exists
         if (hasLoader) {
             choropleth.find('#loader').fadeOut('slow', function() {
-              this.remove();
+              $(this).remove();
               $('svg').fadeIn('slow');
             });
         }
