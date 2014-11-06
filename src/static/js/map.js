@@ -412,7 +412,7 @@ App.controller('EditController', ['$scope', '$controller', 'Choropleth', 'Datase
   };
 }]);
 
-App.controller('MappCtrl', ['$scope', '$controller', 'Choropleth', 'Dataset', 'Palettes', function MappCtrl ($scope, $controller, Choropleth, Dataset, Palettes) {
+App.controller('CreateController', ['$scope', '$controller', 'Choropleth', 'Dataset', 'Palettes', function MappCtrl ($scope, $controller, Choropleth, Dataset, Palettes) {
   $controller('AbstractController', {$scope: $scope});
 
   $scope.init = function(id) {
@@ -423,6 +423,7 @@ App.controller('MappCtrl', ['$scope', '$controller', 'Choropleth', 'Dataset', 'P
       $scope.choropleth.dataset = data.id;
       $scope.choropleth.name = data.name;
       $scope.choropleth.data_classes = 3;
+      $scope.choropleth.published = 1;
       $scope.choropleth.selection = {};
       $scope.scales = data.scale_options;
       $scope.hasData = true;
