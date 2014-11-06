@@ -13,7 +13,7 @@
     {% block control-btns %}
         {% if dataset.has_choropleth %}
 
-            <a href="{% url 'choropleths:choropleth-view' dataset.choropleth.id %}">
+            <a href="{% url 'choropleths:view' dataset.choropleth.id %}">
                 <button class="btn navigate"> <span class="glyphicon glyphicon-globe"></span>&nbsp;Choropleth</button>
             </a>
 
@@ -28,7 +28,7 @@
             <button class="btn action" data-toggle="modal" data-target="#delete-form-modal">
                 <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
             </button>
-            <a href="{% url 'datasets:dataset-update' dataset.id %}">
+            <a href="{% url 'datasets:update' dataset.id %}">
                 <button class="btn action"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
             </a>
 
@@ -97,7 +97,7 @@
         <div class="col-sm-6">
             {% include "partials/messages.html" %}
             <div id="datafile-form" class="well">
-                <form method="post" action="{% url 'datasets:dataset-detail' dataset.id %}" enctype="multipart/form-data" class="form-horizontal">
+                <form method="post" action="{% url 'datasets:detail' dataset.id %}" enctype="multipart/form-data" class="form-horizontal">
                     {% csrf_token %}
                     {% if form.errors %}
 
@@ -136,7 +136,7 @@
                 {% if dataset.records.exists %}
 
                     <span id="export-dataset" class="pull-right">
-                        <a href="{% url 'datasets:dataset-export' dataset.id %}"><span class="glyphicon glyphicon-circle-arrow-down"></span>&nbsp;Export</a>
+                        <a href="{% url 'datasets:export' dataset.id %}"><span class="glyphicon glyphicon-circle-arrow-down"></span>&nbsp;Export</a>
                     <span>
 
                 {% endif %}
@@ -184,7 +184,7 @@
                     <p>Are you sure you want to delete <strong>{{ dataset.name }}</strong>?</p>
                 </div>
                 <div class="modal-footer">
-                    <form method="POST" action="{% url 'datasets:dataset-delete' dataset.id %}">
+                    <form method="POST" action="{% url 'datasets:delete' dataset.id %}">
                         {% csrf_token %}
                         <input type="submit" value="Delete" class="btn delete">
                         <button type="button" class="btn action" data-dismiss="modal">Cancel</button

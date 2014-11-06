@@ -72,7 +72,7 @@ class DatasetUpload(generic.detail.SingleObjectMixin, generic.FormView):
 
     def get_success_url(self):
         return reverse(
-            'datasets:dataset-detail',
+            'datasets:detail',
             kwargs={'pk': self.object.pk})
 
 
@@ -101,13 +101,13 @@ class DatasetCreate(generic.edit.CreateView):
 
     def get_success_url(self):
         return reverse(
-            'datasets:dataset-detail',
+            'datasets:detail',
             kwargs={'pk': self.object.pk})
 
 
 class DatasetDelete(generic.edit.DeleteView):
     model = Dataset
-    success_url = reverse_lazy('datasets:dataset-management')
+    success_url = reverse_lazy('datasets:management')
 
     def delete(self, request, *args, **kwargs):
         if self.get_object().owner != request.user:
@@ -122,7 +122,7 @@ class DatasetUpdate(generic.edit.UpdateView):
 
     def get_success_url(self):
         return reverse(
-            'datasets:dataset-detail',
+            'datasets:detail',
             kwargs={'pk': self.object.pk})
 
     def get_object(self, **kwargs):

@@ -185,79 +185,79 @@ class DatasetViewsTestCase(TestCase):
         self.dataset = mommy.make(Dataset, owner=self.user1)
 
     def test_anon_user_cannot_view_dataset_management(self):
-        response = self.client.get(reverse('datasets:dataset-management'))
+        response = self.client.get(reverse('datasets:management'))
         self.assertEqual(response.status_code, 302)
 
     def test_user_can_view_dataset_management(self):
         self.client.login(username=self.user1.username, password='password')
-        response = self.client.get(reverse('datasets:dataset-management'))
+        response = self.client.get(reverse('datasets:management'))
         self.assertEqual(response.status_code, 200)
 
     def test_anon_user_cannot_view_dataset_detail(self):
         response = self.client.get(reverse(
-            'datasets:dataset-detail',
+            'datasets:detail',
             args=[self.dataset.id]))
         self.assertEqual(response.status_code, 403)
 
     def test_non_owner_cannot_view_dataset_detail(self):
         self.client.login(username=self.user2.username, password='password')
         response = self.client.get(reverse(
-            'datasets:dataset-detail',
+            'datasets:detail',
             args=[self.dataset.id]))
         self.assertEqual(response.status_code, 403)
 
     def test_owner_can_view_dataset_detail(self):
         self.client.login(username=self.user1.username, password='password')
         response = self.client.get(reverse(
-            'datasets:dataset-detail',
+            'datasets:detail',
             args=[self.dataset.id]))
         self.assertEqual(response.status_code, 200)
 
     def test_anon_user_cannot_view_dataset_create(self):
-        response = self.client.get(reverse('datasets:dataset-create'))
+        response = self.client.get(reverse('datasets:create'))
         self.assertEqual(response.status_code, 302)
 
     def test_view_dataset_create(self):
         self.client.login(username=self.user1.username, password='password')
-        response = self.client.get(reverse('datasets:dataset-create'))
+        response = self.client.get(reverse('datasets:create'))
         self.assertEqual(response.status_code, 200)
 
     def test_non_owner_cannot_view_dataset_update(self):
         self.client.login(username=self.user2.username, password='password')
         response = self.client.get(reverse(
-            'datasets:dataset-update',
+            'datasets:update',
             args=[self.dataset.id]))
         self.assertEqual(response.status_code, 403)
 
     def test_owner_can_view_dataset_update(self):
         self.client.login(username=self.user1.username, password='password')
         response = self.client.get(reverse(
-            'datasets:dataset-update',
+            'datasets:update',
             args=[self.dataset.id]))
         self.assertEqual(response.status_code, 200)
 
     def test_anon_user_cannot_view_dataset_update(self):
         response = self.client.get(reverse(
-            'datasets:dataset-update',
+            'datasets:update',
             args=[self.dataset.id]))
         self.assertEqual(response.status_code, 302)
 
     def test_non_owner_cannot_view_dataset_export(self):
         self.client.login(username=self.user2.username, password='password')
         response = self.client.get(reverse(
-            'datasets:dataset-export',
+            'datasets:export',
             args=[self.dataset.id]))
         self.assertEqual(response.status_code, 403)
 
     def test_owner_can_view_dataset_export(self):
         self.client.login(username=self.user1.username, password='password')
         response = self.client.get(reverse(
-            'datasets:dataset-export',
+            'datasets:export',
             args=[self.dataset.id]))
         self.assertEqual(response.status_code, 200)
 
     def test_anon_user_cannot_view_dataset_export(self):
         response = self.client.get(reverse(
-            'datasets:dataset-export',
+            'datasets:export',
             args=[self.dataset.id]))
         self.assertEqual(response.status_code, 302)

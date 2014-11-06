@@ -13,10 +13,10 @@
             {% if user.is_authenticated %}
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="{% url 'choropleths:choropleth-list' %}" is-active><span class="glyphicon glyphicon-globe"></span>&nbsp;My Choropleths</a>
+                        <a href="{% url 'choropleths:list' %}" is-active><span class="glyphicon glyphicon-globe"></span>&nbsp;My Choropleths</a>
                     </li>
                     <li>
-                        <a href="{% url 'datasets:dataset-management' %}" is-active><span class="glyphicon glyphicon-list-alt"></span>&nbsp;Dataset Management</a>
+                        <a href="{% url 'datasets:management' %}" is-active><span class="glyphicon glyphicon-list-alt"></span>&nbsp;Dataset Management</a>
                     </li>
                 </ul>
             {% endif %}
