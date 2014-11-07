@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 """
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "choropleth.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "texas_choropleth.settings")
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

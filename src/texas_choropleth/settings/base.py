@@ -71,15 +71,15 @@ MIDDLEWARE_CLASSES = (
     'pipeline.middleware.MinifyHTMLMiddleware'
 )
 
-ROOT_URLCONF = 'choropleth.urls'
+ROOT_URLCONF = 'texas_choropleth.urls'
 
-WSGI_APPLICATION = 'choropleth.wsgi.application'
+WSGI_APPLICATION = 'texas_choropleth.wsgi.application'
 
 # Database Settings
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'choropleth',
+        'NAME': 'texas_choropleth',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': os.environ.get('DB_1_PORT_3306_TCP_ADDR'),

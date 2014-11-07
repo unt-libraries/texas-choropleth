@@ -2,10 +2,10 @@ db:
     image: mysql
     environment:
         - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_DATABASE=choropleth
+        - MYSQL_DATABASE=texas_choropleth
 web:
     build: .
-    command: python src/manage.py runserver 0.0.0.0:8000 --settings=choropleth.settings.local
+    command: python src/manage.py runserver 0.0.0.0:8000 --settings=texas_choropleth.settings.local
     volumes:
         - .:/app/
     ports:

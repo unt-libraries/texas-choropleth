@@ -15,7 +15,7 @@ INTERNAL_IPS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'choropleth',
+        'NAME': 'texas_choropleth',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': os.environ.get('DB_1_PORT_3306_TCP_ADDR'),
