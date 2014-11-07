@@ -1,4 +1,4 @@
-FROM orchardup/python:2.7
+FROM python:2.7
 ENV PYTHONUNBUFFERED 1
 RUN apt-get update -qq && apt-get install -y python-mysqldb mysql-client nodejs npm imagemagick
 RUN apt-get build-dep -y  phantomjs
