@@ -43,6 +43,74 @@ App.directive('isActive', function() {
   };
 });
 
+// Choropleth Tour
+App.directive('choroplethTour', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+        steps = [
+          {
+            element: '#map-controls',
+            title: 'Map Controls',
+            content: 'Use these controls to configure the look and feel. Click the <span class="glyphicon glyphicon-info-sign"></span> icon for more information on each form field.',
+            placement: 'left'
+          },
+          {
+            element: '#description-tab',
+            title: 'Description',
+            content: 'Use the text box below to add description of your choropleth and/or dataset. The description is Markdown-enabled. There is a link to the Markdown website and specification on the \'Cheatsheet\' tab. If you prefer not to use Markdown, then simply enter the plain text into the description box.',
+            placement: 'top'
+          },
+          {
+            element: '#save',
+            title: 'Save',
+            content: 'Once you are satisfied with your configuration,  click this \'Save\' to finish.',
+            placement: 'left'
+          }
+        ];
+      var tour = new Tour({name:'choropleth', steps:steps});
+      tour.init();
+
+      $(element).click(function() {
+        localStorage.removeItem('choropleth_end');
+        localStorage.removeItem('choropleth_current_step');
+        tour.start();
+      });
+    }
+  };
+});
+
+// Dataset Tour
+App.directive('datasetTour', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+        steps = [
+          {
+            element: '#csv-template',
+            title: 'Dataset Template',
+            content: 'In order to upload your dataset, the dataset document must pass strict validation. We created this template so that all you have to do is put in the data for the corresponding county.',
+            placement: 'right'
+          },
+          {
+            element: '#datafile-form',
+            title: 'Upload',
+            content: 'Once your data has been added to the template, add your file to the form and click \'Upload\'.',
+            placement: 'left'
+          },
+        ];
+      var tour = new Tour({name: 'dataset', steps:steps});
+      tour.init();
+
+      $(element).click(function() {
+        localStorage.removeItem('dataset_end');
+        localStorage.removeItem('dataset_current_step');
+        tour.start();
+      });
+    }
+  };
+});
+
 // Still uses the data-content attr for content
 App.directive('popover', function() {
   return {
@@ -52,67 +120,6 @@ App.directive('popover', function() {
         trigger: 'hover'
       };
       $(element).popover(options);
-    }
-  };
-});
-
-// Directive for placing a popover on one element, 
-// and triggering it with another
-App.directive('targetedPopover', function() {
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs) {
-      var timeout = 200;
-
-      if ($(element).parent().attr('smooth-scroll') !== undefined) {
-        timeout = timeout + 1000;
-      }
-
-      options = {
-        content: attrs.content,
-        placement: attrs.placement
-      };
-
-      var popover = $(attrs.targetedPopover);
-      // Instantiate the popover
-      popover.popover(options);
-
-      $(element).on('click', function() {
-        setTimeout(function() {
-          popover.popover('show');
-        }, timeout);
-
-        setTimeout(function() {
-          popover.popover('hide');
-        }, 5000);
-      });
-    }
-  };
-});
-
-// Smooth scroll to on page anchor tags
-App.directive('smoothScroll', function() {
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs) {
-      $(element).click(function(e) {
-        e.preventDefault();
-
-        var scroll = function(x) {
-          $('html, body').animate({
-            scrollTop: x
-          }, 1000);
-        };
-
-        var target = $(attrs.href);
-        if (target.length) {
-          scroll(target.offset().top);
-
-          // Return to the top of the page
-          setTimeout(function() { scroll(0); }, 3000 );
-          return false;
-        }
-      });
     }
   };
 });
