@@ -56,6 +56,67 @@ App.directive('popover', function() {
   };
 });
 
+// Directive for placing a popover on one element, 
+// and triggering it with another
+App.directive('targetedPopover', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      var timeout = 200;
+
+      if ($(element).parent().attr('smooth-scroll') !== undefined) {
+        timeout = timeout + 1000;
+      }
+
+      options = {
+        content: attrs.content,
+        placement: attrs.placement
+      };
+
+      var popover = $(attrs.targetedPopover);
+      // Instantiate the popover
+      popover.popover(options);
+
+      $(element).on('click', function() {
+        setTimeout(function() {
+          popover.popover('show');
+        }, timeout);
+
+        setTimeout(function() {
+          popover.popover('hide');
+        }, 5000);
+      });
+    }
+  };
+});
+
+// Smooth scroll to on page anchor tags
+App.directive('smoothScroll', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      $(element).click(function(e) {
+        e.preventDefault();
+
+        var scroll = function(x) {
+          $('html, body').animate({
+            scrollTop: x
+          }, 1000);
+        };
+
+        var target = $(attrs.href);
+        if (target.length) {
+          scroll(target.offset().top);
+
+          // Return to the top of the page
+          setTimeout(function() { scroll(0); }, 3000 );
+          return false;
+        }
+      });
+    }
+  };
+});
+
 // Form Validation helper
 App.directive('hasError', function() {
   return {
