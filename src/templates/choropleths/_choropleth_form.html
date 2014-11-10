@@ -15,7 +15,7 @@
 
             {% endif %}
 
-            <button class="btn action" ng-click="submit()" ng-disabled="!form.$valid">
+            <button id="save" class="btn action" ng-click="submit()" ng-disabled="!form.$valid">
                 <span class="glyphicon glyphicon-save"></span>&nbsp;Save
             </button>
         </div>
@@ -38,7 +38,7 @@
 
 
     <section class="row">
-        <div class="panel panel-default">
+        <div id="map-controls" class="panel panel-default">
             <div class="panel-heading">
                 <a data-toggle="collapse" data-target="#control-body"><span class="glyphicon glyphicon-cog"></span>&nbsp;Map Controls</a>
             </div>
@@ -92,15 +92,15 @@
     </section>
 
     {# Mardown description  #}
-    <ul class="nav nav-tabs" role="tablist">
-        <li ng-class="{active: tab == 1}">
-            <a ng-click="tab = 1" href="#description">Description</a>
+    <ul id="description" class="nav nav-tabs" role="tablist">
+        <li id="description-tab" ng-class="{active: tab == 1}">
+            <a ng-click="tab = 1" href>Description</a>
         </li>
         <li ng-class="{active: tab == 2}">
-            <a ng-click="tab = 2" href="#description">Preview</a>
+            <a ng-click="tab = 2" href>Preview</a>
         </li>
         <li ng-class="{active: tab == 3}">
-            <a ng-click="tab = 3" href="#description">Cheatsheet</a>
+            <a ng-click="tab = 3" href>Cheatsheet</a>
         </li>
     </ul>
     <div id="md" class="tab-member" ng-show="tab == 2">

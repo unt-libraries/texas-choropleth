@@ -22,7 +22,7 @@
         {% ifequal dataset.owner user %}
 
             <a href="{% url 'csv-template' dataset.cartogram.id %}">
-                <button class="btn navigate"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
+                <button id="csv-template" class="btn navigate"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
             </a>
 
             <button class="btn action" data-toggle="modal" data-target="#delete-form-modal">
