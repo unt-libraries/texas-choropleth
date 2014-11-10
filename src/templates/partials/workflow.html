@@ -15,19 +15,15 @@
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="90%"></div>
                 </div>
-                <p><strong>Next Steps:</strong> (click the <span class="glyphicon glyphicon-asterisk"></span> for additional help)<p>
-                <p>
-                <a href="#map-controls" smooth-scroll><span class="glyphicon glyphicon-asterisk" targeted-popover="#map-controls" data-content="Map options" data-placement="left"></span></a>
-                  <strong>1. </strong>Use the form fields to configure options for your choropleth.
-                </p>
-                <p>
-                  <a href="#description-tab" smooth-scroll><span class="glyphicon glyphicon-asterisk" targeted-popover="#description-tab" data-content="Markdown-enabled Choropleth description" data-placement="top"></span></a>
-                  <strong>2. </strong>Add some information about your choropleth.
-                </p>
-                <p>
-                  <span class="glyphicon glyphicon-asterisk" targeted-popover="#save" data-content="Click to Save" data-placement="left"></span>
-                  <strong>3. </strong>Click save.
-                </p>
+                <div>
+                  <strong>Next Steps:</strong>
+                </div>
+                <ol>
+                  <li>Use the form fields to configure options for your choropleth.</li>
+                  <li>Add some information about your choropleth.</li>
+                  <li>Click save.</li>
+                </ol>
+                <button class="btn btn-primary btn-xs" choropleth-tour>Show Me</button>
 
 
             {% elif dataset_create == request.path %}
@@ -64,18 +60,14 @@
 
                     <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100" progress-bar="33%"></div>
                 </div>
-                <p><strong>Next Steps:</strong> (click the <span class="glyphicon glyphicon-asterisk"></span> for additional help)<p>
-                <p>
-                  <span class="glyphicon glyphicon-asterisk" targeted-popover="#csv-template" data-content="Click to downloand a template" data-placement="left"></span>
-                  <strong>1. </strong>Use the form below to upload a dataset. If you need a CSV template, download one by clicking the 'Get CSV Template' button.
-                </p>
-                <p>
-                  <span class="invisible glyphicon glyphicon-asterisk"></span>
-                  <strong>2. </strong>Add your data to the template.</p>
-                <p>
-                  <span class="glyphicon glyphicon-asterisk" targeted-popover="#datafile-form" data-content="Choose your template and click the Upload button" data-placement="top"></span>
-                  <strong>3. </strong>Select your new dataset document to the form and upload it.
-                </p>
+                <p><strong>Next Steps:</strong><p>
+                <ol>
+                  <li>Download a dataset template by clicking the 'Get CSV Template' button.</li>
+                  <li>Input your data into the template.</li>
+                  <li>Add your new dataset document to the form and upload it.</li>
+                </ol>
+                <button class="btn btn-primary btn-xs" dataset-tour>Show Me</button>
+                
 
             {% elif not object.has_records and object.has_choropleth %} 
 
