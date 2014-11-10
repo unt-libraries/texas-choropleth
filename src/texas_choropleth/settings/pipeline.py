@@ -12,6 +12,7 @@ PIPELINE_CSS = {
     'main': {
         'source_filenames': (
             'css/main.less',
+            'vendor/bootstrap-tour/build/css/bootstrap-tour.min.css',
         ),
         'output_filename': 'css/main.min.css',
     }
@@ -45,6 +46,7 @@ PIPELINE_JS = {
             'vendor/angular-resource/angular-resource.min.js',
             'vendor/jquery/dist/jquery.min.js',
             'vendor/bootstrap/dist/js/bootstrap.min.js',
+            'vendor/bootstrap-tour/build/js/bootstrap-tour.min.js',
         ),
         'output_filename': 'js/vendor.min.js',
     }
