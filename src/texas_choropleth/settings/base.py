@@ -75,18 +75,6 @@ ROOT_URLCONF = 'texas_choropleth.urls'
 
 WSGI_APPLICATION = 'texas_choropleth.wsgi.application'
 
-# Database Settings
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'texas_choropleth',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': os.environ.get('DB_1_PORT_3306_TCP_ADDR'),
-        'PORT': os.environ.get('DB_1_PORT_3306_TCP_PORT'),
-    }
-}
-
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
@@ -96,7 +84,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
 }
-
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -111,7 +98,6 @@ USE_TZ = True
 
 DATE_FORMAT = 'N j, Y'
 
-
 # Template Settings
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 TEMPLATE_CONTEXT_PROCESSORS += (
@@ -122,23 +108,9 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
-
-# Media Settings
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 MEDIA_URL = '/media/'
-
-IMAGE_EXPORT_TMP_DIR = os.path.join('/', 'tmp')
-
 
 # Static Files Settings
 STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
 STATIC_URL = '/static/'

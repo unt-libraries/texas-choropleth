@@ -1,8 +1,24 @@
 from .base import *
 
+
+# Debug Settings
 DEBUG = True
 
 TEMPLATE_DEBUG = True
+
+# Media Settings
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Staticfile Settings
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
+
+# TMP Dir for Choropleth Screenshots
+IMAGE_EXPORT_TMP_DIR = os.path.join('/', 'tmp')
+
 
 INSTALLED_APPS += (
     'debug_toolbar',
@@ -12,6 +28,7 @@ INTERNAL_IPS = (
     '172.17.42.1',
 )
 
+# Database Settings
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
