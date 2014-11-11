@@ -212,6 +212,14 @@ App.controller('DatasetTableController', ['$scope', '$http', 'Dataset', function
 
   $scope.init = function(id) {
     Dataset.get({id: id}, function(data) {
+      // convert the decimal strings to floats
+      if (data.records) {
+        data.records.forEach(function(obj) {
+          obj.value = parseFloat(obj.value);
+        });
+      }
+
+      // Add the data to the scope
       $scope.dataset = data;
     });
 
