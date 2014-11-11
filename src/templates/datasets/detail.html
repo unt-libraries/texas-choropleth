@@ -55,9 +55,7 @@
                     </div>
                     <div id="license" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <div class="license">
-                                {{ dataset.license.html|safe }}
-                            </div>
+                            {% include dataset.get_license_template %}
                         </div>
                     </div>
                 </div>

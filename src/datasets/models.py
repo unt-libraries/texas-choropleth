@@ -46,25 +46,35 @@ class PublishedMixin(models.Model):
         abstract = True
 
 
-class License(AbstractNameModel):
-    html = models.TextField()
-
-    def __unicode__(self):
-        return self.name
-
-
 class Dataset(PublishedMixin, AbstractNameModel):
+    CC0 = 'cc0'
+    CC_BY = 'cc by'
+    CC_BY_SA = 'cc by-sa'
+    CC_BY_ND = 'cc by-nd'
+    CC_BY_NC = 'cc by-nc'
+    CC_BY_NC_SA = 'cc by-nc-sa'
+    CC_BY_NC_ND = 'cc by-nc-nd'
+    COPYRIGHT = 'copyright'
+
+    LICENSE_CHOICES = (
+        (CC0, 'CC0 - Public Domain'),
+        (CC_BY, 'Creative Commons Attribution'),
+        (CC_BY_SA, 'Creative Commons Attribution-ShareAlike'),
+        (CC_BY_NC, 'Creative Commons Attribution-NoDerivs'),
+        (CC_BY_ND, 'Creative Commons Attribution-NonCommercial'),
+        (CC_BY_NC_SA, 'Creative Commons Attribution-NonCommercial-ShareAlike'),
+        (CC_BY_NC_ND, 'Creative Commons Attribution-NonCommercial-NoDerivs'),
+        (COPYRIGHT, 'Copyright'),
+    )
     description = models.CharField(max_length=160, blank=True)
     label = models.CharField(
         max_length=48,
         blank=True
     )
-    license = models.ForeignKey(
-        License,
-        related_name='+',
-        null=True,
-        blank=False,
-        on_delete=models.PROTECT
+    license = models.CharField(
+        max_length=48,
+        choices=LICENSE_CHOICES,
+        default=1
     )
     cartogram = models.ForeignKey(
         Cartogram,
@@ -244,6 +254,24 @@ class Dataset(PublishedMixin, AbstractNameModel):
         Shortcut to the datafile
         """
         return self.document.datafile
+
+    def get_license_template(self):
+        """
+        Returns the corresponding template for the 
+        assigned license
+        """
+        templates = {
+            self.CC0: 'datasets/license/cc0.html',
+            self.CC_BY: 'datasets/license/cc_by.html',
+            self.CC_BY_SA: 'datasets/license/cc_by-sa.html',
+            self.CC_BY_ND: 'datasets/license/cc_by-nd.html',
+            self.CC_BY_NC: 'datasets/license/cc_by-nc.html',
+            self.CC_BY_NC_SA: 'datasets/license/cc_by-nc-sa.html',
+            self.CC_BY_NC_ND: 'datasets/license/cc_by-nc-nd.html',
+            self.COPYRIGHT: 'datasets/license/copyright.html',
+        }
+
+        return templates[self.license]
 
     def __unicode__(self):
         return self.name
