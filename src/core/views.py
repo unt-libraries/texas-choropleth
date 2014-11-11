@@ -2,7 +2,6 @@ from django.views import generic
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
 from .forms import FullUserCreationForm
