@@ -1,40 +1,32 @@
 {% extends "_layout.html" %}
 {% block page_title %}{{dataset.name}}{% endblock page_title %}
 
-
 {% block header %}{{ dataset.name }}{% endblock header %}
 
 {% if dataset.owner.id == user.id %}
-
     {% block workflow %}
         {% include 'partials/workflow.html' %}
     {% endblock workflow %}
 
     {% block control-btns %}
         {% if dataset.has_choropleth %}
-
             <a href="{% url 'choropleths:view' dataset.choropleth.id %}">
                 <button class="btn navigate"> <span class="glyphicon glyphicon-globe"></span>&nbsp;Choropleth</button>
             </a>
-
         {% endif %}
 
         {% ifequal dataset.owner user %}
-
             <a href="{% url 'csv-template' dataset.cartogram.id %}">
                 <button id="csv-template" class="btn navigate"> <span class="glyphicon glyphicon-download"></span>&nbsp;Get CSV Template</button>
             </a>
-
             <button class="btn action" data-toggle="modal" data-target="#delete-form-modal">
                 <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
             </button>
             <a href="{% url 'datasets:update' dataset.id %}">
                 <button class="btn action"> <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
             </a>
-
         {% endifequal %}
     {% endblock control-btns %}
-
 {% endif %}
 
 {% block content %}
@@ -93,20 +85,18 @@
         </div>
     
     {% if dataset.owner == user %}
-
         <div class="col-sm-6">
             {% include "partials/messages.html" %}
             <div id="datafile-form" class="well">
                 <form method="post" action="{% url 'datasets:detail' dataset.id %}" enctype="multipart/form-data" class="form-horizontal">
                     {% csrf_token %}
-                    {% if form.errors %}
 
+                    {% if form.errors %}
                         <div class="form-group">
                             {% for error in form.datafile.errors %}
                                 <div class="label label-danger">{{ error }}</div>
                             {% endfor %}
                         </div>
-
                     {% endif %}
 
                     <div class="form-group">
@@ -123,26 +113,21 @@
                 </form>
             </div>
         </div>
-
     {% endif %}
 
     </div>
-
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="panel-title">
                 <span>Records<span>
 
                 {% if dataset.records.exists %}
-
                     <span id="export-dataset" class="pull-right">
                         <a href="{% url 'datasets:export' dataset.id %}"><span class="glyphicon glyphicon-circle-arrow-down"></span>&nbsp;Export</a>
                     <span>
-
                 {% endif %}
 
             </div>
-
         </div>
 
         {% if dataset.records.exists %}

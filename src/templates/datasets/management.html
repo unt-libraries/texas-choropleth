@@ -1,72 +1,49 @@
 {% extends "datasets/_list-layout.html" %}
 {% block page_title %}Dataset Management{% endblock page_title %}
 
-
 {% block header %}Dataset Management{% endblock header %}
 
-
 {% block control-btns %}
-
     {% include 'partials/sorting-dropdown.html' %}
-
     <a href="{% url 'datasets:create' %}">
         <button class="btn action"><span class="glyphicon glyphicon-plus"></span> New Dataset</button>
     </a>
-
 {% endblock control-btns %}
 
-
 {% block object_name %}
-
     <a href="{% url 'datasets:detail' object.id %}">
         {{ object.name }}
     </a>
-
 {% endblock object_name %}
 
-
 {% block object_description %}
-
     {{ object.description|truncatechars:140 }}
-
 {% endblock object_description %}
 
-
 {% block notification %}
-
     <ul class="list-unstyled">
+        {% if not object.has_records %}
+            <li>
+                <span class="notification data" data-content="Upload some data to make your choropleth more meaningful" popover>
+                    <span class="glyphicon glyphicon-certificate"></span>
+                    &nbsp;No data 
+                </span>
+            </li>
+        {% endif %}
 
-    {% if not object.has_records %}
-
-        <li>
-            <span class="notification data" data-content="Upload some data to make your choropleth more meaningful" popover>
-                <span class="glyphicon glyphicon-certificate"></span>
-                &nbsp;No data 
-            </span>
-        </li>
-
-    {% endif %}
-
-    {% if not object.has_choropleth %}
-
-        <li>
-            <span class="notification choro" data-content="Click the plus sign to create a new choropleth" popover>
-                <span class="glyphicon glyphicon-certificate"></span>
-                &nbsp;Choropleth not created 
-            </span>
-        </li>
-
-    {% endif %}
-
+        {% if not object.has_choropleth %}
+            <li>
+                <span class="notification choro" data-content="Click the plus sign to create a new choropleth" popover>
+                    <span class="glyphicon glyphicon-certificate"></span>
+                    &nbsp;Choropleth not created 
+                </span>
+            </li>
+        {% endif %}
     </ul>
-
 {% endblock notification %}
 
-
 {% block list_item_icons %}
-
     {% if object.choropleth %}
-
         <a href="{% url 'choropleths:view' object.choropleth.id %}"
            data-toggle="tooltip"
            title="Choropleth"
@@ -79,17 +56,14 @@
            tooltip>
            <span class="glyphicon glyphicon-file"></span>
         </a>
-
     {% else %}
-
-    <a class="add-choro"
-           href="{% url 'choropleths:create' object.id %}"
-           data-toggle="tooltip"
-           title="Create a choropleth from this dataset"
-           tooltip>
-           <span class="glyphicon glyphicon-plus"></span>
+        <a class="add-choro"
+               href="{% url 'choropleths:create' object.id %}"
+               data-toggle="tooltip"
+               title="Create a choropleth from this dataset"
+               tooltip>
+               <span class="glyphicon glyphicon-plus"></span>
         </a>
-
     {% endif %}
 
     <a class="data-detail"
@@ -105,11 +79,8 @@
 
 {% endblock list_item_icons %}
 
-
 {% block content %}
-
     <div ng-app="App">{{ block.super }}</div>
-
 {% endblock content %}
 
 {% block empty_list %}

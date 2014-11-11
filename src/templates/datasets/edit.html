@@ -1,30 +1,19 @@
 {% extends "_layout.html" %}
 {% block page_title %}Edit {{ dataset.name }}{% endblock page_title %}
 
-
 {% block header %}
-
     {% if dataset %}
-
         <h1>{{ dataset.name }}</h1>
-
     {% else %}
-
         <h1>New Dataset</h1>
-
     {% endif %}
-
 {% endblock header %}
 
-
 {% block workflow %}
-
     {% if not dataset %}
         {% include 'partials/workflow.html' %}
     {% endif %}
-
 {% endblock workflow %}
-
 
 {% block content %}
 {{ block.super }}
@@ -37,27 +26,33 @@
                         {% csrf_token %}
                         <div class="form-group" has-error>
                             <div class="col-sm-6">
+
                                 {% for error in form.errors.name %}
                                     <span class="label label-danger">{{ error }}</span><br>
                                 {% endfor %}
+
                                 <label for={{form.name.name}} class="control-label">{{form.name.label}}</label>
                                 {{ form.name }}
                             </div>
                         </div>
                         <div class="form-group" has-error>
                             <div class="col-sm-8">
+
                                 {% for error in form.errors.description %}
                                     <span class="label label-danger">{{ error }}</span><br>
                                 {% endfor %}
+
                                 <label for={{form.description.name}} class="control-label">{{form.description.label}}&nbsp;</label>
                                 {{ form.description }}
                             </div>
                         </div>
                         <div class="form-group" has-error>
                             <div class="col-sm-6">
+
                                 {% for error in form.errors.label %}
                                     <span class="label label-danger">{{ error }}</span><br>
                                 {% endfor %}
+
                                 <label for={{form.label.name}} class="control-label">{{form.label.label}}</label>
                                 <span class="glyphicon glyphicon-info-sign form-info"
                                       popover
@@ -67,9 +62,11 @@
                         </div>
                         <div class="form-group" has-error>
                             <div class="col-sm-6">
+
                                 {% for error in form.errors.published %}
                                     <span class="label label-danger">{{ error }}</span><br>
                                 {% endfor %}
+
                                 <label for={{form.published.name}} class="control-label">{{form.published.label}}&nbsp;</label>
                                 <span class="glyphicon glyphicon-info-sign form-info"
                                       data-content="Sharing will make details of this dataset publicly available once the choropleth is published."
@@ -79,9 +76,11 @@
                         </div>
                         <div class="form-group" has-error>
                             <div class="col-sm-6">
+
                                 {% for error in form.errors.license %}
                                     <span class="label label-danger">{{ error }}</span><br>
                                 {% endfor %}
+
                                 <label for={{form.license.name}} class="control-label">{{form.license.label}}</label>
                                 {{ form.license }}
                             </div>
@@ -96,6 +95,5 @@
             </div>
         </div>
     </div>
- 
 {% endblock content %}
 
