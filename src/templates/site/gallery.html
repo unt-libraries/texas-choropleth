@@ -58,15 +58,12 @@
                     </a>
 
                     {% if object.dataset.published %}
-
                         <a href="{% url 'datasets:detail' object.dataset.id %}"
                             data-toggle="tooltip"
                             title="Dataset"
                             tooltip><span class="glyphicon glyphicon-list-alt"></span>
                         </a>
-
                     {% endif %}
-
                 </ul>
             </div>
         </div>
@@ -75,7 +72,6 @@
     {% if forloop.counter|divisibleby:"3"  %}
         </div>
     {% endif %}
-
 {% endblock object_list %}
 
 {% block empty_list %}No choropleths have been published yet.{% endblock empty_list %}
