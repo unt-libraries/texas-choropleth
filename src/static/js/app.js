@@ -14,7 +14,7 @@ App.directive('isFirefox', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-      var KEY = 'texaschoropleth:firefox-message-dismiss';
+      var KEY = 'firefox-message-dismiss';
       if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         if (localStorage.getItem(KEY)) {
           return;
