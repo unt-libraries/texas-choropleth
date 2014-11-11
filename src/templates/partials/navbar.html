@@ -10,6 +10,7 @@
             <a id="brand" class="navbar-brand" href="{% url "gallery" %}"><span id="brand-location">Texas</span><span id="brand-choropleth">Choropleth</span></a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
             {% if user.is_authenticated %}
                 <ul class="nav navbar-nav">
                     <li>
@@ -20,9 +21,11 @@
                     </li>
                 </ul>
             {% endif %}
+
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'gallery' %}" is-active>Gallery</a></li>
                 <li><a href="{% url 'help' %}" is-active>Help</a></li>
+
                 {% if user.is_authenticated %}
                     <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">

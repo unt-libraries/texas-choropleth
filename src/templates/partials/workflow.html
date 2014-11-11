@@ -1,5 +1,4 @@
 {% if not object.has_records or not object.has_choropleth %}
-
     <div id="workflow">
         <div class="alert well col-sm-12">
         <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -86,8 +85,6 @@
                 <a href="{% url 'choropleths:create' object.id %}"><button class="btn action">Create a Choropleth</button></a>
 
             {% endif %}
-
         </div>
     </div>
-
 {% endif %}

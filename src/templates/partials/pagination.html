@@ -8,6 +8,7 @@
                         <a href="?page={{ first_page }}">&laquo;</a>
                     </li>
                 {% endwith %}
+
                 {% if page_obj.has_previous %}
                     <li>
                         <a href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a>
@@ -31,6 +32,7 @@
                 {% else %}
                     <li class="disabled"><a href="">&rsaquo;</a></li>
                 {% endif %}
+
                 {% with last_page=page_range|last %}
                     <li {% ifequal last_page current_page %} class="disabled" {% endifequal %}>
                         <a href="?page={{ last_page }}">&raquo;</a>

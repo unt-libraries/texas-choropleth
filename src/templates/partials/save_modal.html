@@ -3,17 +3,18 @@
         <div class="modal-content">
             <div class="modal-header"></div>
                 <div class="modal-body">
-                {% if message %}
-                    <p class="text-center">{{ message }}</p>
-                {% else %}
-                    <p class="text-center">Saving...</strong></p>
-                {% endif %}
+                    {% if message %}
+                        <p class="text-center">{{ message }}</p>
+                    {% else %}
+                        <p class="text-center">Saving...</strong></p>
+                    {% endif %}
 
-                {% if http %}
-                    <div loading="http"></div>
-                {% else %}
-                    <div loading></div>
-                {% endif %}
+                    {% if http %}
+                        <div loading="http"></div>
+                    {% else %}
+                        <div loading></div>
+                    {% endif %}
+                </div>
             </div>
             <div class="modal-footer"></div>
         </div>
