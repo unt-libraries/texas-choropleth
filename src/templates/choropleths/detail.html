@@ -4,7 +4,6 @@
 {% block header %}{{ choropleth.name }}{% endblock header %}
 
 {% block control-btns %}
-
     <a href="{% url 'choropleths:view' choropleth.pk %}">
         <button class="btn navigate"><span class="glyphicon glyphicon-globe"></span>&nbsp;Choropleth</button>
     </a>
@@ -14,12 +13,10 @@
             <button class="btn action"><span class="glyphicon glyphicon-edit"></span>&nbsp;Edit</button>
         </a>
     {% endifequal %}
-
 {% endblock control-btns %}
 
 {% block content %}
 {{ block.super }}
-
     <section class="row">
         <dl class="dl-horizontal col-sm-5">
             <dt>Created</dt><dd>{{ choropleth.created_at|date:'m/d/Y' }}</dd>
@@ -60,7 +57,6 @@
             </div>
         </div>
     </section>
-
 {% endblock content %}
 
 {% block scripts %}

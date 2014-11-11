@@ -4,7 +4,6 @@
        <div id="submission-btns" class="pull-right">
 
            {% if not create %}
-
                 <a  type="button" class="btn navigate" href="{% url 'datasets:detail' choropleth.dataset_id %}">
                     <span class="glyphicon glyphicon-book"></span>&nbsp;Dataset
                 </a>
@@ -12,7 +11,6 @@
                 <button class="btn action" data-toggle="modal" data-target="#delete-choropleth-form" >
                     <span class="glyphicon glyphicon-remove"></span>&nbsp;Delete
                 </button>
-
             {% endif %}
 
             <button id="save" class="btn action" ng-click="submit()" ng-disabled="!form.$valid">
@@ -35,7 +33,6 @@
     </div>
 
     {% include  'choropleths/_choropleth.html' %}
-
 
     <section class="row">
         <div id="map-controls" class="panel panel-default">
@@ -87,7 +84,7 @@
                         </select>
                     </div>
                 </div>
-            <div>
+            </div>
         </div>
     </section>
 
