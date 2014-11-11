@@ -6,14 +6,6 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-# Media Settings
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# Staticfile Settings
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 
 # TMP Dir for Choropleth Screenshots
