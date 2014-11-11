@@ -4,6 +4,12 @@ from fabric.contrib import django
 from fabric.decorators import task
 
 
+@task
+def run_tests(test='src'):
+    django.settings_module('texas_choropleth.settings.test')
+    local('./src/manage.py test {0}'.format(test))
+
+
 def build():
     print(green("[ Installing Bowering Components ]"))
     local('bower install --allow-root --config.interactive=false')
