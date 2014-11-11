@@ -23,8 +23,8 @@ class ChoroplethTestCase(TestCase):
 
     def test_has_records_is_false(self):
         choropleth = mommy.make(
-                Choropleth,
-                dataset=mommy.make(Dataset))
+            Choropleth,
+            dataset=mommy.make(Dataset))
         self.assertFalse(choropleth.has_records())
 
     def test_has_records_is_false_without_dataset(self):
