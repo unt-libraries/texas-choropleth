@@ -1,11 +1,13 @@
-from django import forms 
+from django import forms
 from .models import DatasetDocument, Dataset
+
 
 class DatasetUploadForm(forms.ModelForm):
     class Meta:
         model = DatasetDocument
         fields = ['datafile']
-        labels = { 'datafile': ('CSV File'), }
+        labels = {'datafile': ('CSV File')}
+
 
 class DatasetForm(forms.ModelForm):
 

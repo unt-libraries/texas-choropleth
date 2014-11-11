@@ -36,7 +36,8 @@ class ImportDatasetTestCase(TestCase):
         dataset.import_dataset()  # Initial import
 
         # Import again to verify it can handle existant data
-        dataset.document.datafile = File(open('src/datasets/test_data/import_dataset1.csv'))
+        dataset.document.datafile = (
+            File(open('src/datasets/test_data/import_dataset1.csv')))
         dataset.save()
         imported_records = dataset.import_dataset()
         self.assertEqual(imported_records['updated'], 0)
@@ -49,7 +50,8 @@ class ImportDatasetTestCase(TestCase):
         dataset.import_dataset()
 
         # Attach a slightly different datafile and reimport
-        dataset.document.datafile = File(open('src/datasets/test_data/import_dataset2.csv'))
+        dataset.document.datafile = (
+            File(open('src/datasets/test_data/import_dataset2.csv')))
         dataset.save()
         imported_records = dataset.import_dataset()
 

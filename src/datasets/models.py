@@ -188,8 +188,8 @@ class Dataset(PublishedMixin, AbstractNameModel):
             # Don't include Logarithmic scale if both values are zero
             if min_value == 0 and max_value == 0:
                 return scales
-            # Don't include Logaritmic scale if the domain reaches into both the
-            # positive and negative spectrum
+            # Don't include Logaritmic scale if the domain reaches into both
+            # the positive and negative spectrum
             if min_value < 0 < max_value:
                 return scales
 

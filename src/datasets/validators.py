@@ -4,9 +4,9 @@ from django.core.exceptions import ValidationError
 from cartograms.models import CartogramEntity
 
 INCORRECT_DELIMITER = u'Incorrect delimiter'
-INCORRECT_FILETYPE = u'Not a valid CSV file' 
+INCORRECT_FILETYPE = u'Not a valid CSV file'
 INCORRECT_ENTITY_ID = u'FIPS code %s does not exist in row %s'
-MISSING_HEADERS = u'Missing headers: %s' 
+MISSING_HEADERS = u'Missing headers: %s'
 MISSING_REQUIRED_VALUE = u'Missing required value %s for row %s'
 
 MESSAGES = (
@@ -21,8 +21,9 @@ DELIMITER = ','
 HEADERS = {
     'fips': {'field': 'fips', 'required': True},
     'name': {'field': 'name', 'required': True},
-    'value' : {'field': 'value', 'required': False},
+    'value': {'field': 'value', 'required': False},
 }
+
 
 def import_validator(document):
     try:
@@ -71,7 +72,3 @@ def import_validator(document):
             raise ValidationError(msg)
 
     return True
-
-
-
-    
