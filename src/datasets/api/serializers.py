@@ -10,18 +10,27 @@ class DatasetRecordNameField(serializers.Field):
 
 
 class DatasetRecordSerializer(serializers.ModelSerializer):
-    cartogram_entity = serializers.SlugRelatedField(read_only=True, slug_field='entity_id')
+    cartogram_entity = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='entity_id')
     name = DatasetRecordNameField()
 
     class Meta:
         model = DatasetRecord
         fields = ('id', 'name', 'cartogram_entity', 'value')
 
+
 class CartogramSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cartogram
-        fields = ('id', 'name', 'region_label', 'subregion_label', 'json_filename',)
+        fields = (
+            'id',
+            'name',
+            'region_label',
+            'subregion_label',
+            'json_filename',
+        )
 
 
 class DatasetSerializer(serializers.ModelSerializer):
@@ -33,13 +42,13 @@ class DatasetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dataset
         fields = (
-                'id',
-                'name',
-                'label',
-                'scale_options',
-                'cartogram',
-                'domain',
-                'records'
+            'id',
+            'name',
+            'label',
+            'scale_options',
+            'cartogram',
+            'domain',
+            'records',
         )
 
     def get_domain(self, obj):
@@ -48,11 +57,11 @@ class DatasetSerializer(serializers.ModelSerializer):
         """
 
         return {
-                'min': obj.get_min_record(),
-                'max': obj.get_max_record(),
-                'non_zero_min': obj.get_non_zero_min_record(),
-                'non_zero_max': obj.get_non_zero_max_record()
-                }
+            'min': obj.get_min_record(),
+            'max': obj.get_max_record(),
+            'non_zero_min': obj.get_non_zero_min_record(),
+            'non_zero_max': obj.get_non_zero_max_record()
+        }
 
     def get_scales_options(self, obj):
         """
@@ -62,4 +71,3 @@ class DatasetSerializer(serializers.ModelSerializer):
         keys = ['id', 'name']
 
         return map(lambda scale: dict(zip(keys, scale)), scales)
-
