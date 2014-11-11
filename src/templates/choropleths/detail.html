@@ -18,17 +18,24 @@
 {% block content %}
 {{ block.super }}
     <section class="row">
-        <dl class="dl-horizontal col-sm-5">
-            <dt>Created</dt><dd>{{ choropleth.created_at|date:'m/d/Y' }}</dd>
-            <dt>Last Modified</dt><dd>{{ choropleth.modified_at|timesince }} ago</dd>
-            <dt>Dataset</dt><dd>{{ choropleth.dataset }}</dd>
-            <dt>Cartogram</dt><dd>{{ choropleth.dataset.cartogram.name}}</dd>
-            <dt>Published</dt><dd>{{ choropleth.get_published_display }}</dd>
-            <dt>Scheme</dt><dd>{{ choropleth.scheme }}</dd>
-            <dt>Palette</dt><dd>{{ choropleth.palette }}</dd>
-            <dt>Data Classes</dt><dd>{{ choropleth.data_classes }}</dd>
-            <dt>Owner</dt><dd>{{ choropleth.owner }}</dd>
-        </dl>
+        <div class="col-sm-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">Info</div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>Created</dt><dd>{{ choropleth.created_at|date:'m/d/Y' }}</dd>
+                        <dt>Last Modified</dt><dd>{{ choropleth.modified_at|timesince }} ago</dd>
+                        <dt>Dataset</dt><dd>{{ choropleth.dataset }}</dd>
+                        <dt>Cartogram</dt><dd>{{ choropleth.dataset.cartogram.name}}</dd>
+                        <dt>Published</dt><dd>{{ choropleth.get_published_display }}</dd>
+                        <dt>Scheme</dt><dd>{{ choropleth.scheme }}</dd>
+                        <dt>Palette</dt><dd>{{ choropleth.palette }}</dd>
+                        <dt>Data Classes</dt><dd>{{ choropleth.data_classes }}</dd>
+                        <dt>Owner</dt><dd>{{ choropleth.owner }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
         <div class="col-sm-7">
             <div class="panel panel-default">
                 <div class="panel-heading">Dataset Description</div>
