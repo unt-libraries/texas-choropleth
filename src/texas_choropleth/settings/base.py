@@ -10,17 +10,34 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import json
 from .pipeline import *
+from django.core.exceptions import ImproperlyConfigured
 
 # Project Directory Definitions
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
+SETTINGS_ROOT = os.path.dirname(__file__)
+
 LOG_DIR = os.path.join(PROJECT_ROOT, 'log')
 
 
-SECRET_KEY = 'jw)fm_v6fb8-oh(1o_^23+#0e)d#udtgc%*@$j2038r!!lo($a'
+# Project secrets
+with open(os.path.join(SETTINGS_ROOT, "secrets.json")) as f:
+    secrets = json.loads(f.read())
+
+
+def get_secret(setting, secrets=secrets):
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {0} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+
+SECRET_KEY = get_secret('SECRET_KEY')
 
 DEBUG = True
 
