@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^', include('core.urls')),
     url(r'^datasets/', include('datasets.urls', namespace="datasets")),
     url(r'^choropleths/', include('choropleths.urls', namespace="choropleths")),
+    url(r'^invite/', include('invite.urls', namespace="invite")),
 )
 
 # Serve Media

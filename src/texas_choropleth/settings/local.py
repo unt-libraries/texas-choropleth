@@ -11,6 +11,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
 # TMP Dir for Choropleth Screenshots
 IMAGE_EXPORT_TMP_DIR = os.path.join('/', 'tmp')
 
+INVITE_SIGNUP_SUCCESS_URL = "/"
 
 INSTALLED_APPS += (
     'debug_toolbar',

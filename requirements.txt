@@ -18,3 +18,4 @@ six==1.7.3
 sqlparse==0.1.13
 virtualenv==1.11.6
 wsgiref==0.1.2
+git+https://github.com/unt-libraries/django-invite.git

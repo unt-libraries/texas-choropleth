@@ -49,6 +49,7 @@ LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/choropleths/'
 
+SITE_ID = 1
 
 # Application definition
 DJANGO_APPS = (
@@ -58,6 +59,7 @@ DJANGO_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites'
 )
 
 THIRD_PARTY_APPS = (
@@ -66,6 +68,7 @@ THIRD_PARTY_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'password_reset',
+    'invite',
 
 )
 
