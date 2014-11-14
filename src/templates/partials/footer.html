@@ -1,9 +1,12 @@
+{% load static %}
 <nav id="footer" class="navbar navbar-default navbar-fixed-bottom" role="footer">
     <div class="container">
         <div class="row">
             <div class="col-sm-offset-9 col-sm-3">
-                <h4 class="navbar-text"><a href="http://library.unt.edu/">UNT Libraries</a></h4>
-                <p class="navbar-text"><a href="https://ui.library.unt.edu/project-manager/">Report an issue</a></p>
+                <a class="navbar-text pull-right" href="http://library.unt.edu/">
+                    <img src="{% static 'img/unt-libraries-lockup.png' %}" alt="UNT Libraries">
+                </a>
+                <p class="navbar-text pull-right"><a href="https://ui.library.unt.edu/project-manager/">Report an issue</a></p>
             </div>
         </div>
     </div>
