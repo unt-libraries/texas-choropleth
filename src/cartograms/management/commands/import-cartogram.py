@@ -1,8 +1,8 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from cartograms.models import Cartogram, CartogramEntity
 
 import json
-from pprint import pprint
+
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -12,7 +12,10 @@ class Command(BaseCommand):
         print "Starting import\n------------------\n"
         json_data = open(args[0])
         data = json.load(json_data)
-        cartogram = Cartogram(name='Texas', cartogram_id="48", json_filename="/texas.json")
+        cartogram = Cartogram(
+            name='Texas',
+            cartogram_id="48",
+            json_filename="/JSON/texas.json")
         cartogram.save()
 
         for entity in data['objects']['counties']['geometries']:
@@ -23,4 +26,3 @@ class Command(BaseCommand):
 
         cartogram.save()
         print 'Import finished successfully'
-
