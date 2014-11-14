@@ -1,3 +1,7 @@
 <div class="license copyright">
-    <strong>Copyright &copy</strong> {{ dataset.owner.get_full_name }}. All Rights Reserved.
+    {% if name %}
+        <strong>Copyright &copy</strong> {{ name }}. All Rights Reserved.
+    {% else %}
+        <strong>Copyright &copy</strong> {{ user.get_full_name }}. All Rights Reserved.
+    {% endif %}
 </div>
