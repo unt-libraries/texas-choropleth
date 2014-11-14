@@ -1,6 +1,6 @@
 import os
 import csv
-from decimal import *
+import decimal
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -238,7 +238,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
                     # Explicitly check if the record is null. Cannot
                     # create Decimal with ''
                     if (is_null and record.value != row[2]) \
-                       or (not is_null and record.value != Decimal(row[2])):
+                       or (not is_null and record.value != decimal.Decimal(row[2])):
                         record.value = row[2]
                         record.save()
                         imported_records['updated'] += 1
@@ -257,7 +257,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
 
     def get_license_template(self):
         """
-        Returns the corresponding template for the 
+        Returns the corresponding template for the
         assigned license
         """
         templates = {
