@@ -22,7 +22,6 @@ def build():
 
     print(green("\n[ Loading Fixtures ]"))
     local('./src/manage.py loaddata texas.json')
-    # local('./src/manage.py loaddata licenses.json')
     local('./src/manage.py loaddata palettes.json')
 
 
