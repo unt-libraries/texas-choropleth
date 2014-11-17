@@ -2,7 +2,7 @@ src/static/vendor/*
 src/static/css/.sass-cache
 src/static/css/*.css
 src/media/*
-src/texas_choropleth/settings/secrets.json
+secrets.json
 log/*
 *.pyc
 *.swp
