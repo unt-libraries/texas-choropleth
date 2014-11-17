@@ -1,4 +1,5 @@
 from .base import *
+from .pipeline import *
 
 
 # Debug Settings

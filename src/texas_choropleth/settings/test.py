@@ -1,4 +1,5 @@
 from .base import *
+from .pipeline import *
 
 DEBUG = True
 TEMPLATE_DEBUG = True
