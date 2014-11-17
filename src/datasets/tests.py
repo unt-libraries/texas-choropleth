@@ -187,7 +187,8 @@ class DatasetViewsTestCase(TestCase):
         self.dataset = mommy.make(
             Dataset,
             owner=self.user1,
-            published=0
+            published=0,
+            license=Dataset.CC0
         )
 
     def test_anon_user_cannot_view_dataset_management(self):
