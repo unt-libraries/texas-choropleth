@@ -1,10 +1,8 @@
-from fabric.api import local, run
+from fabric.api import local
 from fabric.colors import green, blue
 from fabric.contrib import django
 from fabric.decorators import task
-from fabric.state import output
 
-output['running'] = False
 
 @task
 def local_manage(param=''):
