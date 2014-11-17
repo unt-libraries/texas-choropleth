@@ -1,0 +1,16 @@
+{
+  "name": "texas_choropleth",
+  "version": "0.0.0",
+  "description": "A Django project for creating and sharing choropleth maps.",
+  "author": "UNT Libraries",
+  "scripts": {
+      "postinstall" : "node_modules/.bin/bower install --allow-root --config.interactive=false"
+  },
+  "dependencies": {
+    "less": "~2.0.0",
+    "uglify-js": "~2.4.15",
+    "cssmin": "~0.4.2",
+    "bower": "~1.3.12",
+    "phantomjs": "~1.9.12"
+  }
+}
