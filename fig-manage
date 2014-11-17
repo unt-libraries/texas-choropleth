@@ -1,2 +1,0 @@
-#!/bin/bash
-fig run --rm web src/manage.py $*
