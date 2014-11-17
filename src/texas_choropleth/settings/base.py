@@ -25,7 +25,7 @@ LOG_DIR = os.path.join(PROJECT_ROOT, 'log')
 
 
 # Project secrets
-with open(os.path.join(SETTINGS_ROOT, "secrets.json")) as f:
+with open(os.path.join(PROJECT_ROOT, "secrets.json")) as f:
     secrets = json.loads(f.read())
 
 
