@@ -15,7 +15,7 @@ If you are just are interesting in taking this project for a test drive.
 
     ```json
     {
-      "SECRET_KEY": "your-super-secret-key-here",
+      "SECRET_KEY": "your-super-secret-key-here"
     }
     ```
 
