@@ -1,8 +1,10 @@
 from fabric.api import local, run
-from fabric.colors import green
+from fabric.colors import green, blue
 from fabric.contrib import django
 from fabric.decorators import task
+from fabric.state import output
 
+output['running'] = False
 
 @task
 def local_manage(param=''):
@@ -33,18 +35,26 @@ def build():
     """
     Base function for building the application.
     """
-    print(green("[ Installing Bowering Components ]"))
-    local('bower install --allow-root --config.interactive=false')
-
-    print(green("\n[ Syncing Database ]"))
+    print(blue("\n[ Syncing Database ]"))
     local('./src/manage.py syncdb --noinput')
+    print(green(">[DONE]\n"))
 
-    print(green("\n[ Running Database Migrations ]"))
+    print(blue("\n[ Running Database Migrations ]"))
     local('./src/manage.py migrate')
+    print(green(">[DONE]\n"))
 
-    print(green("\n[ Loading Fixtures ]"))
+    print(blue("\n[ Loading Fixtures ]"))
     local('./src/manage.py loaddata texas.json')
     local('./src/manage.py loaddata palettes.json')
+    print(green(">[DONE]\n"))
+
+    print(blue("\n[ Installing Node Modules ]"))
+    local('npm install --silent')
+    print(green(">[DONE]\n"))
+
+    print(blue("\n[ Installing Bowering Components ]"))
+    local('npm run postinstall --silent')
+    print(green(">[DONE]\n"))
 
 
 @task
@@ -64,5 +74,6 @@ def build_prod():
     django.settings_module('texas_choropleth.settings.production')
     build()
 
-    print(green("\n [ Collecting Staticfiles ]"))
+    print(blue("\n [ Collecting Staticfiles ]"))
     local('./src/manage.py collectstatic --noinput')
+    print(green(">[DONE]\n"))
