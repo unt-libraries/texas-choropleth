@@ -3,6 +3,7 @@ src/static/css/.sass-cache
 src/static/css/*.css
 src/media/*
 secrets.json
+node_modules
 log/*
 *.pyc
 *.swp
