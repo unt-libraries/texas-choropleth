@@ -11,7 +11,15 @@ If you are just are interesting in taking this project for a test drive.
 
 1. Install [Docker](http://docker.com)
 2. Install [fig](http://fig.sh)
-3. Create `<project root>/secrets.json` with the following.
+
+3. Clone the repository and enter the project directory and touch `secrets.json`
+ 
+    ```sh
+    $ git clone https://github.com/unt-libraries/texas-choropleth.git
+    $ cd texas-choropleth
+    $ touch secrets.json
+    ```
+4. Add the following to `secrets.json`
 
     ```json
     {
@@ -19,25 +27,25 @@ If you are just are interesting in taking this project for a test drive.
     }
     ```
 
-3. Run
+5. Run
 
     ```sh
     $ fig up -d
     ```
-4. Run 
+6. Run 
 
     ```sh
     $ fig run --rm web fab build_dev
     ```
-    This will pull down the MySQL Docker image and the Python docker image. Then it will build the application image from the Python image and execute `./manage.py runserver`
+    This will pull down the MySQL Docker image and the Python Docker image. Then it will build the application image from the Python image and execute `./manage.py runserver`
 
-5. Run 
+7. Run 
 
     ```sh
     $ fig run --rm web fab manage:createsuperuser
     ```
 
-6. Navigate to `<dockerhost>:8000` and start using the app.
+8. Navigate to `<dockerhost>:8000` and start using the app.
 
 ## Host your own
 ### Installation
