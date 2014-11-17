@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import json
-from .pipeline import *
 from django.core.exceptions import ImproperlyConfigured
 
 # Project Directory Definitions
@@ -141,3 +140,13 @@ STATICFILES_DIRS = (
 )
 
 STATIC_URL = '/static/'
+
+# Node Settings and Binaries
+NODE_MODULES = os.path.join(os.path.dirname(BASE_DIR), 'node_modules')
+
+NODE_BINARIES = {
+    'LESS': os.path.join(NODE_MODULES, '.bin/lessc'),
+    'UGLIFYJS': os.path.join(NODE_MODULES, '.bin/uglifyjs'),
+    'CSSMIN': os.path.join(NODE_MODULES, '.bin/cssmin'),
+    'PHANTOMJS': os.path.join(NODE_MODULES, '.bin/phantomjs')
+}
