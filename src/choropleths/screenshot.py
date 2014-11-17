@@ -17,6 +17,7 @@ def execute_command(command):
 def do_screen_capturing(url, screen_path, width, height):
     print "Capturing screen.."
     driver = webdriver.PhantomJS(
+        executable_path=settings.NODE_BINARIES['PHANTOMJS'],
         service_log_path=os.path.join(settings.LOG_DIR, 'ghostdriver.log'))
     # it save service log file in same directory
     # if you want to have log file stored else where
