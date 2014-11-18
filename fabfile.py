@@ -13,6 +13,8 @@ def require_secrets():
         sys.exit(1)
     print(green('[ Secrets file has been found ]'))
 
+def done():
+    print(green('[ DONE ]\n'))
 
 def build():
     """
@@ -20,24 +22,24 @@ def build():
     """
     print(blue("\n[ Syncing Database ]"))
     local('./src/manage.py syncdb --noinput')
-    print(green(">[DONE]\n"))
+    done()
 
     print(blue("\n[ Running Database Migrations ]"))
     local('./src/manage.py migrate')
-    print(green(">[DONE]\n"))
+    done()
 
     print(blue("\n[ Loading Fixtures ]"))
     local('./src/manage.py loaddata texas.json')
     local('./src/manage.py loaddata palettes.json')
-    print(green(">[DONE]\n"))
+    done()
 
     print(blue("\n[ Installing Node Modules ]"))
     local('npm install --silent')
-    print(green(">[DONE]\n"))
+    done()
 
     print(blue("\n[ Installing Bowering Components ]"))
     local('npm run postinstall --silent')
-    print(green(">[DONE]\n"))
+    done()
 
 
 @task
@@ -86,4 +88,4 @@ def build_prod():
 
     print(blue("\n [ Collecting Staticfiles ]"))
     local('./src/manage.py collectstatic --noinput')
-    print(green(">[DONE]\n"))
+    done()
