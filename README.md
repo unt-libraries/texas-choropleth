@@ -35,7 +35,7 @@ If you are just are interesting in taking this project for a test drive.
     $ fig build
     ```
 
-    This will pull down the MySQL Docker image and the Python Docker image and build the web image from the Dockerfile.
+    This will pull down the MySQL and Python images and build the web image from the Dockerfile.
     
 6. Run 
 
@@ -55,7 +55,7 @@ If you are just are interesting in taking this project for a test drive.
     ```sh
     $ fig up -d
     ```
-    This brings up the web and database container and starts the application.
+    This brings up the web and database containers and starts the application.
 
 8. Navigate to `<dockerhost>:8000` and start using the app.
 
@@ -140,7 +140,7 @@ to create a site administrator
 
 #### Important locations
 
-__Staticfiles__ will be at `<project_root>/src/static_final`
+__Static__ files will be at `<project_root>/src/static_final`
 
 __Media__ files will be at `<project_root>/src/media`
 
@@ -153,7 +153,7 @@ See Quickstart
 
 #### Running Tests
 
-There is a fabric tasks for this. If using Fig and Docker:
+There is a fabric task for this. If using Fig and Docker:
 
 ```sh
 $ fig run --rm web fab run_tests
