@@ -1,15 +1,17 @@
+import os
+import sys
 from fabric.api import local
-from fabric.colors import green, blue
+from fabric.colors import green, blue, red
 from fabric.contrib import django
 from fabric.decorators import task
 
 
-@task
-def local_manage(param=''):
-    """
-    A wrapper for executing Django commands from the docker host or client.
-    """
-    local('fig run --rm web ./src/manage.py {0}'.format(param))
+def require_secrets():
+    print(blue('[ Checking for secrets.json ]'))
+    if not os.path.isfile('secrets.json'):
+        print(red('[ Secrets file does not exist. Halting build. ]'))
+        sys.exit(1)
+    print(green('[ Secrets file has been found ]'))
 
 
 def build():
@@ -39,6 +41,14 @@ def build():
 
 
 @task
+def local_manage(param=''):
+    """
+    A wrapper for executing Django commands from the docker host or client.
+    """
+    local('fig run --rm web ./src/manage.py {0}'.format(param))
+
+
+@task
 def manage(param=''):
     """
     Wrapper for Django commands.
@@ -60,6 +70,7 @@ def build_dev():
     """
     Build the application for a development environment.
     """
+    require_secrets()
     django.settings_module('texas_choropleth.settings.local')
     build()
 
@@ -69,6 +80,7 @@ def build_prod():
     """
     Build the application for the production environment.
     """
+    require_secrets()
     django.settings_module('texas_choropleth.settings.production')
     build()
 
