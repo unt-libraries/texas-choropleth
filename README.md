@@ -108,7 +108,13 @@ Here is an example of what the `secrets.json` file should look like.
   "DB_USER": "your_db_user",
   "DB_PASSWORD": "your_db_password",
   "DB_HOST": "db",
-  "DB_PORT": "3306"
+  "DB_PORT": "3306",
+  "EMAIL_HOST": "your.email.host",
+  "EMAIL_PORT": "",
+  "EMAIL_HOST_USER": "user",
+  "EMAIL_HOST_PASSWORD":, "password",
+  "EMAIL_USE_TLS": "",
+  "EMAIL_USE_SSL": "",
 }
 ```
 
