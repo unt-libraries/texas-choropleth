@@ -36,14 +36,14 @@ DATABASES = {
 }
 
 # Email Settings
-EMAIL_HOST = ''
+EMAIL_HOST = get_secret('EMAIL_HOST')
 
-EMAIL_PORT = ''
+EMAIL_PORT = get_secret('EMAIL_PORT')
 
-EMAIL_HOST_USER = ''
+EMAIL_HOST_USER = get_secret('EMAIL_HOST_USER')
 
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = get_secret('EMAIL_HOST_PASSWORD')
 
-EMAIL_USE_TLS = ''
+EMAIL_USE_TLS = get_secret('EMAIL_USE_TLS')
 
-EMAIL_USE_SSL = ''
+EMAIL_USE_SSL = get_secret('EMAIL_USE_TLS')
