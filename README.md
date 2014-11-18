@@ -1,5 +1,7 @@
 # Texas Choropleth
 
+A Django project for creating and sharing interactive choropleths maps of the state of Texas.
+
 Dependencies:
 
 * Python 2.7
@@ -30,20 +32,30 @@ If you are just are interesting in taking this project for a test drive.
 5. Run
 
     ```sh
-    $ fig up -d
+    $ fig build
     ```
+
+    This will pull down the MySQL Docker image and the Python Docker image and build the web image from the Dockerfile.
+    
 6. Run 
 
     ```sh
     $ fig run --rm web fab build_dev
     ```
-    This will pull down the MySQL Docker image and the Python Docker image. Then it will build the application image from the Python image and execute `./manage.py runserver`
+    This will build the application.
 
 7. Run 
 
     ```sh
     $ fig run --rm web fab manage:createsuperuser
     ```
+
+8. Run 
+
+    ```sh
+    $ fig up -d
+    ```
+    This brings up the web and database container and starts the application.
 
 8. Navigate to `<dockerhost>:8000` and start using the app.
 
@@ -64,10 +76,11 @@ __Note__: Configuring the web server and database is outside scope of the follow
     $ virtualenv ENV
     ```
 
-3. Activate the virtualenv
+3. Activate the virtualenv then enter the project directory
 
     ```sh
-   (ENV)$ source ENV/bin/activate
+    (ENV)$ source ENV/bin/activate
+    (ENV)$ cd texas-choropleth
     ```
 4. Install the project dependencies
 
@@ -77,11 +90,15 @@ __Note__: Configuring the web server and database is outside scope of the follow
 
 #### Pre-build
 
-Before you build the project, you must define a `secrets.json` file. 
+__Before you build the project, you must define a `secrets.json` file in side the project root.__ 
 
-The `local.py` settings only use the `SECRET_KEY`, as the database settings preconfigured to work with Fig/Docker.
+```sh
+(ENV)$ touch secrets.json
+```
 
-Here is a sample of what the `secrets.json` file should look like.
+The `local.py` settings only uses the `SECRET_KEY`, as the database settings preconfigured to work with Fig/Docker, but the `production.py` settings file also requires that the database settings are included.
+
+Here is an example of what the `secrets.json` file should look like.
 
 ```json
 {
@@ -94,9 +111,6 @@ Here is a sample of what the `secrets.json` file should look like.
   "DB_PORT": "3306"
 }
 ```
-
-In production, all of the settings above are required in order to build the project.
-
 
 #### Building
 
