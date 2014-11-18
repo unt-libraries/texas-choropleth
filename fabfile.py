@@ -12,23 +12,6 @@ def local_manage(param=''):
     local('fig run --rm web ./src/manage.py {0}'.format(param))
 
 
-@task
-def manage(param=''):
-    """
-    Wrapper for Django commands.
-    """
-    local('./src/manage.py {0}'.format(param))
-
-
-@task
-def run_tests(test='src'):
-    """
-    Wrapper for running tests.
-    """
-    django.settings_module('texas_choropleth.settings.test')
-    local('./src/manage.py test {0}'.format(test))
-
-
 def build():
     """
     Base function for building the application.
@@ -53,6 +36,23 @@ def build():
     print(blue("\n[ Installing Bowering Components ]"))
     local('npm run postinstall --silent')
     print(green(">[DONE]\n"))
+
+
+@task
+def manage(param=''):
+    """
+    Wrapper for Django commands.
+    """
+    local('./src/manage.py {0}'.format(param))
+
+
+@task
+def run_tests(test='src'):
+    """
+    Wrapper for running tests.
+    """
+    django.settings_module('texas_choropleth.settings.test')
+    local('./src/manage.py test {0}'.format(test))
 
 
 @task
