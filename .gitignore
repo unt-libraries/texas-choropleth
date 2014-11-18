@@ -4,7 +4,7 @@ src/static/css/*.css
 src/media/*
 secrets.json
 node_modules
-log/*
+log/*.log
 *.pyc
 *.swp
 *.swo
