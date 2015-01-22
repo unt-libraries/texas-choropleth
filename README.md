@@ -112,7 +112,7 @@ Here is an example of what the `secrets.json` file should look like.
   "EMAIL_HOST": "your.email.host",
   "EMAIL_PORT": "",
   "EMAIL_HOST_USER": "user",
-  "EMAIL_HOST_PASSWORD":, "password",
+  "EMAIL_HOST_PASSWORD": "password",
   "EMAIL_USE_TLS": "",
   "EMAIL_USE_SSL": "",
 }
