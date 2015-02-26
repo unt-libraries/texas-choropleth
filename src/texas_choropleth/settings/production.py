@@ -7,15 +7,24 @@ DEBUG = False
 
 TEMPLATE_DEBUG = False
 
+ALLOWED_HOSTS = (
+    '.unt.edu',
+    'localhost',
+)
+
+LOG_DIR = "/var/log/texas-choropleth/"
+
+ASSETS_ROOT = get_secret("ASSETS_ROOT")
+
 # Media Settings
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(ASSETS_ROOT, 'media')
 
 # Staticfile Setttings
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_final')
+STATIC_ROOT = os.path.join(ASSETS_ROOT, 'static_final')
 
 # TMP Dir for Choropleth Screenshots
 IMAGE_EXPORT_TMP_DIR = os.path.join('/', 'tmp')
@@ -46,4 +55,4 @@ EMAIL_HOST_PASSWORD = get_secret('EMAIL_HOST_PASSWORD')
 
 EMAIL_USE_TLS = get_secret('EMAIL_USE_TLS')
 
-EMAIL_USE_SSL = get_secret('EMAIL_USE_TLS')
+DEFAULT_FROM_EMAIL = get_secret("DEFAULT_FROM_EMAIL")
