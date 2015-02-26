@@ -6,6 +6,7 @@ Dependencies:
 
 * Python 2.7
 * npm
+* ImageMagick
 
 ## Quickstart
 
