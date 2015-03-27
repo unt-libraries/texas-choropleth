@@ -36,9 +36,9 @@
         <div class="col-sm-6">
             <div class="panel-group" id="info-accordion" role="tablist" aria-multiselectable="true">
                 <div class="panel panel-default">
-                    <div class="panel-heading" role="tab">
+                    <div class="panel-heading" role="tab" data-toggle="collapse" data-target="#description" data-parent="#info-accordion">
                         <div class="panel-title">
-                            <a data-toggle="collapse" data-parent="#info-accordion" href="#description">Description</a>
+                            <span>Description</span>
                         </div>
                     </div>
                     <div id="description" class="pane-collapse collapse">
@@ -48,9 +48,9 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">
+                    <div class="panel-heading" data-toggle="collapse" data-parent="#info-accordion" data-target="#license">
                         <div class="panel-title">
-                            <a data-toggle="collapse" data-parent="#info-accordion" href="#license">License</a>
+                            <span>License</span>
                         </div>
                     </div>
                     <div id="license" class="panel-collapse collapse">
@@ -61,9 +61,9 @@
                 </div>
 
                 <div id="info-panel" class="panel panel-default">
-                    <div class="panel-heading">
+                    <div class="panel-heading" data-toggle="collapse" data-parent="#info-accordion" href="#info">
                         <div class="panel-title">
-                            <a data-toggle="collapse" data-parent="#info-accordion" href="#info">Info</a>
+                            <span>Info</span>
                         </div>
                     </div>
                     <div id="info" class="panel-collapse collapse">
