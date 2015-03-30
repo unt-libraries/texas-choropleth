@@ -18,7 +18,7 @@
   "dependencies": {
     "d3": "~3.4.11",
     "topojson": "~1.6.15",
-    "bootstrap": "~3.2.0",
+    "bootstrap": "~3.3.4",
     "showdown": "~0.3.1",
     "angular": "~1.2.22",
     "angular-resource": "~1.2.22",
