@@ -13,7 +13,7 @@ Dependencies:
 If you are just are interesting in taking this project for a test drive. 
 
 1. Install [Docker](http://docker.com)
-2. Install [fig](http://fig.sh)
+2. Install [Docker Compose](https://docs.docker.com/compose/#installation-and-set-up)
 
 3. Clone the repository and enter the project directory and touch `secrets.json`
  
@@ -33,7 +33,7 @@ If you are just are interesting in taking this project for a test drive.
 5. Run
 
     ```sh
-    $ fig build
+    $ docker-compose build
     ```
 
     This will pull down the MySQL and Python images and build the web image from the Dockerfile.
@@ -41,20 +41,20 @@ If you are just are interesting in taking this project for a test drive.
 6. Run 
 
     ```sh
-    $ fig run --rm web fab build_dev
+    $ docker-compose run --rm web fab build_dev
     ```
     This will build the application.
 
 7. Run 
 
     ```sh
-    $ fig run --rm web fab manage:createsuperuser
+    $ docker-compose run --rm web fab manage:createsuperuser
     ```
 
 8. Run 
 
     ```sh
-    $ fig up -d
+    $ docker-compose up -d
     ```
     This brings up the web and database containers and starts the application.
 
@@ -97,7 +97,7 @@ __Before you build the project, you must define a `secrets.json` file in side th
 (ENV)$ touch secrets.json
 ```
 
-The `local.py` settings only uses the `SECRET_KEY`, as the database settings preconfigured to work with Fig/Docker, but the `production.py` settings file also requires that the database settings are included.
+The `local.py` settings only uses the `SECRET_KEY`, as the database settings preconfigured to work with Docker, but the `production.py` settings file also requires that the database settings are included.
 
 Here is an example of what the `secrets.json` file should look like.
 
@@ -160,16 +160,16 @@ See Quickstart
 
 #### Running Tests
 
-There is a fabric task for this. If using Fig and Docker:
+There is a fabric task for this. If using Docker and Docker Compose:
 
 ```sh
-$ fig run --rm web fab run_tests
+$ docker-compose run --rm web fab run_tests
 ```
 to run all tests
 
 To run app specific tests
 
 ```sh
-$ fig run --rm web fab run_tests:<app-name>
+$ docker-compose run --rm web fab run_tests:<app-name>
 ```
 
