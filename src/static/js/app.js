@@ -138,6 +138,29 @@ App.directive('hasError', function() {
   };
 });
 
+// Adds and manipulates the collapse icon
+// according to the collapse state.
+App.directive('collapseCaret', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      var caret = $(element);
+      caret.addClass('glyphicon glyphicon-menu-down');
+
+      // Find the collapse target.
+      var collapse = caret.parents('.panel')
+        .find('.collapse');
+
+        collapse.on('show.bs.collapse hide.bs.collapse', function(e) {
+          // Show the icon as facing up or down based on 
+          // the current class.
+          caret.toggleClass('glyphicon-menu-down')
+            .toggleClass('glyphicon-menu-up');
+        });
+    }
+  };
+});
+
 // Add a Bootstrap tooltip
 App.directive('tooltip', function() {
   return {
