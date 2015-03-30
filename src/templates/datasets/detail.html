@@ -11,7 +11,7 @@
     {% block control-btns %}
         {% if dataset.has_choropleth %}
             <a href="{% url 'choropleths:view' dataset.choropleth.id %}">
-                <button class="btn navigate"> <span class="glyphicon glyphicon-globe"></span>&nbsp;Choropleth</button>
+                <button class="btn navigate"> <span class="glyphicon glyphicon-globe"></span>&nbsp;Map</button>
             </a>
         {% endif %}
 
