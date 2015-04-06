@@ -24,6 +24,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'gallery' %}" is-active>Gallery</a></li>
+                <li><a href="{% url 'about' %}" is-active>About</a></li>
                 <li><a href="{% url 'help' %}" is-active>Help</a></li>
 
                 {% if user.is_authenticated %}
