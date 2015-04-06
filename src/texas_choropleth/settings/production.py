@@ -11,8 +11,6 @@ ADMINS = get_secret("ADMINS")
 
 ALLOWED_HOSTS = get_secret("ALLOWED_HOSTS")
 
-LOG_DIR = "/var/log/texas-choropleth/"
-
 ASSETS_ROOT = get_secret("ASSETS_ROOT")
 
 # Media Settings
@@ -62,7 +60,7 @@ LOGGING = {
     'handlers': {
         'file': {
             'level': 'INFO',
-            'class': 'logging.handlers.WatchedFileHandler',
+            'class': 'logging.FileHandler',
             'filename': os.path.join(LOG_DIR, 'prod.log'),
         },
         'mail_admins': {
