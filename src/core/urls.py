@@ -6,6 +6,7 @@ from core import views
 
 urlpatterns = patterns('',
     url(r'^$', views.GalleryView.as_view(), name="gallery"),
+    url(r'^about/$', views.AboutView.as_view(), name="about"),
     url(r'^help/$', views.HelpView.as_view(), name="help"),
     url(r'^cartogram-template/(?P<pk>[0-9]+)/$', cartogram_csv_template, name="csv-template"),
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
