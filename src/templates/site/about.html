@@ -7,6 +7,26 @@
 {% block content %}
 {{ block.super }}
 
-    {# Content goes here #}
+    <section>
+        <h2>Purpose</h2>        
+        <p>This project was created to allow users to explore and create data-driven visualizations of the state of Texas. Choropleth maps are a popular and flexible model for representing data for a geographic region. This project lowers the techonology barrier to allow average users to simply upload and dataset, and easily configure how that data should be represented within a choropleth map.</p>
+
+        <h3>What is a choropleth map?</h3>        
+        <blockquote>
+            <p>A choropleth map is a thematic map in which areas are shaded or patterned in proportion to the measurement of the statistical variable being displayed on the map, such as population density or per-capita income.</p>
+            <footer>Choropleth map. (2015, March 20). In <cite>Wikipedia, The Free Encyclopedia</cite>. Retrieved 18:54, April 16, 2015, from <a href="http://en.wikipedia.org/w/index.php?title=Choropleth_map&oldid=652749053">http://en.wikipedia.org/w/index.php?title=Choropleth_map&oldid=652749053</a></footer>
+        </blockquote>
+
+        <p>Here is an example of a choropleth map that represents unemployment rates from 2008 by county for all U.S. states. <a href="http://bl.ocks.org/mbostock/4060606">http://bl.ocks.org/mbostock/4060606</a>
+    </section>
+
+    <section>
+        <h2>Use Cases</h2>
+        <ul>
+            <li>Election results by polital party</li>
+            <li>Population density</li>
+            <li>Weather patterns</li>
+        </ul>
+    </section>
 
 {% endblock content %}
