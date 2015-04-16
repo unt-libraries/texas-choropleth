@@ -132,29 +132,29 @@ class DatasetTestCase(TestCase):
     def test_has_records_is_true(self):
         self.assertTrue(self.dataset.has_records())
 
-    def test_get_min_record(self):
-        min_record = self.dataset.get_min_record()
+    def test__get_min_record(self):
+        min_record = self.dataset._get_min_record()
         self.assertEqual(int(min_record), 1)
 
-    def test_get_max_record(self):
-        max_record = self.dataset.get_max_record()
+    def test__get_max_record(self):
+        max_record = self.dataset._get_max_record()
         self.assertEqual(int(max_record), 10)
 
-    def test_get_non_zero_min_record(self):
+    def test__get_non_zero_min_record(self):
         self.dataset.records.add(mommy.make(DatasetRecord, value=0))
-        min_record = self.dataset.get_min_record()
-        non_zero_min_record = self.dataset.get_non_zero_min_record()
+        min_record = self.dataset._get_min_record()
+        non_zero_min_record = self.dataset._get_non_zero_min_record()
         self.assertEqual(int(min_record), 0)
         self.assertEqual(int(non_zero_min_record), 1)
 
-    def test_get_non_zero_max_record(self):
+    def test__get_non_zero_max_record(self):
         self.dataset = mommy.make(Dataset)
         value_seq = seq(1, increment_by=-1)
         records = mommy.make(DatasetRecord, _quantity=10, value=value_seq)
         for record in records:
             self.dataset.records.add(record)
-        max_record = self.dataset.get_max_record()
-        non_zero_max_record = self.dataset.get_non_zero_max_record()
+        max_record = self.dataset._get_max_record()
+        non_zero_max_record = self.dataset._get_non_zero_max_record()
         self.assertEqual(int(max_record), 0)
         self.assertEqual(int(non_zero_max_record), -1)
 
