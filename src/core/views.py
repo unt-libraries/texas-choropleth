@@ -21,8 +21,9 @@ class GetPublishedObjectMixin(object):
     the object is published. Otherwise returns status 403
     """
     def get_object(self, **kwargs):
-        gotten_object = super(GetPublishedObjectMixin, self) \
-            .get_object(**kwargs)
+        gotten_object = (super(GetPublishedObjectMixin, self)
+                         .get_object(**kwargs))
+
         if gotten_object.owner != self.request.user:
             if gotten_object.published == 0:
                 raise PermissionDenied()
@@ -50,9 +51,9 @@ class GalleryView(ListSortMixin, generic.ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        return self.get_sorted_queryset() \
-            .filter(published=1) \
-            .select_related('dataset')
+        return (self.get_sorted_queryset()
+                .filter(published=1)
+                .select_related('dataset'))
 
 
 class HelpView(generic.TemplateView):
@@ -82,5 +83,6 @@ class RegisterView(generic.CreateView):
         return reverse('login')
 
     def form_valid(self, form):
-        messages.info(self.request, 'Thanks for registering. Please login with your new username and password.')
+        messages.info(self.request, 'Thanks for registering. Please login with'
+                                    ' your new username and password.')
         return super(RegisterView, self).form_valid(form)
