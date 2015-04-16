@@ -61,7 +61,8 @@ class HelpView(generic.TemplateView):
 
 
 class RecoverInvalid(Recover):
-    """Override password_reset.Recover so that invalid
+    """
+    Override password_reset.views.Recover so that invalid
     emails or usernames also appear to receive a recovery
     email.
     """
