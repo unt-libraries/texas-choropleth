@@ -12,5 +12,6 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/login'}, name='logout'),
     # url(r'^register/$', views.RegisterView.as_view(), name='register'),
     url(r'^reset/', include('password_reset.urls')),
+    url(r'^reset/recover', views.RecoverInvalid.as_view(), name='password_reset_recover'),
     url(r'^api/', include('core.api.urls', namespace="api")),
 )
