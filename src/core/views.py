@@ -1,8 +1,13 @@
+from datetime import datetime
+
 from django.views import generic
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
+from django.shortcuts import render
+
+from password_reset.views import Recover
 
 from .forms import FullUserCreationForm
 from choropleths.models import Choropleth
@@ -52,6 +57,20 @@ class GalleryView(ListSortMixin, generic.ListView):
 
 class HelpView(generic.TemplateView):
     template_name = "site/help.html"
+
+
+class RecoverInvalid(Recover):
+    """Override password_reset.Recover so that invalid
+    emails or usernames also appear to receive a recovery
+    email.
+    """
+    def form_invalid(self, form):
+        context = {
+            'email': form.data['username_or_email'],
+            'timestamp': datetime.now()
+        }
+
+        return render(self.request, 'password_reset/reset_sent.html', context)
 
 
 class RegisterView(generic.CreateView):
