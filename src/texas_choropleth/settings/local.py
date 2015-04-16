@@ -40,6 +40,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 PIPELINE_ENABLED = False
 
+# This allows us to "test" the pipeline configuration
+# just by flipping the PIPELINE_ENABLED constant above.
 if PIPELINE_ENABLED:
     # Let Pipeline find Compressed files
     STATICFILES_FINDERS = (
