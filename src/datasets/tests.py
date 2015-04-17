@@ -149,9 +149,14 @@ class DatasetTestCase(TestCase):
         self.assertEqual(int(self.dataset.max_record), 10)
 
     def test_max_record_executes_queries_once(self):
-        # The max_record property will execute exactly 2 queries
-        # the first time it is called. The first to get the related record,
-        # and the second to get the aggregation.
+        """
+        The max_record property will execute exactly 2 queries
+        the first time it is called. The first to get the related record,
+        and the second to get the aggregation.
+
+        The property is accessed four times, but the queries are only
+        executed on the first call.
+        """
         with self.assertNumQueries(2):
             self.dataset.max_record
             self.dataset.max_record
@@ -159,9 +164,14 @@ class DatasetTestCase(TestCase):
             self.dataset.max_record
 
     def test_min_record_executes_queries_once(self):
-        # The min_record property will execute exactly 2 queries
-        # the first time it is called. The first to get the related record,
-        # and the second to get the aggregation.
+        """
+        The min_record property will execute exactly 2 queries
+        the first time it is called. The first to get the related record,
+        and the second to get the aggregation.
+
+        The property is accessed four times, but the queries are only
+        executed on the first call.
+        """
         with self.assertNumQueries(2):
             self.dataset.min_record
             self.dataset.min_record
@@ -169,6 +179,10 @@ class DatasetTestCase(TestCase):
             self.dataset.min_record
 
     def test_non_zero_max_record_executes_queries_once(self):
+        """
+        The property is accessed eight times, but the queries are only
+        executed on the first call.
+        """
         # Go ahead and cache the results of these operations
         # because non_zero_max_record will use these to check
         # if the dataset is positive.
@@ -186,6 +200,10 @@ class DatasetTestCase(TestCase):
             self.zero_dataset.non_zero_max_record
 
     def test_non_zero_min_record_executes_queries_once(self):
+        """
+        The property is accessed eight times, but the queries are only
+        executed on the first call.
+        """
         # See test_non_zero_max_record_executes_queries_once.
         self.zero_dataset.min_record
         self.zero_dataset.max_record
