@@ -4,7 +4,7 @@
         {# Choropleth Directive | See static/js/map.js #}
         <choropleth></choropleth>
 
-        <div id="choropleth-selection" ng-if="choropleth.selection.id">
+        <div id="choropleth-selection" ng-cloak ng-if="choropleth.selection.id">
             <p><strong>{$ choropleth.selection.name $}</strong></p>
             <p>{$ choropleth.selection.value | number $} {$ dataset.label $}</p>
         </div>
