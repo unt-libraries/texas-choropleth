@@ -57,10 +57,10 @@ class DatasetSerializer(serializers.ModelSerializer):
         """
 
         return {
-            'min': obj.get_min_record(),
-            'max': obj.get_max_record(),
-            'non_zero_min': obj.get_non_zero_min_record(),
-            'non_zero_max': obj.get_non_zero_max_record()
+            'min': obj.min_record,
+            'max': obj.max_record,
+            'non_zero_min': obj.non_zero_min_record,
+            'non_zero_max': obj.non_zero_max_record
         }
 
     def get_scales_options(self, obj):

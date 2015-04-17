@@ -87,6 +87,13 @@ class Dataset(PublishedMixin, AbstractNameModel):
         on_delete=models.SET_NULL
     )
 
+    def __init__(self, *args, **kwargs):
+        self._min_record = None
+        self._max_record = None
+        self._non_zero_min_record = None
+        self._non_zero_max_record = None
+        super(Dataset, self).__init__(*args, **kwargs)
+
     def get_dataset_id(self):
         """
         Double dispatch method for getting the Dataset id from the generic
@@ -114,17 +121,53 @@ class Dataset(PublishedMixin, AbstractNameModel):
         if self.has_choropleth():
             return self.choropleth.id
 
-    def get_max_record(self):
+    @property
+    def max_record(self):
+        """
+        The cached result of _get_max_record().
+        """
+        if not self._max_record:
+            self._max_record = self._get_max_record()
+        return self._max_record
+
+    @property
+    def min_record(self):
+        """
+        The cached result of _get_min_record().
+        """
+        if not self._min_record:
+            self._min_record = self._get_min_record()
+        return self._min_record
+
+    @property
+    def non_zero_max_record(self):
+        """
+        The cached result of _get_non_zero_max_record().
+        """
+        if not self._non_zero_max_record:
+            self._non_zero_max_record = self._get_non_zero_max_record()
+        return self._non_zero_max_record
+
+    @property
+    def non_zero_min_record(self):
+        """
+        The cached result of _get_non_zero_min_record().
+        """
+        if not self._non_zero_min_record:
+            self._non_zero_min_record = self._get_non_zero_min_record()
+        return self._non_zero_min_record
+
+    def _get_max_record(self):
         """
         Maximum Record:
 
         Used to determine the domain of the dataset
         """
         if self.records.exists():
-            max_value = self.records.all().aggregate(models.Max('value'))
+            max_value = self.records.aggregate(models.Max('value'))
             return max_value['value__max']
 
-    def get_non_zero_max_record(self):
+    def _get_non_zero_max_record(self):
         """
         Maximum Non-zero Record
 
@@ -136,19 +179,19 @@ class Dataset(PublishedMixin, AbstractNameModel):
                             .exclude(value=None) \
                             .aggregate(models.Max('value'))
             return max_value['value__max']
-        return self.get_max_record()
+        return self.max_record
 
-    def get_min_record(self):
+    def _get_min_record(self):
         """
         Minimum Record:
 
         Used to determine the domain of the dataset
         """
         if self.records.exists():
-            min_value = self.records.all().aggregate(models.Min('value'))
+            min_value = self.records.aggregate(models.Min('value'))
             return min_value['value__min']
 
-    def get_non_zero_min_record(self):
+    def _get_non_zero_min_record(self):
         """
         Minimum Non-zero Record
 
@@ -160,7 +203,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
                             .exclude(value=None) \
                             .aggregate(models.Min('value'))
             return min_value['value__min']
-        return self.get_min_record()
+        return self.min_record
 
     def domain_contains_zero(self):
         """
@@ -170,8 +213,8 @@ class Dataset(PublishedMixin, AbstractNameModel):
         The domain is the interval created by the the Min record value and the
         Max record value
         """
-        min_value = self.get_min_record()
-        max_value = self.get_max_record()
+        min_value = self.min_record
+        max_value = self.max_record
 
         return min_value <= 0 <= max_value
 
@@ -191,8 +234,8 @@ class Dataset(PublishedMixin, AbstractNameModel):
         the min and max of the dataset
         """
         scales = [SCALE_CHOICES[0]]
-        min_value = self.get_min_record()
-        max_value = self.get_max_record()
+        min_value = self.min_record
+        max_value = self.max_record
 
         if self.domain_contains_zero():
             # Don't include Logarithmic scale if both values are zero

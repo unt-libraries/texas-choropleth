@@ -113,12 +113,17 @@ class DatasetValidatorTestCase(TestCase):
 class DatasetTestCase(TestCase):
     def setUp(self):
         self.dataset = mommy.make(Dataset)
+        self.zero_dataset = mommy.make(Dataset)
         records = mommy.make(DatasetRecord, _quantity=10, value=seq(0))
+        zero_records = mommy.make(DatasetRecord, _quantity=10, value=seq(-1))
+
         for record in records:
             self.dataset.records.add(record)
 
+        for record in zero_records:
+            self.zero_dataset.records.add(record)
+
     def test_has_choropleth_is_false(self):
-        # dataset = Dataset.objects.get(name="Test")
         self.assertFalse(self.dataset.has_choropleth())
 
     def test_has_choropleth_is_true(self):
@@ -132,29 +137,134 @@ class DatasetTestCase(TestCase):
     def test_has_records_is_true(self):
         self.assertTrue(self.dataset.has_records())
 
-    def test_get_min_record(self):
-        min_record = self.dataset.get_min_record()
+    def test__get_min_record(self):
+        min_record = self.dataset._get_min_record()
         self.assertEqual(int(min_record), 1)
 
-    def test_get_max_record(self):
-        max_record = self.dataset.get_max_record()
+    def test__get_max_record(self):
+        max_record = self.dataset._get_max_record()
         self.assertEqual(int(max_record), 10)
 
-    def test_get_non_zero_min_record(self):
+    def test_max_record(self):
+        self.assertEqual(int(self.dataset.max_record), 10)
+
+    def test_max_record_executes_queries_once(self):
+        """
+        The max_record property will execute exactly 2 queries
+        the first time it is called. The first to get the related record,
+        and the second to get the aggregation.
+
+        The property is accessed four times, but the queries are only
+        executed on the first call.
+        """
+        with self.assertNumQueries(2):
+            self.dataset.max_record
+            self.dataset.max_record
+            self.dataset.max_record
+            self.dataset.max_record
+
+    def test_min_record_executes_queries_once(self):
+        """
+        The min_record property will execute exactly 2 queries
+        the first time it is called. The first to get the related record,
+        and the second to get the aggregation.
+
+        The property is accessed four times, but the queries are only
+        executed on the first call.
+        """
+        with self.assertNumQueries(2):
+            self.dataset.min_record
+            self.dataset.min_record
+            self.dataset.min_record
+            self.dataset.min_record
+
+    def test_non_zero_max_record_executes_queries_once(self):
+        """
+        The property is accessed eight times, but the queries are only
+        executed on the first call.
+        """
+        # Go ahead and cache the results of these operations
+        # because non_zero_max_record will use these to check
+        # if the dataset is positive.
+        self.zero_dataset.max_record
+        self.zero_dataset.min_record
+
+        with self.assertNumQueries(4):
+            self.zero_dataset.non_zero_max_record
+            self.zero_dataset.non_zero_max_record
+            self.zero_dataset.non_zero_max_record
+            self.zero_dataset.non_zero_max_record
+            self.zero_dataset.non_zero_max_record
+            self.zero_dataset.non_zero_max_record
+            self.zero_dataset.non_zero_max_record
+            self.zero_dataset.non_zero_max_record
+
+    def test_non_zero_min_record_executes_queries_once(self):
+        """
+        The property is accessed eight times, but the queries are only
+        executed on the first call.
+        """
+        # See test_non_zero_max_record_executes_queries_once.
+        self.zero_dataset.min_record
+        self.zero_dataset.max_record
+
+        with self.assertNumQueries(4):
+            self.zero_dataset.non_zero_min_record
+            self.zero_dataset.non_zero_min_record
+            self.zero_dataset.non_zero_min_record
+            self.zero_dataset.non_zero_min_record
+            self.zero_dataset.non_zero_min_record
+            self.zero_dataset.non_zero_min_record
+            self.zero_dataset.non_zero_min_record
+            self.zero_dataset.non_zero_min_record
+
+    def test_max_record_equals__get_max_record(self):
+        self.assertEqual(
+            self.dataset.max_record, self.dataset._get_max_record())
+
+        self.assertEqual(
+            self.zero_dataset.max_record, self.zero_dataset._get_max_record())
+
+    def test_min_record_equals__get_min_record(self):
+        self.assertEqual(
+            self.dataset.min_record, self.dataset._get_min_record())
+
+        self.assertEqual(
+            self.zero_dataset.min_record, self.zero_dataset._get_min_record())
+
+    def test_non_zero_max_record_equals__get_non_zero_max_record(self):
+        self.assertEqual(
+            self.dataset.non_zero_max_record,
+            self.dataset._get_non_zero_max_record())
+
+        self.assertEqual(
+            self.zero_dataset.non_zero_max_record,
+            self.zero_dataset._get_non_zero_max_record())
+
+    def test_non_zero_min_record_equals__get_non_zero_min_record(self):
+        self.assertEqual(
+            self.dataset.non_zero_min_record,
+            self.dataset._get_non_zero_min_record())
+
+        self.assertEqual(
+            self.zero_dataset.non_zero_min_record,
+            self.zero_dataset._get_non_zero_min_record())
+
+    def test__get_non_zero_min_record(self):
         self.dataset.records.add(mommy.make(DatasetRecord, value=0))
-        min_record = self.dataset.get_min_record()
-        non_zero_min_record = self.dataset.get_non_zero_min_record()
+        min_record = self.dataset._get_min_record()
+        non_zero_min_record = self.dataset._get_non_zero_min_record()
         self.assertEqual(int(min_record), 0)
         self.assertEqual(int(non_zero_min_record), 1)
 
-    def test_get_non_zero_max_record(self):
+    def test__get_non_zero_max_record(self):
         self.dataset = mommy.make(Dataset)
         value_seq = seq(1, increment_by=-1)
         records = mommy.make(DatasetRecord, _quantity=10, value=value_seq)
         for record in records:
             self.dataset.records.add(record)
-        max_record = self.dataset.get_max_record()
-        non_zero_max_record = self.dataset.get_non_zero_max_record()
+        max_record = self.dataset._get_max_record()
+        non_zero_max_record = self.dataset._get_non_zero_max_record()
         self.assertEqual(int(max_record), 0)
         self.assertEqual(int(non_zero_max_record), -1)
 
