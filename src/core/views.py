@@ -50,6 +50,10 @@ class GalleryView(ListSortMixin, generic.ListView):
             .select_related('dataset')
 
 
+class AboutView(generic.TemplateView):
+    template_name = "site/about.html"
+
+
 class HelpView(generic.TemplateView):
     template_name = "site/help.html"
 

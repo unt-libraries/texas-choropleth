@@ -17,13 +17,14 @@
                         <a href="{% url 'choropleths:list' %}" is-active><span class="glyphicon glyphicon-globe"></span>&nbsp;My Choropleths</a>
                     </li>
                     <li>
-                        <a href="{% url 'datasets:management' %}" is-active><span class="glyphicon glyphicon-list-alt"></span>&nbsp;Dataset Management</a>
+                    <a href="{% url 'datasets:management' %}" is-active><span class="glyphicon glyphicon-list-alt"></span>&nbsp;<span class="hidden-sm">Dataset Management</span><span class="visible-sm-inline">Datasets</span></a>
                     </li>
                 </ul>
             {% endif %}
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'gallery' %}" is-active>Gallery</a></li>
+                <li><a href="{% url 'about' %}" is-active>About</a></li>
                 <li><a href="{% url 'help' %}" is-active>Help</a></li>
 
                 {% if user.is_authenticated %}
