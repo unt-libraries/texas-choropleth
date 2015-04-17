@@ -1,13 +1,12 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
 from django.core import mail
 
 from model_mommy import mommy
 
 
-class CoreViewsTestCase(TestCase):
+class RecoverInvalidTestCase(TestCase):
 
     def test_password_reset_unknown_email_or_user(self):
         response = self.client.post(
