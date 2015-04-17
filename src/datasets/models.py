@@ -164,7 +164,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
         Used to determine the domain of the dataset
         """
         if self.records.exists():
-            max_value = self.records.all().aggregate(models.Max('value'))
+            max_value = self.records.aggregate(models.Max('value'))
             return max_value['value__max']
 
     def _get_non_zero_max_record(self):
@@ -188,7 +188,7 @@ class Dataset(PublishedMixin, AbstractNameModel):
         Used to determine the domain of the dataset
         """
         if self.records.exists():
-            min_value = self.records.all().aggregate(models.Min('value'))
+            min_value = self.records.aggregate(models.Min('value'))
             return min_value['value__min']
 
     def _get_non_zero_min_record(self):
