@@ -1,8 +1,13 @@
+from datetime import datetime
+
 from django.views import generic
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
+from django.shortcuts import render
+
+from password_reset.views import Recover
 
 from .forms import FullUserCreationForm
 from choropleths.models import Choropleth
@@ -16,8 +21,9 @@ class GetPublishedObjectMixin(object):
     the object is published. Otherwise returns status 403
     """
     def get_object(self, **kwargs):
-        gotten_object = super(GetPublishedObjectMixin, self) \
-            .get_object(**kwargs)
+        gotten_object = (super(GetPublishedObjectMixin, self)
+                         .get_object(**kwargs))
+
         if gotten_object.owner != self.request.user:
             if gotten_object.published == 0:
                 raise PermissionDenied()
@@ -45,9 +51,9 @@ class GalleryView(ListSortMixin, generic.ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        return self.get_sorted_queryset() \
-            .filter(published=1) \
-            .select_related('dataset')
+        return (self.get_sorted_queryset()
+                .filter(published=1)
+                .select_related('dataset'))
 
 
 class AboutView(generic.TemplateView):
@@ -56,6 +62,21 @@ class AboutView(generic.TemplateView):
 
 class HelpView(generic.TemplateView):
     template_name = "site/help.html"
+
+
+class RecoverInvalid(Recover):
+    """
+    Override password_reset.views.Recover so that invalid
+    emails or usernames also appear to receive a recovery
+    email.
+    """
+    def form_invalid(self, form):
+        context = {
+            'email': form.data['username_or_email'],
+            'timestamp': datetime.now()
+        }
+
+        return render(self.request, 'password_reset/reset_sent.html', context)
 
 
 class RegisterView(generic.CreateView):
@@ -67,5 +88,6 @@ class RegisterView(generic.CreateView):
         return reverse('login')
 
     def form_valid(self, form):
-        messages.info(self.request, 'Thanks for registering. Please login with your new username and password.')
+        messages.info(self.request, 'Thanks for registering. Please login with'
+                                    ' your new username and password.')
         return super(RegisterView, self).form_valid(form)
