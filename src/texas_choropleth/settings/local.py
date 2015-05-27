@@ -18,9 +18,10 @@ INSTALLED_APPS += (
     'debug_toolbar',
 )
 
-INTERNAL_IPS = (
-    '172.17.42.1',
-)
+DEBUG_TOOLBAR_CONFIG = {
+    # Always show the toolbar in the local env.
+    'SHOW_TOOLBAR_CALLBACK': lambda x: True,
+}
 
 WSGI_APPLICATION = None
 
