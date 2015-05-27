@@ -22,6 +22,8 @@ INTERNAL_IPS = (
     '172.17.42.1',
 )
 
+WSGI_APPLICATION = None
+
 # Database Settings
 DATABASES = {
     'default': {
