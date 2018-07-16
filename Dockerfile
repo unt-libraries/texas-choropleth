@@ -2,6 +2,7 @@
 
 FROM python:2.7
 ENV PYTHONUNBUFFERED 1
+RUN pip install -U pip setuptools
 RUN apt-get update -qq && apt-get install -y python-mysqldb mysql-client nodejs npm imagemagick
 RUN ln -s $(which nodejs) /usr/local/bin/node
 RUN mkdir /app
