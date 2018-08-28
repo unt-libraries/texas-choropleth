@@ -13,7 +13,7 @@ futures==2.2.0
 ipython==2.3.0
 model-mommy==1.2.2
 paramiko==2.4.1
-pycryptodome==3.6.4
+pycryptodome==3.6.6
 selenium==2.44.0
 six==1.7.3
 sqlparse==0.1.13
