@@ -1,5 +1,7 @@
 # Texas Choropleth
 
+**PLEASE NOTE: This project is no longer under development**
+
 A Django project for creating and sharing interactive choropleths maps of the state of Texas.
 
 Dependencies:
